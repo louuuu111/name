@@ -315,11 +315,12 @@ game:GetService("ReplicatedStorage"):WaitForChild("events"):WaitForChild("MainKe
 })
 
 local Button = MiscTab:CreateButton({
-   Name = "GorillaGlue",
+   Name = "Rings Or No Rings",
    Callback = function()
           local args = {
-    [1] = "Tool",
-    [2] = "GorillaGlue"
+    [1] = "ChangeSong",
+    [2] = "RingsOrNone",
+    [3] = game:GetService("ReplicatedStorage"):WaitForChild("MusicList"):WaitForChild("Fighting")
 }
 
 game:GetService("ReplicatedStorage"):WaitForChild("events"):WaitForChild("NonFightEvents"):WaitForChild("StaffPanel"):FireServer(unpack(args))
@@ -327,11 +328,87 @@ game:GetService("ReplicatedStorage"):WaitForChild("events"):WaitForChild("NonFig
 })
 
 local Button = MiscTab:CreateButton({
-   Name = "Vaseline",
+   Name = "YouWannaName",
+   Callback = function()
+           local args = {
+    [1] = "ChangeSong",
+    [2] = "YouWannaName",
+    [3] = game:GetService("ReplicatedStorage"):WaitForChild("MusicList"):WaitForChild("Fighting")
+}
+
+game:GetService("ReplicatedStorage"):WaitForChild("events"):WaitForChild("NonFightEvents"):WaitForChild("StaffPanel"):FireServer(unpack(args))
+   end,
+})
+
+local Button = MiscTab:CreateButton({
+   Name = "Cmon Kash",
+   Callback = function()
+           local args = {
+    [1] = "ChangeSong",
+    [2] = "CmonKash",
+    [3] = game:GetService("ReplicatedStorage"):WaitForChild("MusicList"):WaitForChild("Fighting")
+}
+
+game:GetService("ReplicatedStorage"):WaitForChild("events"):WaitForChild("NonFightEvents"):WaitForChild("StaffPanel"):FireServer(unpack(args))
+   end,
+})
+
+local Button = MiscTab:CreateButton({
+   Name = "NajnHoodBaby",
+   Callback = function()
+          local args = {
+    [1] = "ChangeSong",
+    [2] = "NajAndHoodBaby",
+    [3] = game:GetService("ReplicatedStorage"):WaitForChild("MusicList"):WaitForChild("Fighting")
+}
+
+game:GetService("ReplicatedStorage"):WaitForChild("events"):WaitForChild("NonFightEvents"):WaitForChild("StaffPanel"):FireServer(unpack(args))
+   end,
+})
+
+local Button = MiscTab:CreateButton({
+   Name = "Come Downstairs,
+   Callback = function()
+          local args = {
+    [1] = "ChangeSong",
+    [2] = "ComeDownstairs",
+    [3] = game:GetService("ReplicatedStorage"):WaitForChild("MusicList"):WaitForChild("Fighting")
+}
+
+game:GetService("ReplicatedStorage"):WaitForChild("events"):WaitForChild("NonFightEvents"):WaitForChild("StaffPanel"):FireServer(unpack(args))
+   end,
+})
+
+local Button = MiscTab:CreateButton({
+   Name = "Suitcase",
    Callback = function()
            local args = {
     [1] = "Tool",
-    [2] = "Vaseline"
+    [2] = "Suitcase"
+}
+
+game:GetService("ReplicatedStorage"):WaitForChild("events"):WaitForChild("NonFightEvents"):WaitForChild("StaffPanel"):FireServer(unpack(args))
+   end,
+})
+
+local Button = MiscTab:CreateButton({
+   Name = "Night To Morning",
+   Callback = function()
+           local args = {
+    [1] = "Weather",
+    [2] = "Night To Morning"
+}
+
+game:GetService("ReplicatedStorage"):WaitForChild("events"):WaitForChild("NonFightEvents"):WaitForChild("StaffPanel"):FireServer(unpack(args))
+   end,
+})
+
+local Button = Tab:CreateButton({
+   Name = "Afternoon To Night",
+   Callback = function()
+           local args = {
+    [1] = "Weather",
+    [2] = "Afternoon To Night"
 }
 
 game:GetService("ReplicatedStorage"):WaitForChild("events"):WaitForChild("NonFightEvents"):WaitForChild("StaffPanel"):FireServer(unpack(args))
