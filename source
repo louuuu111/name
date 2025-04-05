@@ -299,7 +299,7 @@ game:GetService("ReplicatedStorage"):WaitForChild("events"):WaitForChild("NonFig
    end,
 })
 
-local Keybind = Tab:CreateKeybind({
+local Keybind = MainTab:CreateKeybind({
    Name = "POP!",
    CurrentKeybind = "R",
    HoldToInteract = false,
@@ -403,7 +403,7 @@ game:GetService("ReplicatedStorage"):WaitForChild("events"):WaitForChild("NonFig
    end,
 })
 
-local Button = Tab:CreateButton({
+local Button = MiscTab:CreateButton({
    Name = "Afternoon To Night",
    Callback = function()
            local args = {
