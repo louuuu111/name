@@ -367,7 +367,7 @@ game:GetService("ReplicatedStorage"):WaitForChild("events"):WaitForChild("NonFig
 })
 
 local Button = MiscTab:CreateButton({
-   Name = "Come Downstairs,
+   Name = "Come Downstairs",
    Callback = function()
           local args = {
     [1] = "ChangeSong",
