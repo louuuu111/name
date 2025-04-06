@@ -417,3 +417,19 @@ game:GetService("ReplicatedStorage"):WaitForChild("events"):WaitForChild("NonFig
 
 local DestroyTab = Window:CreateTab("Destroy", nil) -- Title, Image
 local Section = DestroyTab:CreateSection("Soon...")
+
+local Keybind = Tab:CreateKeybind({
+   Name = "Punch Someone",
+   CurrentKeybind = "3",
+   HoldToInteract = false,
+   Flag = "Keybind1", -- A flag is the identifier for the configuration file, make sure every element has a different flag if you're using configuration saving to ensure no overlaps
+   Callback = function(Keybind)
+          local args = {
+    [1] = "PunchHit",
+    [2] = "LocalPlayer"
+}
+
+game:GetService("ReplicatedStorage"):WaitForChild("events"):WaitForChild("DuoPlrEvents"):FireServer(unpack(args))
+
+   end,
+})
