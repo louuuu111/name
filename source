@@ -414,3 +414,6 @@ local Button = MiscTab:CreateButton({
 game:GetService("ReplicatedStorage"):WaitForChild("events"):WaitForChild("NonFightEvents"):WaitForChild("StaffPanel"):FireServer(unpack(args))
    end,
 })
+
+local DestroyTab = Window:CreateTab("Destroy", nil) -- Title, Image
+local Section = DestroyTab:CreateSection("Soon...")
