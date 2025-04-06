@@ -418,7 +418,7 @@ game:GetService("ReplicatedStorage"):WaitForChild("events"):WaitForChild("NonFig
 local DestroyTab = Window:CreateTab("Destroy", nil) -- Title, Image
 local Section = DestroyTab:CreateSection("Soon...")
 
-local Keybind = Tab:CreateKeybind({
+local Keybind = DestroyTab:CreateKeybind({
    Name = "Punch Someone",
    CurrentKeybind = "3",
    HoldToInteract = false,
