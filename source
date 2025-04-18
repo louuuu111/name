@@ -433,3 +433,21 @@ game:GetService("ReplicatedStorage"):WaitForChild("events"):WaitForChild("DuoPlr
 
    end,
 })
+
+local Button = MainTab:CreateButton({
+   Name = "Money Gain",
+   Callback = function()
+            local args = {
+    [1] = 10000000000000000
+}
+
+game:GetService("ReplicatedStorage"):WaitForChild("events"):WaitForChild("MoneyGain"):FireServer(unpack(args))
+   end,
+})
+
+local Button = MiscTab:CreateButton({
+   Name = "Infinite Yield",
+   Callback = function()
+           loadstring(game:HttpGet('https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source'))()
+   end,
+})
