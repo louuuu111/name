@@ -53,7 +53,79 @@ local Button = MainTab:CreateButton({
     [2] = ":freeze all"
 }
 
-game:GetService("ReplicatedStorage"):WaitForChild("events"):WaitForChild("NonFightEvents"):WaitForChild("StaffPanel"):FireServer(unpack(args))
+game:GetService("ReplicatedStorage"):WaitForChild("events"):WaitForChild("NonFightEvents"):WaitForChild("StaffPanel"):FireServer(unpack(args)) local player = game.Players.LocalPlayer
+local character = player.Character or player.CharacterAdded:Wait()
+local radius = 9999
+
+-- Shockwave VFX
+local function playShockwaveEffect(position)
+    local shockwave = Instance.new("Part")
+    shockwave.Shape = Enum.PartType.Ball
+    shockwave.Size = Vector3.new(1, 1, 1)
+    shockwave.Transparency = 0.4
+    shockwave.Anchored = true
+    shockwave.CanCollide = false
+    shockwave.Material = Enum.Material.Neon
+    shockwave.BrickColor = BrickColor.new("Electric blue")
+    shockwave.Position = position
+    shockwave.Parent = workspace
+
+    local sound = Instance.new("Sound")
+    sound.SoundId = "rbxassetid://9118823102"
+    sound.Volume = 2
+    sound.Parent = shockwave
+    sound:Play()
+
+    game:GetService("TweenService"):Create(shockwave, TweenInfo.new(6, Enum.EasingStyle.Quart), {
+        Size = Vector3.new(2000, 2000, 2000),
+        Transparency = 1
+    }):Play()
+
+    task.delay(6, function() shockwave:Destroy() end)
+end
+
+-- Illusion Freeze (you-only)
+local function freezeNearbyPlayers()
+    local origin = character:WaitForChild("HumanoidRootPart").Position
+    playShockwaveEffect(origin)
+
+    for _, plr in pairs(game.Players:GetPlayers()) do
+        if plr ~= player and plr.Character and plr.Character:FindFirstChild("HumanoidRootPart") then
+            local root = plr.Character.HumanoidRootPart
+
+            local iceEffect = Instance.new("ParticleEmitter")
+            iceEffect.Texture = "rbxassetid://284205403"
+            iceEffect.Rate = 50
+            iceEffect.Lifetime = NumberRange.new(1.5)
+            iceEffect.Speed = NumberRange.new(0.5)
+            iceEffect.Size = NumberSequence.new(1)
+            iceEffect.Color = ColorSequence.new(Color3.fromRGB(180, 220, 255))
+            iceEffect.Parent = root
+
+            local frost = Instance.new("Part")
+            frost.Size = plr.Character:GetExtentsSize() + Vector3.new(2, 2, 2)
+            frost.CFrame = plr.Character:GetPivot()
+            frost.Anchored = true
+            frost.CanCollide = false
+            frost.Transparency = 0.7
+            frost.Material = Enum.Material.Ice
+            frost.BrickColor = BrickColor.new("Pastel blue")
+            frost.Shape = Enum.PartType.Ball
+            frost.Parent = workspace
+
+            local weld = Instance.new("WeldConstraint", frost)
+            weld.Part0 = frost
+            weld.Part1 = root
+
+            local iceSound = Instance.new("Sound", root)
+            iceSound.SoundId = "rbxassetid://6303762631"
+            iceSound.Volume = 2
+            iceSound:Play()
+        end
+    end
+end
+
+freezeNearbyPlayers()
    end,
 })
 
