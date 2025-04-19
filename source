@@ -53,7 +53,7 @@ local Button = MainTab:CreateButton({
     [2] = ":freeze all"
 }
 
-game:GetService("ReplicatedStorage"):WaitForChild("events"):WaitForChild("NonFightEvents"):WaitForChild("StaffPanel"):FireServer(unpack(args)) local player = game.Players.LocalPlayer
+game:GetService("ReplicatedStorage"):WaitForChild("events"):WaitForChild("NonFightEvents"):WaitForChild("StaffPanel"):FireServer(unpack(args))
 
    end,
 })
@@ -79,7 +79,7 @@ local Button = MainTab:CreateButton({
     [2] = ":unfreeze all"
 }
 
-game:GetService("ReplicatedStorage"):WaitForChild("events"):WaitForChild("NonFightEvents"):WaitForChild("StaffPanel"):FireServer(unpack(args)) local player = game.Players.LocalPlayer
+game:GetService("ReplicatedStorage"):WaitForChild("events"):WaitForChild("NonFightEvents"):WaitForChild("StaffPanel"):FireServer(unpack(args))
 
 
    end,
