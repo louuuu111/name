@@ -149,7 +149,85 @@ local Button = MainTab:CreateButton({
     [2] = ":unfreeze all"
 }
 
-game:GetService("ReplicatedStorage"):WaitForChild("events"):WaitForChild("NonFightEvents"):WaitForChild("StaffPanel"):FireServer(unpack(args))
+game:GetService("ReplicatedStorage"):WaitForChild("events"):WaitForChild("NonFightEvents"):WaitForChild("StaffPanel"):FireServer(unpack(args)) local player = game.Players.LocalPlayer
+local character = player.Character or player.CharacterAdded:Wait()
+local radius = 9999
+local TweenService = game:GetService("TweenService")
+
+-- SHOCKWAVE
+local function shockwaveFX(pos)
+    local p = Instance.new("Part", workspace)
+    p.Shape = Enum.PartType.Ball
+    p.Size = Vector3.new(1,1,1)
+    p.Transparency = 0.4
+    p.Anchored = true
+    p.CanCollide = false
+    p.Material = Enum.Material.Neon
+    p.BrickColor = BrickColor.new("Electric blue")
+    p.Position = pos
+
+    local s = Instance.new("Sound", p)
+    s.SoundId = "rbxassetid://9118823102"
+    s.Volume = 2
+    s:Play()
+
+    TweenService:Create(p, TweenInfo.new(6), {
+        Size = Vector3.new(2000,2000,2000),
+        Transparency = 1
+    }):Play()
+
+    game.Debris:AddItem(p, 6)
+end
+
+-- QUICK FREEZE THEN MELT
+local function quickFreeze()
+    local origin = character:WaitForChild("HumanoidRootPart").Position
+    shockwaveFX(origin)
+
+    for _, plr in ipairs(game.Players:GetPlayers()) do
+        if plr ~= player and plr.Character and plr.Character:FindFirstChild("HumanoidRootPart") then
+            local root = plr.Character.HumanoidRootPart
+
+            local frost = Instance.new("Part", workspace)
+            frost.Size = Vector3.new(6,6,6)
+            frost.Shape = Enum.PartType.Ball
+            frost.Anchored = false
+            frost.CanCollide = false
+            frost.Transparency = 0.6
+            frost.Material = Enum.Material.Ice
+            frost.BrickColor = BrickColor.new("Pastel blue")
+            frost.CFrame = root.CFrame
+
+            local weld = Instance.new("WeldConstraint", frost)
+            weld.Part0 = frost
+            weld.Part1 = root
+
+            local fx = Instance.new("ParticleEmitter", root)
+            fx.Texture = "rbxassetid://284205403"
+            fx.Rate = 60
+            fx.Lifetime = NumberRange.new(1)
+            fx.Speed = NumberRange.new(0.5)
+            fx.Size = NumberSequence.new(1.2)
+            fx.Color = ColorSequence.new(Color3.fromRGB(180, 220, 255))
+
+            local freezeSFX = Instance.new("Sound", root)
+            freezeSFX.SoundId = "rbxassetid://6303762631"
+            freezeSFX.Volume = 2
+            freezeSFX:Play()
+
+            -- MELT instantly
+            TweenService:Create(frost, TweenInfo.new(1), {
+                Size = frost.Size + Vector3.new(3,3,3),
+                Transparency = 1
+            }):Play()
+
+            game.Debris:AddItem(frost, 1.5)
+            game.Debris:AddItem(fx, 1)
+        end
+    end
+end
+
+quickFreeze()
    end,
 })
 
