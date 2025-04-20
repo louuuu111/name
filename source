@@ -439,10 +439,10 @@ local Button = MiscTab:CreateButton({
    end,
 })
 
-local MainTab = Window:CreateTab("United Power", nil) -- Title, Image
+local MainTab = Window:CreateTab("UnitedPower", nil) -- Title, Image
 local MainSection = UnitedPowerTab:CreateSection("dolly, lex, summer vengeance")
 
-local Button = MiscTab:CreateButton({
+local Button = UnitedPowerTab:CreateButton({
    Name = "The United Power Of The Big Three",
    Callback = function()
           local Players = game:GetService("Players")
@@ -532,6 +532,7 @@ local ChatEvent = ReplicatedStorage:FindFirstChild("DefaultChatSystemChatEvents"
 if ChatEvent and ChatEvent:FindFirstChild("SayMessageRequest") then
     ChatEvent.SayMessageRequest:FireServer("The United power of the big three will overpower anyone they are certain to see.", "All")
 end local args = {
+
     [1] = "Command",
     [2] = ":freeze all"
 }
@@ -546,7 +547,7 @@ game:GetService("ReplicatedStorage"):WaitForChild("events"):WaitForChild("NonFig
 })
 
 
-local Button = United PowerTab:CreateButton({
+local Button = UnitedPowerTab:CreateButton({
    Name = "☠️The United Power Of Dolly, Summer, Lex",
    Callback = function()
            local args = {
@@ -575,7 +576,7 @@ game:GetService("ReplicatedStorage"):WaitForChild("events"):WaitForChild("NonFig
 })
 
 
-local Button = United PowerTab:CreateButton({
+local Button = UnitedPowerTab:CreateButton({
    Name = "Flicker (spam until music over)",
    Callback = function()
             local args = {
