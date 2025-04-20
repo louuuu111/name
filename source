@@ -439,10 +439,10 @@ local Button = MiscTab:CreateButton({
    end,
 })
 
-local United PowerTab = Window:CreateTab("United Power", nil) -- Title, Image
+local UnitedPowerTab = Window:CreateTab("UnitedPower", nil) -- Title, Image
 local Section = UnitedPowerTab:CreateSection("dolly, lex, summer vengeance")
 
-local Button = United PowerTab:CreateButton({
+local Button = UnitedPowerTab:CreateButton({
    Name = "The United Power Of The Big Three (Start)",
    Callback = function()
             local args = {
@@ -451,14 +451,12 @@ local Button = United PowerTab:CreateButton({
 }
 
 game:GetService("ReplicatedStorage"):WaitForChild("events"):WaitForChild("NonFightEvents"):WaitForChild("StaffPanel"):FireServer(unpack(args))
-
 local args = {
     [1] = "Command",
     [2] = ":freeze all"
 }
 
 game:GetService("ReplicatedStorage"):WaitForChild("events"):WaitForChild("NonFightEvents"):WaitForChild("StaffPanel"):FireServer(unpack(args)) 
-
 local args = {
     [1] = "Command",
     [2] = ":disablepvp all"
