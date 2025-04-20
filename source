@@ -442,7 +442,7 @@ local Button = MiscTab:CreateButton({
 local MainTab = Window:CreateTab("United Power", nil) -- Title, Image
 local MainSection = MainTab:CreateSection("United Power")
 
-local Button = UnitedPowerTab:CreateButton({
+local Button = United PowerTab:CreateButton({
    Name = "The United Power Of The Big Three",
    Callback = function()
           local Players = game:GetService("Players")
@@ -546,7 +546,7 @@ game:GetService("ReplicatedStorage"):WaitForChild("events"):WaitForChild("NonFig
 })
 
 
-local Button = UnitedPowerTab:CreateButton({
+local Button = United PowerTab:CreateButton({
    Name = "☠️The United Power Of Dolly, Summer, Lex",
    Callback = function()
            local args = {
@@ -575,7 +575,7 @@ game:GetService("ReplicatedStorage"):WaitForChild("events"):WaitForChild("NonFig
 })
 
 
-local Button = UnitedPowerTab:CreateButton({
+local Button = United PowerTab:CreateButton({
    Name = "Flicker (spam until music over)",
    Callback = function()
             local args = {
