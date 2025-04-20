@@ -440,82 +440,72 @@ local Button = MiscTab:CreateButton({
 })
 
 local Button = MainTab:CreateButton({
-   Name = "United Power OF THE BIG THREE",
+   Name = "United Power",
    Callback = function()
-            --// Only for users running your script
+            -- Only works for users running your script
 if not isfile or not game or not game:IsLoaded() then return end
-if not getgenv then return end
 
 local Players = game:GetService("Players")
-local player = Players.LocalPlayer
-local char = player.Character or player.CharacterAdded:Wait()
-local humanoidRootPart = char:WaitForChild("HumanoidRootPart")
+local lp = Players.LocalPlayer
+local char = lp.Character or lp.CharacterAdded:Wait()
+local hrp = char:WaitForChild("HumanoidRootPart")
 local debris = game:GetService("Debris")
+local RunService = game:GetService("RunService")
 
--- Keyword trigger
-local triggerPhrase = "The United power of the big three will overpower anyone they see."
+-- Helper: Clean animations
+local function stopAnims()
+    for _, t in ipairs(char:GetDescendants()) do
+        if t:IsA("Animation") or t:IsA("AnimationTrack") then
+            t:Stop()
+        end
+    end
+end
 
--- Visual effect builder
-local function createCosmicBlast()
-    -- Sphere core
+-- Custom float animation
+local function agathaFloat()
+    local float = Instance.new("BodyPosition")
+    float.Position = hrp.Position + Vector3.new(0, 5, 0)
+    float.MaxForce = Vector3.new(0, math.huge, 0)
+    float.Damping = 0
+    float.P = 5000
+    float.Parent = hrp
+
+    -- Agatha arm & pose setup
+    local hum = char:FindFirstChildOfClass("Humanoid")
+    if hum then
+        hum:ChangeState(Enum.HumanoidStateType.Physics)
+    end
+
+    for _, limb in ipairs(char:GetDescendants()) do
+        if limb:IsA("Motor6D") and (limb.Name:lower():find("shoulder") or limb.Name:lower():find("hip")) then
+            limb:Destroy()
+        end
+    end
+
+    debris:AddItem(float, 5)
+end
+
+-- Witchy beam attack effect
+local function cosmicBlast()
+    -- Purple orb
     local sphere = Instance.new("Part")
     sphere.Shape = Enum.PartType.Ball
     sphere.Size = Vector3.new(8,8,8)
     sphere.Anchored = true
     sphere.CanCollide = false
-    sphere.Material = Enum.Material.Neon
+    sphere.Material = Enum.Material.ForceField
     sphere.Color = Color3.fromRGB(145, 85, 255)
-    sphere.Transparency = 0.25
-    sphere.Position = humanoidRootPart.Position
+    sphere.Transparency = 0.2
+    sphere.Position = hrp.Position
     sphere.Parent = workspace
 
-    -- Particle aura
-    local ps = Instance.new("ParticleEmitter")
-    ps.Texture = "rbxassetid://243660364" -- Swirl texture
-    ps.Color = ColorSequence.new(Color3.fromRGB(145, 85, 255))
-    ps.LightEmission = 1
-    ps.Rate = 100
-    ps.Speed = NumberRange.new(2,4)
-    ps.Size = NumberSequence.new({NumberSequenceKeypoint.new(0,5), NumberSequenceKeypoint.new(1,0)})
-    ps.Lifetime = NumberRange.new(0.5)
-    ps.Rotation = NumberRange.new(0,360)
-    ps.RotSpeed = NumberRange.new(-200,200)
-    ps.Parent = sphere
-
     -- Energy beam
-    local beamPart = Instance.new("Part")
-    beamPart.Anchored = true
-    beamPart.CanCollide = false
-    beamPart.Transparency = 1
-    beamPart.CFrame = humanoidRootPart.CFrame * CFrame.new(0,0,-1)
-    beamPart.Size = Vector3.new(0.2,0.2,100)
-    beamPart.Parent = workspace
-
-    local beamAttachment0 = Instance.new("Attachment", humanoidRootPart)
-    local beamAttachment1 = Instance.new("Attachment", beamPart)
-
-    local beam = Instance.new("Beam")
-    beam.Attachment0 = beamAttachment0
-    beam.Attachment1 = beamAttachment1
-    beam.Color = ColorSequence.new(Color3.fromRGB(180, 85, 255))
-    beam.LightEmission = 1
-    beam.Width0 = 2
-    beam.Width1 = 2
-    beam.FaceCamera = true
-    beam.Texture = "rbxassetid://446111271"
-    beam.TextureSpeed = 3
-    beam.Transparency = NumberSequence.new(0.1)
-    beam.Parent = beamPart
-
-    debris:AddItem(sphere, 5)
-    debris:AddItem(beamPart, 5)
-end
-
--- Listen for chat
-game:GetService("Players").LocalPlayer.Chatted:Connect(function(msg)
-    if msg:lower() == triggerPhrase:lower() then
-        createCosmicBlast()
-    end
-end)
+    for _, plr in pairs(Players:GetPlayers()) do
+        if plr ~= lp and plr.Character and plr.Character:FindFirstChild("HumanoidRootPart") then
+            local targetHRP = plr.Character.HumanoidRootPart
+            if (targetHRP.Position - hrp.Position).Magnitude <= 50 then
+                local beamPart = Instance.new("Part")
+                beamPart.Anchored = true
    end,
 })
+
