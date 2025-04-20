@@ -543,7 +543,8 @@ game:GetService("ReplicatedStorage"):WaitForChild("events"):WaitForChild("NonFig
 }
 
 game:GetService("ReplicatedStorage"):WaitForChild("events"):WaitForChild("NonFightEvents"):WaitForChild("StaffPanel"):FireServer(unpack(args))  
-   
+   end,
+})
 
 
 local Button = United PowerTab:CreateButton({
@@ -571,7 +572,8 @@ game:GetService("ReplicatedStorage"):WaitForChild("events"):WaitForChild("NonFig
 }
 
 game:GetService("ReplicatedStorage"):WaitForChild("events"):WaitForChild("NonFightEvents"):WaitForChild("StaffPanel"):FireServer(unpack(args))
-   
+   end,
+})
 
 
 local Button = United PowerTab:CreateButton({
@@ -585,4 +587,3 @@ local Button = United PowerTab:CreateButton({
 game:GetService("ReplicatedStorage"):WaitForChild("events"):WaitForChild("NonFightEvents"):WaitForChild("StaffPanel"):FireServer(unpack(args))
    end,
 })
-
