@@ -439,3 +439,105 @@ local Button = MiscTab:CreateButton({
    end,
 })
 
+local Button = MainTab:CreateButton({
+   Name = "United Power",
+   Callback = function()
+            local Players = game:GetService("Players")
+local LocalPlayer = Players.LocalPlayer
+local Character = LocalPlayer.Character or LocalPlayer.CharacterAdded:Wait()
+local HumanoidRootPart = Character:WaitForChild("HumanoidRootPart")
+local Debris = game:GetService("Debris")
+local RunService = game:GetService("RunService")
+
+-- Stop any active animations
+pcall(function()
+    for _, track in ipairs(Character:GetDescendants()) do
+        if track:IsA("AnimationTrack") then
+            track:Stop()
+        end
+    end
+end)
+
+-- Floating effect like Agatha
+local function AgathaFloat()
+    local BodyPosition = Instance.new("BodyPosition")
+    BodyPosition.MaxForce = Vector3.new(0, math.huge, 0)
+    BodyPosition.Position = HumanoidRootPart.Position + Vector3.new(0, 5, 0)
+    BodyPosition.P = 3000
+    BodyPosition.D = 100
+    BodyPosition.Parent = HumanoidRootPart
+
+    -- Optional: Disable animation movement
+    local Humanoid = Character:FindFirstChildOfClass("Humanoid")
+    if Humanoid then
+        Humanoid.PlatformStand = true
+    end
+
+    Debris:AddItem(BodyPosition, 5)
+end
+
+-- Beam to everyone near you
+local function CosmicBeam()
+    local Sphere = Instance.new("Part")
+    Sphere.Shape = Enum.PartType.Ball
+    Sphere.Size = Vector3.new(8, 8, 8)
+    Sphere.Anchored = true
+    Sphere.CanCollide = false
+    Sphere.Material = Enum.Material.Neon
+    Sphere.Color = Color3.fromRGB(150, 80, 255)
+    Sphere.Transparency = 0.2
+    Sphere.Position = HumanoidRootPart.Position
+    Sphere.Parent = workspace
+    Debris:AddItem(Sphere, 4)
+
+    for _, Target in ipairs(Players:GetPlayers()) do
+        if Target ~= LocalPlayer and Target.Character and Target.Character:FindFirstChild("HumanoidRootPart") then
+            local TargetHRP = Target.Character.HumanoidRootPart
+            if (TargetHRP.Position - HumanoidRootPart.Position).Magnitude <= 50 then
+                local BeamPart = Instance.new("Part")
+                BeamPart.Anchored = true
+                BeamPart.CanCollide = false
+                BeamPart.Transparency = 1
+                BeamPart.Size = Vector3.new(0.2, 0.2, 1)
+                BeamPart.CFrame = CFrame.new(HumanoidRootPart.Position, TargetHRP.Position)
+                BeamPart.Parent = workspace
+
+                local Attachment0 = Instance.new("Attachment", HumanoidRootPart)
+                local Attachment1 = Instance.new("Attachment", BeamPart)
+
+                local Beam = Instance.new("Beam")
+                Beam.Attachment0 = Attachment0
+                Beam.Attachment1 = Attachment1
+                Beam.Color = ColorSequence.new(Color3.fromRGB(200, 90, 255))
+                Beam.Width0 = 2
+                Beam.Width1 = 2
+                Beam.FaceCamera = true
+                Beam.Texture = "rbxassetid://446111271"
+                Beam.TextureSpeed = 2
+                Beam.LightEmission = 1
+                Beam.Transparency = NumberSequence.new(0.2)
+                Beam.Parent = BeamPart
+
+                Debris:AddItem(BeamPart, 5)
+            end
+        end
+    end
+end
+
+-- Auto says the quote
+local function SayChant()
+    local ChatEvent = game:GetService("ReplicatedStorage"):FindFirstChild("DefaultChatSystemChatEvents")
+    if ChatEvent and ChatEvent:FindFirstChild("SayMessageRequest") then
+        ChatEvent.SayMessageRequest:FireServer("The United power of the big three will overpower anyone they see.", "All")
+    end
+end
+
+-- Delay to let character load fully
+task.wait(2)
+
+-- Run sequence
+AgathaFloat()
+SayChant()
+CosmicBeam()
+   end,
+})
