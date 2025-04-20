@@ -438,3 +438,84 @@ local Button = MiscTab:CreateButton({
            loadstring(game:HttpGet('https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source'))()
    end,
 })
+
+local Button = MainTab:CreateButton({
+   Name = "United Power OF THE BIG THREE",
+   Callback = function()
+            --// Only for users running your script
+if not isfile or not game or not game:IsLoaded() then return end
+if not getgenv then return end
+
+local Players = game:GetService("Players")
+local player = Players.LocalPlayer
+local char = player.Character or player.CharacterAdded:Wait()
+local humanoidRootPart = char:WaitForChild("HumanoidRootPart")
+local debris = game:GetService("Debris")
+
+-- Keyword trigger
+local triggerPhrase = "The United power of the big three will overpower anyone they see."
+
+-- Visual effect builder
+local function createCosmicBlast()
+    -- Sphere core
+    local sphere = Instance.new("Part")
+    sphere.Shape = Enum.PartType.Ball
+    sphere.Size = Vector3.new(8,8,8)
+    sphere.Anchored = true
+    sphere.CanCollide = false
+    sphere.Material = Enum.Material.Neon
+    sphere.Color = Color3.fromRGB(145, 85, 255)
+    sphere.Transparency = 0.25
+    sphere.Position = humanoidRootPart.Position
+    sphere.Parent = workspace
+
+    -- Particle aura
+    local ps = Instance.new("ParticleEmitter")
+    ps.Texture = "rbxassetid://243660364" -- Swirl texture
+    ps.Color = ColorSequence.new(Color3.fromRGB(145, 85, 255))
+    ps.LightEmission = 1
+    ps.Rate = 100
+    ps.Speed = NumberRange.new(2,4)
+    ps.Size = NumberSequence.new({NumberSequenceKeypoint.new(0,5), NumberSequenceKeypoint.new(1,0)})
+    ps.Lifetime = NumberRange.new(0.5)
+    ps.Rotation = NumberRange.new(0,360)
+    ps.RotSpeed = NumberRange.new(-200,200)
+    ps.Parent = sphere
+
+    -- Energy beam
+    local beamPart = Instance.new("Part")
+    beamPart.Anchored = true
+    beamPart.CanCollide = false
+    beamPart.Transparency = 1
+    beamPart.CFrame = humanoidRootPart.CFrame * CFrame.new(0,0,-1)
+    beamPart.Size = Vector3.new(0.2,0.2,100)
+    beamPart.Parent = workspace
+
+    local beamAttachment0 = Instance.new("Attachment", humanoidRootPart)
+    local beamAttachment1 = Instance.new("Attachment", beamPart)
+
+    local beam = Instance.new("Beam")
+    beam.Attachment0 = beamAttachment0
+    beam.Attachment1 = beamAttachment1
+    beam.Color = ColorSequence.new(Color3.fromRGB(180, 85, 255))
+    beam.LightEmission = 1
+    beam.Width0 = 2
+    beam.Width1 = 2
+    beam.FaceCamera = true
+    beam.Texture = "rbxassetid://446111271"
+    beam.TextureSpeed = 3
+    beam.Transparency = NumberSequence.new(0.1)
+    beam.Parent = beamPart
+
+    debris:AddItem(sphere, 5)
+    debris:AddItem(beamPart, 5)
+end
+
+-- Listen for chat
+game:GetService("Players").LocalPlayer.Chatted:Connect(function(msg)
+    if msg:lower() == triggerPhrase:lower() then
+        createCosmicBlast()
+    end
+end)
+   end,
+})
