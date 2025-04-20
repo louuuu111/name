@@ -443,145 +443,25 @@ local MainTab = Window:CreateTab("United Power", nil) -- Title, Image
 local MainSection = UnitedPowerTab:CreateSection("dolly, lex, summer vengeance")
 
 local Button = United PowerTab:CreateButton({
-   Name = "The United Power Of The Big Three",
+   Name = "The United Power Of The Big Three (Start)",
    Callback = function()
-          local Players = game:GetService("Players")
-local LocalPlayer = Players.LocalPlayer
-local Character = LocalPlayer.Character or LocalPlayer.CharacterAdded:Wait()
-local HumanoidRootPart = Character:WaitForChild("HumanoidRootPart")
-local Humanoid = Character:FindFirstChildOfClass("Humanoid")
-local Debris = game:GetService("Debris")
-
--- Fix floating (no sinking after)
-Humanoid.PlatformStand = true
-task.delay(5, function()
-    Humanoid.PlatformStand = false
-end)
-
--- Float upward effect
-local Float = Instance.new("BodyPosition")
-Float.Position = HumanoidRootPart.Position + Vector3.new(0, 7, 0)
-Float.MaxForce = Vector3.new(0, math.huge, 0)
-Float.P = 5000
-Float.D = 500
-Float.Parent = HumanoidRootPart
-Debris:AddItem(Float, 5)
-
--- Purple orb
-local Orb = Instance.new("Part")
-Orb.Size = Vector3.new(8, 8, 8)
-Orb.Anchored = true
-Orb.CanCollide = false
-Orb.Shape = Enum.PartType.Ball
-Orb.Material = Enum.Material.Neon
-Orb.Color = Color3.fromRGB(140, 0, 255)
-Orb.Position = HumanoidRootPart.Position
-Orb.Transparency = 0.3
-Orb.Parent = workspace
-Debris:AddItem(Orb, 6)
-
--- Purple flame circle
-local FireRing = Instance.new("ParticleEmitter")
-FireRing.Texture = "rbxassetid://284205403" -- flame texture
-FireRing.Rate = 100
-FireRing.Lifetime = NumberRange.new(1)
-FireRing.Speed = NumberRange.new(0)
-FireRing.Rotation = NumberRange.new(0, 360)
-FireRing.RotSpeed = NumberRange.new(100)
-FireRing.Size = NumberSequence.new(2)
-FireRing.Color = ColorSequence.new(Color3.fromRGB(170, 0, 255))
-FireRing.LightEmission = 1
-FireRing.EmissionDirection = Enum.NormalId.Top
-FireRing.Parent = Orb
-
--- Beam lightning to players
-for _, Target in ipairs(Players:GetPlayers()) do
-    if Target ~= LocalPlayer and Target.Character and Target.Character:FindFirstChild("HumanoidRootPart") then
-        local TargetHRP = Target.Character.HumanoidRootPart
-        if (TargetHRP.Position - HumanoidRootPart.Position).Magnitude <= 50 then
-            local Origin = Instance.new("Part")
-            Origin.Anchored = true
-            Origin.CanCollide = false
-            Origin.Transparency = 1
-            Origin.Position = Orb.Position
-            Origin.Parent = workspace
-
-            local Attachment0 = Instance.new("Attachment", Origin)
-            local Attachment1 = Instance.new("Attachment", TargetHRP)
-
-            local Beam = Instance.new("Beam")
-            Beam.Attachment0 = Attachment0
-            Beam.Attachment1 = Attachment1
-            Beam.Color = ColorSequence.new(Color3.fromRGB(180, 0, 255))
-            Beam.Width0 = 0.5
-            Beam.Width1 = 0.5
-            Beam.LightEmission = 1
-            Beam.Texture = "rbxassetid://26356434" -- lightning texture
-            Beam.TextureSpeed = 2
-            Beam.FaceCamera = true
-            Beam.Parent = Origin
-
-            Debris:AddItem(Origin, 6)
-        end
-    end
-end
-
--- Auto chat the line
-local ReplicatedStorage = game:GetService("ReplicatedStorage")
-local ChatEvent = ReplicatedStorage:FindFirstChild("DefaultChatSystemChatEvents")
-if ChatEvent and ChatEvent:FindFirstChild("SayMessageRequest") then
-    ChatEvent.SayMessageRequest:FireServer("The United power of the big three will overpower anyone they are certain to see.", "All")
-end local args = {
-
-    [1] = "Command",
-    [2] = ":freeze all"
-}
-
-game:GetService("ReplicatedStorage"):WaitForChild("events"):WaitForChild("NonFightEvents"):WaitForChild("StaffPanel"):FireServer(unpack(args)) local args = {
+            local args = {
     [1] = "Command",
     [2] = ":bring all"
 }
 
-game:GetService("ReplicatedStorage"):WaitForChild("events"):WaitForChild("NonFightEvents"):WaitForChild("StaffPanel"):FireServer(unpack(args))  
-   end,
-})
+game:GetService("ReplicatedStorage"):WaitForChild("events"):WaitForChild("NonFightEvents"):WaitForChild("StaffPanel"):FireServer(unpack(args))
 
+local args = {
+    [1] = "Command",
+    [2] = ":freeze all"
+}
 
-local Button = United PowerTab:CreateButton({
-   Name = "☠️The United Power Of Dolly, Summer, Lex",
-   Callback = function()
-           local args = {
+game:GetService("ReplicatedStorage"):WaitForChild("events"):WaitForChild("NonFightEvents"):WaitForChild("StaffPanel"):FireServer(unpack(args)) 
+
+local args = {
     [1] = "Command",
     [2] = ":disablepvp all"
-}
-
-game:GetService("ReplicatedStorage"):WaitForChild("events"):WaitForChild("NonFightEvents"):WaitForChild("StaffPanel"):FireServer(unpack(args)) local args = {
-    [1] = "Command",
-    [2] = ":unfreeze all"
-}
-
-game:GetService("ReplicatedStorage"):WaitForChild("events"):WaitForChild("NonFightEvents"):WaitForChild("StaffPanel"):FireServer(unpack(args)) local args = {
-    [1] = "ChangeSong",
-    [2] = "NajAndHoodBaby",
-    [3] = game:GetService("ReplicatedStorage"):WaitForChild("MusicList"):WaitForChild("Fighting")
-}
-
-game:GetService("ReplicatedStorage"):WaitForChild("events"):WaitForChild("NonFightEvents"):WaitForChild("StaffPanel"):FireServer(unpack(args)) local args = {
-    [1] = "Volume",
-    [2] = 10
-}
-
-game:GetService("ReplicatedStorage"):WaitForChild("events"):WaitForChild("NonFightEvents"):WaitForChild("StaffPanel"):FireServer(unpack(args))
-   end,
-})
-
-
-local Button = United PowerTab:CreateButton({
-   Name = "Flicker (spam until music over)",
-   Callback = function()
-            local args = {
-    [1] = "Weather",
-    [2] = "Morning To Day"
 }
 
 game:GetService("ReplicatedStorage"):WaitForChild("events"):WaitForChild("NonFightEvents"):WaitForChild("StaffPanel"):FireServer(unpack(args))
