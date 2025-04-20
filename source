@@ -442,7 +442,7 @@ local Button = MiscTab:CreateButton({
 local MainTab = Window:CreateTab("United Power", nil) -- Title, Image
 local MainSection = UnitedPowerTab:CreateSection("dolly, lex, summer vengeance")
 
-local Button = United PowerTab:CreateButton({
+local Button = MiscTab:CreateButton({
    Name = "The United Power Of The Big Three",
    Callback = function()
           local Players = game:GetService("Players")
