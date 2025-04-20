@@ -597,11 +597,11 @@ local Keybind = MainTab:CreateKeybind({
    HoldToInteract = false,
    Flag = "Keybind1", -- A flag is the identifier for the configuration file, make sure every element has a different flag if you're using configuration saving to ensure no overlaps
    Callback = function(Keybind)
-              local args = {
+             local args = {
     [1] = "Kick"
 }
 
-game:GetService("ReplicatedStorage"):WaitForChild("events"):WaitForChild("MainKeys"):FireServer(unpack(args))
+game:GetService("ReplicatedStorage"):WaitForChild("events"):WaitForChild("SoloPlrEvents"):FireServer(unpack(args))
    end,
 })
 
@@ -891,3 +891,15 @@ end
 monitorChat()
    end,
 })
+
+local Button = MiscTab:CreateButton({
+   Name = "Lose Fight",
+   Callback = function()
+            local args = {
+    [1] = "LooseFight"
+}
+
+game:GetService("ReplicatedStorage"):WaitForChild("events"):WaitForChild("SoloPlrEvents"):FireServer(unpack(args))
+   end,
+})
+
