@@ -439,10 +439,10 @@ local Button = MiscTab:CreateButton({
    end,
 })
 
-local MainTab = Window:CreateTab("UnitedPower", nil) -- Title, Image
-local MainSection = UnitedPowerTab:CreateSection("dolly, lex, summer vengeance")
+local United PowerTab = Window:CreateTab("United Power", nil) -- Title, Image
+local Section = UnitedPowerTab:CreateSection("dolly, lex, summer vengeance")
 
-local Button = UnitedPowerTab:CreateButton({
+local Button = United PowerTab:CreateButton({
    Name = "The United Power Of The Big Three (Start)",
    Callback = function()
             local args = {
