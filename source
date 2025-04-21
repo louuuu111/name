@@ -27,10 +27,10 @@ local Window = Rayfield:CreateWindow({
       Title = "Baddies Caribbean",
       Subtitle = "sofia, trey, riz, tristan was here...",
       Note = "discord channel for key",
-      FileName = "BadDolly", 
+      FileName = "ReunionKey", 
       SaveKey = false, -- 
       GrabKeyFromSite = false,
-      Key = {"BadDolly"}
+      Key = {"Reunion"}
    }
 })
 
