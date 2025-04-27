@@ -35,7 +35,7 @@ local Window = Rayfield:CreateWindow({
 })
 
 
-local MainTab = Window:CreateTab("💜 House A", nil) -- Title, Image
+local MainTab = Window:CreateTab("Main", nil) -- Title, Image
 local MainSection = MainTab:CreateSection("Main")
 
 Rayfield:Notify({
@@ -117,7 +117,7 @@ game:GetService("ReplicatedStorage"):WaitForChild("events"):WaitForChild("MoneyG
    end,
 })
 
-local Button = MiscTab:CreateButton({
+local Button = MainTab:CreateButton({
    Name = "Infinite Yield",
    Callback = function()
            loadstring(game:HttpGet('https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source'))()
