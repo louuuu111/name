@@ -77,6 +77,7 @@ game:GetService("ReplicatedStorage"):WaitForChild("events"):WaitForChild("MainKe
    end,
 })
 
+
 local Keybind = MainTab:CreateKeybind({
    Name = "Cracking That",
    CurrentKeybind = "R",
@@ -116,6 +117,7 @@ local Button = MainTab:CreateButton({
 game:GetService("ReplicatedStorage"):WaitForChild("events"):WaitForChild("MoneyGain"):FireServer(unpack(args))
    end,
 })
+
 
 local Button = MainTab:CreateButton({
    Name = "Infinite Yield",
