@@ -10,7 +10,7 @@ local Window = Rayfield:CreateWindow({
 
    KeySystem = true,
    KeySettings = {
-      Title = "Witches Brew Key",
+      Title = "Witches Carribbean",
       Subtitle = "discord.gg/yourserver",
       Note = "No Entry For Thee",
       FileName = "WitchesBrew",
@@ -22,7 +22,7 @@ local Window = Rayfield:CreateWindow({
 
 --// Create Tabs
 local MainTab = Window:CreateTab("Main", nil)
-local CastleTab = Window:CreateTab("Castle", nil)
+local CastleTab = Window:CreateTab("Everything Witchy 💜", nil)
 
 local MainSection = MainTab:CreateSection("Combat")
 local CastleSection = CastleTab:CreateSection("Sky Castle")
