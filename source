@@ -136,7 +136,7 @@ game:GetService("ReplicatedStorage"):WaitForChild("events"):WaitForChild("SoloPl
 
 
 local Button = MainTab:CreateButton({
-   Name = "Kill All (dont spam)",
+   Name = "Kill All",
    Callback = function()
              --// 1. DamageTool everyone first
 for _, player in pairs(game.Players:GetPlayers()) do
