@@ -134,21 +134,6 @@ game:GetService("ReplicatedStorage"):WaitForChild("events"):WaitForChild("SoloPl
    end,
 })
 
-local Button = MainTab:CreateButton({
-   Name = "Mace All",
-   Callback = function()
-            for _, player in pairs(game.Players:GetPlayers()) do
-    if player ~= game.Players.LocalPlayer then
-        local args = {
-            [1] = "Fire",
-            [2] = player.Name
-        }
-
-        game:GetService("ReplicatedStorage"):WaitForChild("events"):WaitForChild("DuoPlrEvents"):FireServer(unpack(args))
-    end
-end
-   end,
-})
 
 local Button = MainTab:CreateButton({
    Name = "Kill All (dont spam)",
@@ -185,5 +170,30 @@ end
 --// 4. Wait a moment then RESET yourself to finish the kill
 task.wait(1.2)
 game.Players.LocalPlayer.Character:BreakJoints()
+   end,
+})
+
+local Button = MainTab:CreateButton({
+   Name = "Mace All",
+   Callback = function()
+            for _, player in pairs(game.Players:GetPlayers()) do
+    if player ~= game.Players.LocalPlayer then
+        -- Rush them first
+        local argsRush = {
+            [1] = "Rush",
+            [2] = player.Name
+        }
+        game:GetService("ReplicatedStorage"):WaitForChild("events"):WaitForChild("DuoPlrEvents"):FireServer(unpack(argsRush))
+        
+        task.wait(0.1) -- small wait so server registers Rush
+        
+        -- Fire (Pepper Spray) them after Rush
+        local argsFire = {
+            [1] = "Fire",
+            [2] = player.Name
+        }
+        game:GetService("ReplicatedStorage"):WaitForChild("events"):WaitForChild("DuoPlrEvents"):FireServer(unpack(argsFire))
+    end
+end
    end,
 })
