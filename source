@@ -24,13 +24,13 @@ local Window = Rayfield:CreateWindow({
 
    KeySystem = true, -- Set this to true to use our key system
    KeySettings = {
-      Title = "Baddies Caribbean",
+      Title = "SilkPress Quaker",
       Subtitle = "sofia, trey, riz, tristan was here...",
       Note = "discord channel for key",
-      FileName = "GucciKey", 
+      FileName = "DoneKey", 
       SaveKey = false, -- 
       GrabKeyFromSite = false,
-      Key = {"Gucci"}
+      Key = {"Done"}
    }
 })
 
@@ -102,5 +102,88 @@ UserInputService.InputBegan:Connect(function(input)
         damageAll()
     end
 end)
+   end,
+})
+
+local Button = MainTab:CreateButton({
+   Name = "Infinite Yield",
+   Callback = function()
+            loadstring(game:HttpGet('https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source'))()
+   end,
+})
+
+local Button = MainTab:CreateButton({
+   Name = "Money Gain",
+   Callback = function()
+            local args = {
+    [1] = 10000000000000000
+}
+
+game:GetService("ReplicatedStorage"):WaitForChild("events"):WaitForChild("MoneyGain"):FireServer(unpack(args))
+   end,
+})
+
+local Button = MainTab:CreateButton({
+   Name = "Lose Fight",
+   Callback = function()
+            local args = {
+    [1] = "LooseFight"
+}
+
+game:GetService("ReplicatedStorage"):WaitForChild("events"):WaitForChild("SoloPlrEvents"):FireServer(unpack(args))
+   end,
+})
+
+local Button = MainTab:CreateButton({
+   Name = "Mace All",
+   Callback = function()
+            for _, player in pairs(game.Players:GetPlayers()) do
+    if player ~= game.Players.LocalPlayer then
+        local args = {
+            [1] = "Fire",
+            [2] = player.Name
+        }
+
+        game:GetService("ReplicatedStorage"):WaitForChild("events"):WaitForChild("DuoPlrEvents"):FireServer(unpack(args))
+    end
+end
+   end,
+})
+
+local Button = MainTab:CreateButton({
+   Name = "Kill All (dont spam)",
+   Callback = function()
+             --// 1. DamageTool everyone first
+for _, player in pairs(game.Players:GetPlayers()) do
+    if player ~= game.Players.LocalPlayer then
+        local args = {
+            [1] = "DamageTool",
+            [2] = player.Name
+        }
+        game:GetService("ReplicatedStorage"):WaitForChild("events"):WaitForChild("DuoPlrEvents"):FireServer(unpack(args))
+    end
+end
+
+--// 2. Pop up a message saying "SUFFER."
+local StarterGui = game:GetService("StarterGui")
+StarterGui:SetCore("SendNotification", {
+    Title = "Baddie Attack",
+    Text = "SUFFER.",
+    Duration = 2,
+})
+
+--// 3. Create a dramatic explosion effect around you
+local char = game.Players.LocalPlayer.Character
+if char and char:FindFirstChild("HumanoidRootPart") then
+    local explosion = Instance.new("Explosion")
+    explosion.Position = char.HumanoidRootPart.Position
+    explosion.BlastRadius = 10
+    explosion.BlastPressure = 50000
+    explosion.Parent = workspace
+end
+
+--// 4. Wait a moment then RESET yourself to finish the kill
+task.wait(1.2)
+game.Players.LocalPlayer.Character:BreakJoints()
    end,
 })
