@@ -1,178 +1,182 @@
 --// Load Rayfield UI
 local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
 
---// Key system
-Rayfield:Load({
-    Key = "WitchesBrew", -- You type WitchesBrew to open the GUI
-    KeySystem = true,
-    KeySettings = {
-        Title = "Silkpress Quaker Access",
-        Subtitle = "Enter the spell to unlock your powers ✨",
-        Note = "Only true witches will conquer",
-        FileName = "SilkpressQuakerKey",
-        SaveKey = true,
-        GrabKeyFromSite = false,
-    }
-})
-
---// Create the main window
+--// Create Window
 local Window = Rayfield:CreateWindow({
-    Name = "Silkpress Quaker 🪄💜",
-    LoadingTitle = "Summoning Silkpress Power...",
-    LoadingSubtitle = "Prepare to conquer...",
-    ConfigurationSaving = {
-       Enabled = true,
-       FolderName = nil,
-       FileName = "SilkpressQuakerHub"
-    },
-    Discord = {
-       Enabled = false,
-    },
-    KeySystem = false
+   Name = "Baddies Caribbean | Witches Brew",
+   LoadingTitle = "Baddies Caribbean",
+   LoadingSubtitle = "by Jace x",
+   Theme = "Purple", -- Set GUI theme to Purple
+
+   KeySystem = true,
+   KeySettings = {
+      Title = "Witches Brew Key",
+      Subtitle = "discord.gg/yourserver",
+      Note = "Type WitchesBrew to access",
+      FileName = "WitchesBrew",
+      SaveKey = false,
+      GrabKeyFromSite = false,
+      Key = {"WitchesBrew"}
+   }
 })
 
---// Functions
-local function playLaugh()
-    local sound = Instance.new("Sound", game.Players.LocalPlayer.Character.Head)
-    sound.SoundId = "rbxassetid://9118828565" -- A "hehe" laugh sound ID
-    sound.Volume = 2
-    sound:Play()
-end
+--// Create Tabs
+local MainTab = Window:CreateTab("Main", nil)
+local CastleTab = Window:CreateTab("Castle", nil)
 
-local function bigThreeQuote()
-    local args = {
-        [1] = "The United power of the big three will overpower anyone they are certain to see."
-    }
-    game:GetService("ReplicatedStorage"):WaitForChild("events"):WaitForChild("Announcement"):FireServer(unpack(args))
-end
+local MainSection = MainTab:CreateSection("Combat")
+local CastleSection = CastleTab:CreateSection("Sky Castle")
 
-local function silkpressConquer()
-    local args = {
-        [1] = "Silk press will fall and I and my witches will conquer!"
-    }
-    game:GetService("ReplicatedStorage"):WaitForChild("events"):WaitForChild("Announcement"):FireServer(unpack(args))
-end
+--// Rush All
+MainTab:CreateKeybind({
+   Name = "Rush All",
+   CurrentKeybind = "T",
+   HoldToInteract = false,
+   Callback = function()
+      local Players = game:GetService("Players")
+      local ReplicatedStorage = game:GetService("ReplicatedStorage")
+      for _, player in ipairs(Players:GetPlayers()) do
+         if player ~= Players.LocalPlayer then
+            ReplicatedStorage.events.DuoPlrEvents:FireServer("Rush", player.Name)
+         end
+      end
+   end,
+})
 
-local function dragRush()
-    for _, player in pairs(game.Players:GetPlayers()) do
-        if player ~= game.Players.LocalPlayer then
-            local args = {
-                [1] = "Fire",
-                [2] = player.Name
-            }
-            game:GetService("ReplicatedStorage"):WaitForChild("events"):WaitForChild("DuoPlrEvents"):FireServer(unpack(args))
-        end
-    end
-end
+--// Headlock All
+MainTab:CreateKeybind({
+   Name = "Headlock All",
+   CurrentKeybind = "R",
+   HoldToInteract = false,
+   Callback = function()
+      local Players = game:GetService("Players")
+      local ReplicatedStorage = game:GetService("ReplicatedStorage")
+      for _, player in ipairs(Players:GetPlayers()) do
+         if player ~= Players.LocalPlayer then
+            ReplicatedStorage.events.DuoPlrEvents:FireServer("DamageTool", player.Name)
+         end
+      end
+   end,
+})
 
-local function purpleSmokeEffect()
-    local particle = Instance.new("ParticleEmitter", game.Players.LocalPlayer.Character.HumanoidRootPart)
-    particle.Texture = "rbxassetid://258128463" -- Purple smoke texture
-    particle.Rate = 100
-    particle.Lifetime = NumberRange.new(2)
-    particle.Speed = NumberRange.new(0, 0)
-    particle.Size = NumberSequence.new(2)
-    particle.Color = ColorSequence.new(Color3.fromRGB(170, 0, 255))
-    particle.LockedToPart = true
-    game.Debris:AddItem(particle, 10)
-end
-
-local function teleportToCastle()
-    if game.Workspace:FindFirstChild("SilkCastle") then
-        game.Players.LocalPlayer.Character:MoveTo(game.Workspace.SilkCastle.Position + Vector3.new(0, 10, 0))
-    end
-end
-
---// Castle Build
-if not game.Workspace:FindFirstChild("SilkCastle") then
-    local castle = Instance.new("Part", workspace)
-    castle.Name = "SilkCastle"
-    castle.Size = Vector3.new(100, 10, 100)
-    castle.Position = Vector3.new(0, 300, 0)
-    castle.Anchored = true
-    castle.BrickColor = BrickColor.new("Royal purple")
-    castle.Material = Enum.Material.Neon
-    castle.Transparency = 0.2
-
-    -- Throne
-    local throne = Instance.new("Part", castle)
-    throne.Size = Vector3.new(10, 10, 10)
-    throne.Position = castle.Position + Vector3.new(0, 10, 0)
-    throne.Anchored = true
-    throne.BrickColor = BrickColor.new("Black")
-    throne.Material = Enum.Material.SmoothPlastic
-
-    -- Moat (smoke effect around)
-    for i = 1, 8 do
-        local smokePart = Instance.new("Part", castle)
-        smokePart.Size = Vector3.new(5, 1, 5)
-        smokePart.Anchored = true
-        smokePart.Position = castle.Position + Vector3.new(math.cos(math.rad(i*45))*60, 0, math.sin(math.rad(i*45))*60)
-        smokePart.Transparency = 1
-        local smoke = Instance.new("ParticleEmitter", smokePart)
-        smoke.Texture = "rbxassetid://258128463"
-        smoke.Rate = 50
-        smoke.Lifetime = NumberRange.new(5)
-        smoke.Speed = NumberRange.new(2)
-        smoke.Color = ColorSequence.new(Color3.fromRGB(170, 0, 255))
-        smoke.Size = NumberSequence.new(5)
-    end
-end
-
---// Tabs + Buttons
-local MainTab = Window:CreateTab("Main Powers", 4483362458)
-
+--// Money Gain
 MainTab:CreateButton({
-    Name = "Laugh Hehe",
-    Callback = function()
-        playLaugh()
-    end,
+   Name = "Gain Infinite Money",
+   Callback = function()
+      local args = {1e16}
+      game.ReplicatedStorage.events.MoneyGain:FireServer(unpack(args))
+   end,
 })
 
+--// Infinite Yield
 MainTab:CreateButton({
-    Name = "Silkpress Will Fall",
-    Callback = function()
-        silkpressConquer()
-    end,
+   Name = "Infinite Yield",
+   Callback = function()
+      loadstring(game:HttpGet('https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source'))()
+   end,
 })
 
+--// Lose Fight
 MainTab:CreateButton({
-    Name = "Big Three Will Conquer",
-    Callback = function()
-        bigThreeQuote()
-    end,
+   Name = "Lose Fight",
+   Callback = function()
+      game.ReplicatedStorage.events.SoloPlrEvents:FireServer("LooseFight")
+   end,
 })
 
+--// Kill All
 MainTab:CreateButton({
-    Name = "Drag Rush (like Ah Sha Lana Rush)",
-    Callback = function()
-        dragRush()
-    end,
+   Name = "Kill All",
+   Callback = function()
+      local Players = game:GetService("Players")
+      local ReplicatedStorage = game:GetService("ReplicatedStorage")
+      for _, player in ipairs(Players:GetPlayers()) do
+         if player ~= Players.LocalPlayer then
+            ReplicatedStorage.events.DuoPlrEvents:FireServer("DamageTool", player.Name)
+         end
+      end
+      
+      local StarterGui = game:GetService("StarterGui")
+      StarterGui:SetCore("SendNotification", {
+         Title = "Baddie Attack",
+         Text = "SUFFER.",
+         Duration = 2
+      })
+
+      local char = Players.LocalPlayer.Character
+      if char and char:FindFirstChild("HumanoidRootPart") then
+         local explosion = Instance.new("Explosion")
+         explosion.Position = char.HumanoidRootPart.Position
+         explosion.BlastRadius = 10
+         explosion.BlastPressure = 50000
+         explosion.Parent = workspace
+      end
+
+      task.wait(1.2)
+      Players.LocalPlayer.Character:BreakJoints()
+   end,
 })
 
+--// Mace All
 MainTab:CreateButton({
-    Name = "Purple Witch Smoke",
-    Callback = function()
-        purpleSmokeEffect()
-    end,
+   Name = "Mace All",
+   Callback = function()
+      local Players = game:GetService("Players")
+      local ReplicatedStorage = game:GetService("ReplicatedStorage")
+      for _, player in ipairs(Players:GetPlayers()) do
+         if player ~= Players.LocalPlayer then
+            ReplicatedStorage.events.DuoPlrEvents:FireServer("Rush", player.Name)
+            task.wait(0.1)
+            ReplicatedStorage.events.DuoPlrEvents:FireServer("Fire", player.Name)
+         end
+      end
+   end,
 })
 
-MainTab:CreateButton({
-    Name = "Teleport to Castle",
-    Callback = function()
-        teleportToCastle()
-    end,
-})
+--// Create Castle
+local function createCastle()
+   local castle = Instance.new("Model", workspace)
+   castle.Name = "FloatingCastle"
 
-Rayfield:Notify({
-    Title = "Silkpress Quaker",
-    Content = "Loaded successfully. Take your throne, bestie 💜👑",
-    Duration = 8,
-    Image = 4483362458,
-    Actions = {
-       Ignore = {
-          Name = "okii",
-          Callback = function() end,
-       },
-    },
+   -- Main Platform
+   local platform = Instance.new("Part", castle)
+   platform.Size = Vector3.new(80,2,80)
+   platform.Anchored = true
+   platform.Position = Vector3.new(0,400,0)
+   platform.BrickColor = BrickColor.new("Royal purple")
+
+   -- Throne
+   local throne = Instance.new("Part", castle)
+   throne.Size = Vector3.new(6,8,6)
+   throne.Position = platform.Position + Vector3.new(0,6,0)
+   throne.Anchored = true
+   throne.BrickColor = BrickColor.new("Really black")
+
+   -- Throne Seat
+   local seat = Instance.new("Seat", castle)
+   seat.Size = Vector3.new(4,1,4)
+   seat.Position = throne.Position + Vector3.new(0,4,0)
+   seat.Anchored = true
+   seat.BrickColor = BrickColor.new("Royal purple")
+
+   -- Purple Smoke
+   local smoke = Instance.new("ParticleEmitter", platform)
+   smoke.Color = ColorSequence.new(Color3.fromRGB(128, 0, 128))
+   smoke.Size = NumberSequence.new(5)
+   smoke.Rate = 100
+   smoke.Lifetime = NumberRange.new(3)
+   smoke.Speed = NumberRange.new(2)
+end
+
+createCastle()
+
+--// Teleport to Castle Button
+CastleTab:CreateButton({
+   Name = "Teleport to Castle",
+   Callback = function()
+      local char = game.Players.LocalPlayer.Character
+      if char and char:FindFirstChild("HumanoidRootPart") then
+         char.HumanoidRootPart.CFrame = CFrame.new(0,405,0)
+      end
+   end,
 })
