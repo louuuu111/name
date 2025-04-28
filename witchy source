@@ -1,109 +1,178 @@
--- Load Rayfield (new)
-local Rayfield = loadstring(game:HttpGet('https://raw.githubusercontent.com/shlexware/Rayfield/main/source'))()
+--// Load Rayfield UI
+local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
 
--- Create Window
+--// Key system
+Rayfield:Load({
+    Key = "WitchesBrew", -- You type WitchesBrew to open the GUI
+    KeySystem = true,
+    KeySettings = {
+        Title = "Silkpress Quaker Access",
+        Subtitle = "Enter the spell to unlock your powers ✨",
+        Note = "Only true witches will conquer",
+        FileName = "SilkpressQuakerKey",
+        SaveKey = true,
+        GrabKeyFromSite = false,
+    }
+})
+
+--// Create the main window
 local Window = Rayfield:CreateWindow({
-    Name = "Silkpress Quaker 🔮",
-    LoadingTitle = "Witchcraft Loading...",
-    LoadingSubtitle = "By Your Bestie ✨",
+    Name = "Silkpress Quaker 🪄💜",
+    LoadingTitle = "Summoning Silkpress Power...",
+    LoadingSubtitle = "Prepare to conquer...",
     ConfigurationSaving = {
-       Enabled = false
+       Enabled = true,
+       FolderName = nil,
+       FileName = "SilkpressQuakerHub"
     },
     Discord = {
-       Enabled = false
+       Enabled = false,
     },
     KeySystem = false
 })
 
--- Create "Spells" Tab
-local Tab = Window:CreateTab("Spells 🪄", 4483362458)
+--// Functions
+local function playLaugh()
+    local sound = Instance.new("Sound", game.Players.LocalPlayer.Character.Head)
+    sound.SoundId = "rbxassetid://9118828565" -- A "hehe" laugh sound ID
+    sound.Volume = 2
+    sound:Play()
+end
 
--- Drag All Spell (Ah Sha Lana Rush style)
-local DragAll = Tab:CreateButton({
-    Name = "Drag All (Ah Sha Lana Rush)",
-    Callback = function()
-        for _, player in pairs(game.Players:GetPlayers()) do
-            if player ~= game.Players.LocalPlayer then
-                local args = {
-                    [1] = "Fire",
-                    [2] = player.Name
-                }
-                game:GetService("ReplicatedStorage"):WaitForChild("events"):WaitForChild("DuoPlrEvents"):FireServer(unpack(args))
-            end
+local function bigThreeQuote()
+    local args = {
+        [1] = "The United power of the big three will overpower anyone they are certain to see."
+    }
+    game:GetService("ReplicatedStorage"):WaitForChild("events"):WaitForChild("Announcement"):FireServer(unpack(args))
+end
+
+local function silkpressConquer()
+    local args = {
+        [1] = "Silk press will fall and I and my witches will conquer!"
+    }
+    game:GetService("ReplicatedStorage"):WaitForChild("events"):WaitForChild("Announcement"):FireServer(unpack(args))
+end
+
+local function dragRush()
+    for _, player in pairs(game.Players:GetPlayers()) do
+        if player ~= game.Players.LocalPlayer then
+            local args = {
+                [1] = "Fire",
+                [2] = player.Name
+            }
+            game:GetService("ReplicatedStorage"):WaitForChild("events"):WaitForChild("DuoPlrEvents"):FireServer(unpack(args))
         end
+    end
+end
+
+local function purpleSmokeEffect()
+    local particle = Instance.new("ParticleEmitter", game.Players.LocalPlayer.Character.HumanoidRootPart)
+    particle.Texture = "rbxassetid://258128463" -- Purple smoke texture
+    particle.Rate = 100
+    particle.Lifetime = NumberRange.new(2)
+    particle.Speed = NumberRange.new(0, 0)
+    particle.Size = NumberSequence.new(2)
+    particle.Color = ColorSequence.new(Color3.fromRGB(170, 0, 255))
+    particle.LockedToPart = true
+    game.Debris:AddItem(particle, 10)
+end
+
+local function teleportToCastle()
+    if game.Workspace:FindFirstChild("SilkCastle") then
+        game.Players.LocalPlayer.Character:MoveTo(game.Workspace.SilkCastle.Position + Vector3.new(0, 10, 0))
+    end
+end
+
+--// Castle Build
+if not game.Workspace:FindFirstChild("SilkCastle") then
+    local castle = Instance.new("Part", workspace)
+    castle.Name = "SilkCastle"
+    castle.Size = Vector3.new(100, 10, 100)
+    castle.Position = Vector3.new(0, 300, 0)
+    castle.Anchored = true
+    castle.BrickColor = BrickColor.new("Royal purple")
+    castle.Material = Enum.Material.Neon
+    castle.Transparency = 0.2
+
+    -- Throne
+    local throne = Instance.new("Part", castle)
+    throne.Size = Vector3.new(10, 10, 10)
+    throne.Position = castle.Position + Vector3.new(0, 10, 0)
+    throne.Anchored = true
+    throne.BrickColor = BrickColor.new("Black")
+    throne.Material = Enum.Material.SmoothPlastic
+
+    -- Moat (smoke effect around)
+    for i = 1, 8 do
+        local smokePart = Instance.new("Part", castle)
+        smokePart.Size = Vector3.new(5, 1, 5)
+        smokePart.Anchored = true
+        smokePart.Position = castle.Position + Vector3.new(math.cos(math.rad(i*45))*60, 0, math.sin(math.rad(i*45))*60)
+        smokePart.Transparency = 1
+        local smoke = Instance.new("ParticleEmitter", smokePart)
+        smoke.Texture = "rbxassetid://258128463"
+        smoke.Rate = 50
+        smoke.Lifetime = NumberRange.new(5)
+        smoke.Speed = NumberRange.new(2)
+        smoke.Color = ColorSequence.new(Color3.fromRGB(170, 0, 255))
+        smoke.Size = NumberSequence.new(5)
+    end
+end
+
+--// Tabs + Buttons
+local MainTab = Window:CreateTab("Main Powers", 4483362458)
+
+MainTab:CreateButton({
+    Name = "Laugh Hehe",
+    Callback = function()
+        playLaugh()
     end,
 })
 
--- Create "Curses" Tab
-local CurseTab = Window:CreateTab("Curses 🧿", 4483362458)
-
--- Laugh All (real laugh sound)
-local LaughAll = CurseTab:CreateButton({
-    Name = "Laugh All (Funny Hex)",
+MainTab:CreateButton({
+    Name = "Silkpress Will Fall",
     Callback = function()
-        local SoundId = "rbxassetid://9118828565" -- A loud clear evil laugh sound
-        local sound = Instance.new("Sound", game.Workspace)
-        sound.SoundId = SoundId
-        sound.Volume = 10
-        sound:Play()
-        task.delay(5, function()
-            sound:Destroy()
-        end)
+        silkpressConquer()
     end,
 })
 
--- Suffer and Explode (fake death fx)
-local ExplodeAll = CurseTab:CreateButton({
-    Name = "Explode All (Suffer Curse)",
+MainTab:CreateButton({
+    Name = "Big Three Will Conquer",
     Callback = function()
-        for _, player in pairs(game.Players:GetPlayers()) do
-            if player ~= game.Players.LocalPlayer then
-                local args = {
-                    [1] = "DamageTool",
-                    [2] = player.Name
-                }
-                game:GetService("ReplicatedStorage"):WaitForChild("events"):WaitForChild("DuoPlrEvents"):FireServer(unpack(args))
-            end
-        end
-        task.wait(0.5)
-        game.Players.LocalPlayer.Character:BreakJoints() -- Reset self to trigger explosion trick
+        bigThreeQuote()
     end,
 })
 
--- Create "Effects" Tab
-local EffectsTab = Window:CreateTab("Effects ✨", 4483362458)
-
--- Announce All (F this game type vibe)
-local AnnounceAll = EffectsTab:CreateButton({
-    Name = "Announce All (Chaos Curse)",
+MainTab:CreateButton({
+    Name = "Drag Rush (like Ah Sha Lana Rush)",
     Callback = function()
-        local args = {
-            [1] = "fuck this game and everyone in it by Silkpress Quaker 🔮"
-        }
-        game:GetService("ReplicatedStorage"):WaitForChild("events"):WaitForChild("Announcement"):FireServer(unpack(args))
+        dragRush()
     end,
 })
 
--- Kill All Button (simple)
-local KillAll = EffectsTab:CreateButton({
-    Name = "Kill All (Headlock Death)",
+MainTab:CreateButton({
+    Name = "Purple Witch Smoke",
     Callback = function()
-        for _, player in pairs(game.Players:GetPlayers()) do
-            if player ~= game.Players.LocalPlayer then
-                local args = {
-                    [1] = "DamageTool",
-                    [2] = player.Name
-                }
-                game:GetService("ReplicatedStorage"):WaitForChild("events"):WaitForChild("DuoPlrEvents"):FireServer(unpack(args))
-            end
-        end
-        task.wait(0.5)
-        game.Players.LocalPlayer.Character:BreakJoints()
+        purpleSmokeEffect()
+    end,
+})
+
+MainTab:CreateButton({
+    Name = "Teleport to Castle",
+    Callback = function()
+        teleportToCastle()
     end,
 })
 
 Rayfield:Notify({
-    Title = "Silkpress Quaker Loaded 🔮",
-    Content = "Go spread witchy chaos bestie! ✨",
+    Title = "Silkpress Quaker",
+    Content = "Loaded successfully. Take your throne, bestie 💜👑",
     Duration = 8,
+    Image = 4483362458,
+    Actions = {
+       Ignore = {
+          Name = "okii",
+          Callback = function() end,
+       },
+    },
 })
