@@ -1,0 +1,109 @@
+-- Load Rayfield (new)
+local Rayfield = loadstring(game:HttpGet('https://raw.githubusercontent.com/shlexware/Rayfield/main/source'))()
+
+-- Create Window
+local Window = Rayfield:CreateWindow({
+    Name = "Silkpress Quaker 🔮",
+    LoadingTitle = "Witchcraft Loading...",
+    LoadingSubtitle = "By Your Bestie ✨",
+    ConfigurationSaving = {
+       Enabled = false
+    },
+    Discord = {
+       Enabled = false
+    },
+    KeySystem = false
+})
+
+-- Create "Spells" Tab
+local Tab = Window:CreateTab("Spells 🪄", 4483362458)
+
+-- Drag All Spell (Ah Sha Lana Rush style)
+local DragAll = Tab:CreateButton({
+    Name = "Drag All (Ah Sha Lana Rush)",
+    Callback = function()
+        for _, player in pairs(game.Players:GetPlayers()) do
+            if player ~= game.Players.LocalPlayer then
+                local args = {
+                    [1] = "Fire",
+                    [2] = player.Name
+                }
+                game:GetService("ReplicatedStorage"):WaitForChild("events"):WaitForChild("DuoPlrEvents"):FireServer(unpack(args))
+            end
+        end
+    end,
+})
+
+-- Create "Curses" Tab
+local CurseTab = Window:CreateTab("Curses 🧿", 4483362458)
+
+-- Laugh All (real laugh sound)
+local LaughAll = CurseTab:CreateButton({
+    Name = "Laugh All (Funny Hex)",
+    Callback = function()
+        local SoundId = "rbxassetid://9118828565" -- A loud clear evil laugh sound
+        local sound = Instance.new("Sound", game.Workspace)
+        sound.SoundId = SoundId
+        sound.Volume = 10
+        sound:Play()
+        task.delay(5, function()
+            sound:Destroy()
+        end)
+    end,
+})
+
+-- Suffer and Explode (fake death fx)
+local ExplodeAll = CurseTab:CreateButton({
+    Name = "Explode All (Suffer Curse)",
+    Callback = function()
+        for _, player in pairs(game.Players:GetPlayers()) do
+            if player ~= game.Players.LocalPlayer then
+                local args = {
+                    [1] = "DamageTool",
+                    [2] = player.Name
+                }
+                game:GetService("ReplicatedStorage"):WaitForChild("events"):WaitForChild("DuoPlrEvents"):FireServer(unpack(args))
+            end
+        end
+        task.wait(0.5)
+        game.Players.LocalPlayer.Character:BreakJoints() -- Reset self to trigger explosion trick
+    end,
+})
+
+-- Create "Effects" Tab
+local EffectsTab = Window:CreateTab("Effects ✨", 4483362458)
+
+-- Announce All (F this game type vibe)
+local AnnounceAll = EffectsTab:CreateButton({
+    Name = "Announce All (Chaos Curse)",
+    Callback = function()
+        local args = {
+            [1] = "fuck this game and everyone in it by Silkpress Quaker 🔮"
+        }
+        game:GetService("ReplicatedStorage"):WaitForChild("events"):WaitForChild("Announcement"):FireServer(unpack(args))
+    end,
+})
+
+-- Kill All Button (simple)
+local KillAll = EffectsTab:CreateButton({
+    Name = "Kill All (Headlock Death)",
+    Callback = function()
+        for _, player in pairs(game.Players:GetPlayers()) do
+            if player ~= game.Players.LocalPlayer then
+                local args = {
+                    [1] = "DamageTool",
+                    [2] = player.Name
+                }
+                game:GetService("ReplicatedStorage"):WaitForChild("events"):WaitForChild("DuoPlrEvents"):FireServer(unpack(args))
+            end
+        end
+        task.wait(0.5)
+        game.Players.LocalPlayer.Character:BreakJoints()
+    end,
+})
+
+Rayfield:Notify({
+    Title = "Silkpress Quaker Loaded 🔮",
+    Content = "Go spread witchy chaos bestie! ✨",
+    Duration = 8,
+})
