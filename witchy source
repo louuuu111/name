@@ -169,7 +169,7 @@ CastleTab:CreateButton({
 })
 
 --// Misty Teleport Keybind (C)
-Dark MagicTab:CreateKeybind({
+MainTab:CreateKeybind({
    Name = "Misty Teleport",
    CurrentKeybind = "C",
    HoldToInteract = false,
@@ -180,6 +180,7 @@ Dark MagicTab:CreateKeybind({
       end
    end,
 })
+
 
 LocalPlayer.Chatted:Connect(function(msg)
    if msg:lower() == "witches!" then
@@ -217,8 +218,9 @@ LocalPlayer.Chatted:Connect(function(msg)
    end
 end)
 
-local MainSection = Dark MagicTab:CreateSection("Spells")
-local CastleSection = Dark MagicTab:CreateSection("Magica💜")
+
+local Dark MagicSection = Dark MagicTab:CreateSection("Spells")
+local Dark MagicSection = Dark MagicTab:CreateSection("Magica")
 
 --// Dark Grab Finish
 Dark MagicTab:CreateKeybind({
@@ -268,6 +270,7 @@ Dark MagicTab:CreateKeybind({
    end,
 })
 
+
 --// Shadow Cloak (Key: V)
 Dark MagicTab:CreateKeybind({
    Name = "Shadow Cloak",
@@ -292,6 +295,7 @@ Dark MagicTab:CreateKeybind({
    end,
 })
 
+
 --// Curse Mark (Key: X)
 Dark MagicTab:CreateKeybind({
    Name = "Curse Mark",
@@ -308,6 +312,7 @@ Dark MagicTab:CreateKeybind({
       end
    end,
 })
+
 
 --// Witch’s Roar (Key: Z)
 Dark MagicTab:CreateKeybind({
