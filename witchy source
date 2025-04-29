@@ -77,14 +77,24 @@ local function createFullCastle()
    table.BrickColor = BrickColor.new("Royal purple")
 
    -- Floating Crystals
-   for i = 1, 6 do
+   for i = 1, 8 do
       local crystal = Instance.new("Part", castle)
       crystal.Shape = Enum.PartType.Ball
       crystal.Size = Vector3.new(4,4,4)
-      crystal.Position = platform.Position + Vector3.new(math.random(-50,50), math.random(10,25), math.random(-50,50))
+      crystal.Position = platform.Position + Vector3.new(math.random(-60,60), math.random(10,30), math.random(-60,60))
       crystal.Anchored = true
       crystal.Material = Enum.Material.Neon
       crystal.BrickColor = BrickColor.new("Bright violet")
+   end
+
+   -- Floating Magical Runes
+   for i = 1, 5 do
+      local rune = Instance.new("Part", castle)
+      rune.Size = Vector3.new(6, 0.2, 6)
+      rune.Anchored = true
+      rune.Position = platform.Position + Vector3.new(math.random(-40, 40), 1, math.random(-40, 40))
+      rune.Material = Enum.Material.ForceField
+      rune.BrickColor = BrickColor.new("Really black")
    end
 
    -- Chairs
@@ -188,7 +198,7 @@ MainTab:CreateKeybind({
 
          -- Sound Effect
          local sound = Instance.new("Sound", LocalPlayer.Character.HumanoidRootPart)
-         sound.SoundId = "rbxassetid://9125472915" -- mystical explosion
+         sound.SoundId = "rbxassetid://9125472915"
          sound.Volume = 1.2
          sound:Play()
 
@@ -198,6 +208,7 @@ MainTab:CreateKeybind({
          explosion.Position = target.Character.HumanoidRootPart.Position
          explosion.BlastRadius = 15
          explosion.BlastPressure = 100000
+         explosion.DestroyJointRadiusPercent = 1
          explosion.Parent = workspace
 
          target.Character:BreakJoints()
