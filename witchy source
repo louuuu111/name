@@ -6,11 +6,11 @@ local Window = Rayfield:CreateWindow({
    Name = "Baddies Caribbean | Witches Brew",
    LoadingTitle = "Baddies Caribbean",
    LoadingSubtitle = "by Jace x",
-   Theme = "Purple", -- Set GUI theme to Purple
+   Theme = "Purple",
 
    KeySystem = true,
    KeySettings = {
-      Title = "Witches Carribbean",
+      Title = "Witches Caribbean",
       Subtitle = "discord.gg/yourserver",
       Note = "No Entry For Thee",
       FileName = "WitchesBrew",
@@ -20,55 +20,51 @@ local Window = Rayfield:CreateWindow({
    }
 })
 
---// Create Tabs
+--// Tabs and Sections
 local MainTab = Window:CreateTab("Main", nil)
-local CastleTab = Window:CreateTab("Everything Witchy 💜", nil)
+local CastleTab = Window:CreateTab("Castle", nil)
 
 local MainSection = MainTab:CreateSection("Combat")
 local CastleSection = CastleTab:CreateSection("Sky Castle")
 
---// Rush All
+local Players = game:GetService("Players")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local LocalPlayer = Players.LocalPlayer
+
+--// Main Powers
 MainTab:CreateKeybind({
    Name = "Rush All",
    CurrentKeybind = "T",
    HoldToInteract = false,
    Callback = function()
-      local Players = game:GetService("Players")
-      local ReplicatedStorage = game:GetService("ReplicatedStorage")
       for _, player in ipairs(Players:GetPlayers()) do
-         if player ~= Players.LocalPlayer then
+         if player ~= LocalPlayer then
             ReplicatedStorage.events.DuoPlrEvents:FireServer("Rush", player.Name)
          end
       end
    end,
 })
 
---// Headlock All
 MainTab:CreateKeybind({
    Name = "Headlock All",
    CurrentKeybind = "R",
    HoldToInteract = false,
    Callback = function()
-      local Players = game:GetService("Players")
-      local ReplicatedStorage = game:GetService("ReplicatedStorage")
       for _, player in ipairs(Players:GetPlayers()) do
-         if player ~= Players.LocalPlayer then
+         if player ~= LocalPlayer then
             ReplicatedStorage.events.DuoPlrEvents:FireServer("DamageTool", player.Name)
          end
       end
    end,
 })
 
---// Money Gain
 MainTab:CreateButton({
    Name = "Gain Infinite Money",
    Callback = function()
-      local args = {1e16}
-      game.ReplicatedStorage.events.MoneyGain:FireServer(unpack(args))
+      ReplicatedStorage.events.MoneyGain:FireServer(1e16)
    end,
 })
 
---// Infinite Yield
 MainTab:CreateButton({
    Name = "Infinite Yield",
    Callback = function()
@@ -76,22 +72,18 @@ MainTab:CreateButton({
    end,
 })
 
---// Lose Fight
 MainTab:CreateButton({
    Name = "Lose Fight",
    Callback = function()
-      game.ReplicatedStorage.events.SoloPlrEvents:FireServer("LooseFight")
+      ReplicatedStorage.events.SoloPlrEvents:FireServer("LooseFight")
    end,
 })
 
---// Kill All
 MainTab:CreateButton({
    Name = "Kill All",
    Callback = function()
-      local Players = game:GetService("Players")
-      local ReplicatedStorage = game:GetService("ReplicatedStorage")
       for _, player in ipairs(Players:GetPlayers()) do
-         if player ~= Players.LocalPlayer then
+         if player ~= LocalPlayer then
             ReplicatedStorage.events.DuoPlrEvents:FireServer("DamageTool", player.Name)
          end
       end
@@ -103,7 +95,7 @@ MainTab:CreateButton({
          Duration = 2
       })
 
-      local char = Players.LocalPlayer.Character
+      local char = LocalPlayer.Character
       if char and char:FindFirstChild("HumanoidRootPart") then
          local explosion = Instance.new("Explosion")
          explosion.Position = char.HumanoidRootPart.Position
@@ -113,18 +105,15 @@ MainTab:CreateButton({
       end
 
       task.wait(1.2)
-      Players.LocalPlayer.Character:BreakJoints()
+      LocalPlayer.Character:BreakJoints()
    end,
 })
 
---// Mace All
 MainTab:CreateButton({
    Name = "Mace All",
    Callback = function()
-      local Players = game:GetService("Players")
-      local ReplicatedStorage = game:GetService("ReplicatedStorage")
       for _, player in ipairs(Players:GetPlayers()) do
-         if player ~= Players.LocalPlayer then
+         if player ~= LocalPlayer then
             ReplicatedStorage.events.DuoPlrEvents:FireServer("Rush", player.Name)
             task.wait(0.1)
             ReplicatedStorage.events.DuoPlrEvents:FireServer("Fire", player.Name)
@@ -133,50 +122,104 @@ MainTab:CreateButton({
    end,
 })
 
---// Create Castle
-local function createCastle()
+--// Castle Setup
+local function createFullCastle()
    local castle = Instance.new("Model", workspace)
    castle.Name = "FloatingCastle"
 
    -- Main Platform
    local platform = Instance.new("Part", castle)
-   platform.Size = Vector3.new(80,2,80)
+   platform.Size = Vector3.new(120,2,120)
    platform.Anchored = true
    platform.Position = Vector3.new(0,400,0)
    platform.BrickColor = BrickColor.new("Royal purple")
 
-   -- Throne
-   local throne = Instance.new("Part", castle)
-   throne.Size = Vector3.new(6,8,6)
-   throne.Position = platform.Position + Vector3.new(0,6,0)
-   throne.Anchored = true
-   throne.BrickColor = BrickColor.new("Really black")
+   -- Walls
+   for _, offset in ipairs({
+      Vector3.new(0,10,60), Vector3.new(0,10,-60),
+      Vector3.new(60,10,0), Vector3.new(-60,10,0)
+   }) do
+      local wall = Instance.new("Part", castle)
+      wall.Size = Vector3.new(120,20,2)
+      wall.Position = platform.Position + offset
+      wall.Anchored = true
+      wall.BrickColor = BrickColor.new("Really black")
+   end
 
-   -- Throne Seat
-   local seat = Instance.new("Seat", castle)
-   seat.Size = Vector3.new(4,1,4)
-   seat.Position = throne.Position + Vector3.new(0,4,0)
-   seat.Anchored = true
-   seat.BrickColor = BrickColor.new("Royal purple")
+   -- Roof
+   local roof = Instance.new("Part", castle)
+   roof.Size = Vector3.new(120,2,120)
+   roof.Position = platform.Position + Vector3.new(0,20,0)
+   roof.Anchored = true
+   roof.BrickColor = BrickColor.new("Royal purple")
 
-   -- Purple Smoke
+   -- Meeting Table
+   local table = Instance.new("Part", castle)
+   table.Size = Vector3.new(40,2,10)
+   table.Position = platform.Position + Vector3.new(0,5,0)
+   table.Anchored = true
+   table.BrickColor = BrickColor.new("Royal purple")
+
+   -- Chairs
+   for i = -2, 2 do
+      if i ~= 0 then
+         local chair = Instance.new("Seat", castle)
+         chair.Size = Vector3.new(4,2,4)
+         chair.Position = table.Position + Vector3.new(i*8,2,8)
+         chair.Anchored = true
+         chair.BrickColor = BrickColor.new("Really black")
+
+         local chair2 = chair:Clone()
+         chair2.Parent = castle
+         chair2.Position = table.Position + Vector3.new(i*8,2,-8)
+      end
+   end
+
+   -- Purple Mist around Castle
    local smoke = Instance.new("ParticleEmitter", platform)
-   smoke.Color = ColorSequence.new(Color3.fromRGB(128, 0, 128))
-   smoke.Size = NumberSequence.new(5)
-   smoke.Rate = 100
-   smoke.Lifetime = NumberRange.new(3)
+   smoke.Color = ColorSequence.new(Color3.fromRGB(200, 0, 200))
+   smoke.Size = NumberSequence.new(6)
+   smoke.Rate = 150
+   smoke.Lifetime = NumberRange.new(4)
    smoke.Speed = NumberRange.new(2)
 end
 
-createCastle()
+createFullCastle()
 
---// Teleport to Castle Button
+--// Castle Teleport
 CastleTab:CreateButton({
    Name = "Teleport to Castle",
    Callback = function()
-      local char = game.Players.LocalPlayer.Character
+      local char = LocalPlayer.Character
       if char and char:FindFirstChild("HumanoidRootPart") then
          char.HumanoidRootPart.CFrame = CFrame.new(0,405,0)
       end
    end,
 })
+
+--// Misty Teleport Keybind (C)
+MainTab:CreateKeybind({
+   Name = "Misty Teleport",
+   CurrentKeybind = "C",
+   HoldToInteract = false,
+   Callback = function()
+      local char = LocalPlayer.Character
+      if char and char:FindFirstChild("HumanoidRootPart") then
+         char.HumanoidRootPart.CFrame = CFrame.new(0,405,0)
+      end
+   end,
+})
+
+--// Summon Witches Command
+LocalPlayer.Chatted:Connect(function(msg)
+   if msg:lower() == "witches!" then
+      for _, player in ipairs(Players:GetPlayers()) do
+         if player ~= LocalPlayer and player:FindFirstChild("PlayerGui") then
+            local char = player.Character
+            if char and char:FindFirstChild("HumanoidRootPart") then
+               char.HumanoidRootPart.CFrame = LocalPlayer.Character.HumanoidRootPart.CFrame + Vector3.new(math.random(-5,5),2,math.random(-5,5))
+            end
+         end
+      end
+   end
+end)
