@@ -7,6 +7,7 @@ local Window = Rayfield:CreateWindow({
    LoadingTitle = "Baddies Caribbean",
    LoadingSubtitle = "by Jace x",
    Theme = "Purple",
+
    KeySystem = true,
    KeySettings = {
       Title = "Witches Caribbean",
@@ -29,7 +30,11 @@ local CastleSection = CastleTab:CreateSection("Sky Castle")
 local Players = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local LocalPlayer = Players.LocalPlayer
-local Mouse = LocalPlayer:GetMouse()
+
+--// Exclusive User Checker
+local function isScriptUser(player)
+   return player == LocalPlayer
+end
 
 --// Castle Setup
 local function createFullCastle()
@@ -37,57 +42,78 @@ local function createFullCastle()
    castle.Name = "FloatingCastle"
 
    local platform = Instance.new("Part", castle)
-   platform.Size = Vector3.new(120,2,120)
+   platform.Size = Vector3.new(140,2,140)
    platform.Anchored = true
    platform.Position = Vector3.new(0,400,0)
    platform.BrickColor = BrickColor.new("Royal purple")
    platform.Material = Enum.Material.SmoothPlastic
 
+   -- Walls
    for _, offset in ipairs({
-      Vector3.new(0,10,60), Vector3.new(0,10,-60),
-      Vector3.new(60,10,0), Vector3.new(-60,10,0)
+      Vector3.new(0,10,70), Vector3.new(0,10,-70),
+      Vector3.new(70,10,0), Vector3.new(-70,10,0)
    }) do
       local wall = Instance.new("Part", castle)
-      wall.Size = Vector3.new(120,20,2)
+      wall.Size = Vector3.new(140,22,2)
       wall.Position = platform.Position + offset
       wall.Anchored = true
       wall.BrickColor = BrickColor.new("Really black")
       wall.Material = Enum.Material.Neon
    end
 
+   -- Roof
    local roof = Instance.new("Part", castle)
-   roof.Size = Vector3.new(120,2,120)
+   roof.Size = Vector3.new(140,2,140)
    roof.Position = platform.Position + Vector3.new(0,22,0)
    roof.Anchored = true
    roof.BrickColor = BrickColor.new("Royal purple")
    roof.Material = Enum.Material.SmoothPlastic
 
+   -- Table
    local table = Instance.new("Part", castle)
-   table.Size = Vector3.new(40,2,10)
-   table.Position = platform.Position + Vector3.new(0,5,0)
+   table.Size = Vector3.new(50,2,12)
+   table.Position = platform.Position + Vector3.new(0,4,0)
    table.Anchored = true
    table.BrickColor = BrickColor.new("Royal purple")
 
+   -- Floating Crystals
+   for i = 1, 6 do
+      local crystal = Instance.new("Part", castle)
+      crystal.Shape = Enum.PartType.Ball
+      crystal.Size = Vector3.new(4,4,4)
+      crystal.Position = platform.Position + Vector3.new(math.random(-50,50), math.random(10,25), math.random(-50,50))
+      crystal.Anchored = true
+      crystal.Material = Enum.Material.Neon
+      crystal.BrickColor = BrickColor.new("Bright violet")
+   end
+
+   -- Chairs
    for i = -2, 2 do
       if i ~= 0 then
-         local chair = Instance.new("Seat", castle)
-         chair.Size = Vector3.new(4,2,4)
-         chair.Position = table.Position + Vector3.new(i*8,2,8)
-         chair.Anchored = true
-         chair.BrickColor = BrickColor.new("Really black")
+         local chair1 = Instance.new("Seat", castle)
+         chair1.Size = Vector3.new(4,2,4)
+         chair1.Position = table.Position + Vector3.new(i*10,2,10)
+         chair1.Anchored = true
+         chair1.BrickColor = BrickColor.new("Really black")
 
-         local chair2 = chair:Clone()
+         local chair2 = chair1:Clone()
          chair2.Parent = castle
-         chair2.Position = table.Position + Vector3.new(i*8,2,-8)
+         chair2.Position = table.Position + Vector3.new(i*10,2,-10)
       end
    end
 
+   -- Mist and Light Effects
    local smoke = Instance.new("ParticleEmitter", platform)
-   smoke.Color = ColorSequence.new(Color3.fromRGB(200, 0, 200))
-   smoke.Size = NumberSequence.new(6)
-   smoke.Rate = 150
-   smoke.Lifetime = NumberRange.new(4)
-   smoke.Speed = NumberRange.new(2)
+   smoke.Color = ColorSequence.new(Color3.fromRGB(180, 0, 200))
+   smoke.Size = NumberSequence.new(8)
+   smoke.Rate = 180
+   smoke.Lifetime = NumberRange.new(5)
+   smoke.Speed = NumberRange.new(1)
+
+   local light = Instance.new("PointLight", platform)
+   light.Color = Color3.fromRGB(180, 0, 255)
+   light.Brightness = 2
+   light.Range = 80
 end
 
 createFullCastle()
@@ -116,138 +142,67 @@ MainTab:CreateKeybind({
    end,
 })
 
---// Summon Witches Command (fixed)
+--// Summon Witches Command
 LocalPlayer.Chatted:Connect(function(msg)
    if msg:lower() == "witches!" then
       local origin = LocalPlayer.Character and LocalPlayer.Character:FindFirstChild("HumanoidRootPart")
       if origin then
          for _, player in ipairs(Players:GetPlayers()) do
             if player ~= LocalPlayer and player.Character and player.Character:FindFirstChild("HumanoidRootPart") then
-               player.Character.HumanoidRootPart.CFrame = origin.CFrame + Vector3.new(math.random(-5,5), 2, math.random(-5,5))
+               player.Character.HumanoidRootPart.CFrame = origin.CFrame + Vector3.new(math.random(-7,7), 2, math.random(-7,7))
             end
          end
       end
    end
 end)
 
---// Core Powers
+--// Grab Finish Explosion (Dark Grab) - Keybind G
 MainTab:CreateKeybind({
-   Name = "Rush All",
-   CurrentKeybind = "T",
-   HoldToInteract = false,
-   Callback = function()
-      for _, player in ipairs(Players:GetPlayers()) do
-         if player ~= LocalPlayer then
-            ReplicatedStorage.events.DuoPlrEvents:FireServer("Rush", player.Name)
-         end
-      end
-   end,
-})
-
-MainTab:CreateKeybind({
-   Name = "Headlock All",
-   CurrentKeybind = "R",
-   HoldToInteract = false,
-   Callback = function()
-      for _, player in ipairs(Players:GetPlayers()) do
-         if player ~= LocalPlayer then
-            ReplicatedStorage.events.DuoPlrEvents:FireServer("DamageTool", player.Name)
-         end
-      end
-   end,
-})
-
-MainTab:CreateButton({
-   Name = "Gain Infinite Money",
-   Callback = function()
-      ReplicatedStorage.events.MoneyGain:FireServer(1e16)
-   end,
-})
-
-MainTab:CreateButton({
-   Name = "Infinite Yield",
-   Callback = function()
-      loadstring(game:HttpGet('https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source'))()
-   end,
-})
-
-MainTab:CreateButton({
-   Name = "Lose Fight",
-   Callback = function()
-      ReplicatedStorage.events.SoloPlrEvents:FireServer("LooseFight")
-   end,
-})
-
-MainTab:CreateButton({
-   Name = "Kill All",
-   Callback = function()
-      for _, player in ipairs(Players:GetPlayers()) do
-         if player ~= LocalPlayer then
-            ReplicatedStorage.events.DuoPlrEvents:FireServer("DamageTool", player.Name)
-         end
-      end
-      
-      local StarterGui = game:GetService("StarterGui")
-      StarterGui:SetCore("SendNotification", {
-         Title = "Baddie Attack",
-         Text = "SUFFER.",
-         Duration = 2
-      })
-
-      local char = LocalPlayer.Character
-      if char and char:FindFirstChild("HumanoidRootPart") then
-         local explosion = Instance.new("Explosion")
-         explosion.Position = char.HumanoidRootPart.Position
-         explosion.BlastRadius = 10
-         explosion.BlastPressure = 50000
-         explosion.Parent = workspace
-      end
-
-      task.wait(1.2)
-      LocalPlayer.Character:BreakJoints()
-   end,
-})
-
-MainTab:CreateButton({
-   Name = "Mace All",
-   Callback = function()
-      for _, player in ipairs(Players:GetPlayers()) do
-         if player ~= LocalPlayer then
-            ReplicatedStorage.events.DuoPlrEvents:FireServer("Rush", player.Name)
-            task.wait(0.1)
-            ReplicatedStorage.events.DuoPlrEvents:FireServer("Fire", player.Name)
-         end
-      end
-   end,
-})
-
---// NEW: Dark Grab (Single Target with G)
-MainTab:CreateKeybind({
-   Name = "Dark Grab Target",
+   Name = "Dark Grab Finish",
    CurrentKeybind = "G",
    HoldToInteract = false,
    Callback = function()
       local target = nil
-      Mouse.Button1Down:Connect(function()
-         local obj = Mouse.Target
-         if obj and obj:IsDescendantOf(workspace) then
-            local model = obj:FindFirstAncestorOfClass("Model")
-            local player = Players:GetPlayerFromCharacter(model)
-            if player and player ~= LocalPlayer then
-               target = player
-               ReplicatedStorage.events.DuoPlrEvents:FireServer("Rush", player.Name)
-
-               local fx = Instance.new("ParticleEmitter")
-               fx.Color = ColorSequence.new(Color3.fromRGB(50, 0, 100))
-               fx.Size = NumberSequence.new(5)
-               fx.Lifetime = NumberRange.new(2)
-               fx.Rate = 100
-               fx.Speed = NumberRange.new(0)
-               fx.Parent = model:FindFirstChild("HumanoidRootPart")
-
-               game.Debris:AddItem(fx, 2)
-            end
+      for _, player in ipairs(Players:GetPlayers()) do
+         if player ~= LocalPlayer and player.Character and player.Character:FindFirstChild("HumanoidRootPart") then
+            target = player
+            break
          end
-      end)
+      end
+
+      if target then
+         -- Initial Rush
+         ReplicatedStorage.events.DuoPlrEvents:FireServer("Rush", target.Name)
+
+         -- Particle (private for script user)
+         local char = LocalPlayer.Character
+         if char and char:FindFirstChild("HumanoidRootPart") then
+            local effect = Instance.new("ParticleEmitter", char.HumanoidRootPart)
+            effect.Color = ColorSequence.new(Color3.fromRGB(255, 0, 255))
+            effect.Size = NumberSequence.new(6)
+            effect.Rate = 300
+            effect.Lifetime = NumberRange.new(1)
+            effect.Speed = NumberRange.new(0.5)
+            game.Debris:AddItem(effect, 1)
+         end
+
+         -- Sound Effect
+         local sound = Instance.new("Sound", LocalPlayer.Character.HumanoidRootPart)
+         sound.SoundId = "rbxassetid://9125472915" -- mystical explosion
+         sound.Volume = 1.2
+         sound:Play()
+
+         -- Explosion + Reset
+         task.wait(1.2)
+         local explosion = Instance.new("Explosion")
+         explosion.Position = target.Character.HumanoidRootPart.Position
+         explosion.BlastRadius = 15
+         explosion.BlastPressure = 100000
+         explosion.Parent = workspace
+
+         target.Character:BreakJoints()
+         task.wait(0.5)
+         LocalPlayer.Character:BreakJoints()
+      end
    end,
 })
