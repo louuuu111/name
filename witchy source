@@ -124,6 +124,35 @@ local function createFullCastle()
    light.Color = Color3.fromRGB(180, 0, 255)
    light.Brightness = 2
    light.Range = 80
+
+   -- New Castle Rooms
+   local function createRoom(pos, name)
+      local room = Instance.new("Part", castle)
+      room.Name = name
+      room.Size = Vector3.new(40,20,40)
+      room.Position = pos
+      room.Anchored = true
+      room.Material = Enum.Material.SmoothPlastic
+      room.BrickColor = BrickColor.new("Royal purple")
+   end
+
+   createRoom(platform.Position + Vector3.new(80,10,0), "PotionChamber")
+   createRoom(platform.Position + Vector3.new(-80,10,0), "RitualSanctum")
+   createRoom(platform.Position + Vector3.new(0,10,80), "HallOfWhispers")
+
+   -- Exit Portal
+   local exit = Instance.new("Part", castle)
+   exit.Size = Vector3.new(8,1,8)
+   exit.Anchored = true
+   exit.Position = platform.Position + Vector3.new(0,1,65)
+   exit.BrickColor = BrickColor.new("Really black")
+   exit.Material = Enum.Material.Neon
+   exit.Touched:Connect(function(hit)
+      local hum = hit.Parent:FindFirstChild("HumanoidRootPart")
+      if hum and hit.Parent == LocalPlayer.Character then
+         hum.CFrame = CFrame.new(0, 10, 0)
+      end
+   end)
 end
 
 createFullCastle()
@@ -140,7 +169,7 @@ CastleTab:CreateButton({
 })
 
 --// Misty Teleport Keybind (C)
-MainTab:CreateKeybind({
+Dark MagicTab:CreateKeybind({
    Name = "Misty Teleport",
    CurrentKeybind = "C",
    HoldToInteract = false,
@@ -152,22 +181,47 @@ MainTab:CreateKeybind({
    end,
 })
 
---// Summon Witches Command
 LocalPlayer.Chatted:Connect(function(msg)
    if msg:lower() == "witches!" then
       local origin = LocalPlayer.Character and LocalPlayer.Character:FindFirstChild("HumanoidRootPart")
       if origin then
          for _, player in ipairs(Players:GetPlayers()) do
-            if player ~= LocalPlayer and player.Character and player.Character:FindFirstChild("HumanoidRootPart") then
-               player.Character.HumanoidRootPart.CFrame = origin.CFrame + Vector3.new(math.random(-7,7), 2, math.random(-7,7))
+            if player ~= LocalPlayer and isScriptUser(player) and player.Character and player.Character:FindFirstChild("HumanoidRootPart") then
+               local hrp = player.Character.HumanoidRootPart
+               hrp.CFrame = origin.CFrame + Vector3.new(math.random(-5,5), 2, math.random(-5,5))
+
+               -- Summon effects for script users
+               local burst = Instance.new("ParticleEmitter", hrp)
+               burst.Color = ColorSequence.new(Color3.fromRGB(180, 0, 255))
+               burst.Size = NumberSequence.new(4)
+               burst.Rate = 200
+               burst.Lifetime = NumberRange.new(1.5)
+               burst.Speed = NumberRange.new(3)
+               burst.EmissionDirection = Enum.NormalId.Top
+               game.Debris:AddItem(burst, 2)
+
+               local light = Instance.new("PointLight", hrp)
+               light.Color = Color3.fromRGB(180, 0, 255)
+               light.Range = 12
+               light.Brightness = 2
+               game.Debris:AddItem(light, 2)
+
+               local sound = Instance.new("Sound", hrp)
+               sound.SoundId = "rbxassetid://9125472915"
+               sound.Volume = 1
+               sound:Play()
+               game.Debris:AddItem(sound, 2)
             end
          end
       end
    end
 end)
 
---// Grab Finish Explosion (Dark Grab) - Keybind G
-MainTab:CreateKeybind({
+local MainSection = Dark MagicTab:CreateSection("Spells")
+local CastleSection = Dark MagicTab:CreateSection("Magica💜")
+
+--// Dark Grab Finish
+Dark MagicTab:CreateKeybind({
    Name = "Dark Grab Finish",
    CurrentKeybind = "G",
    HoldToInteract = false,
@@ -181,10 +235,8 @@ MainTab:CreateKeybind({
       end
 
       if target then
-         -- Initial Rush
          ReplicatedStorage.events.DuoPlrEvents:FireServer("Rush", target.Name)
 
-         -- Particle (private for script user)
          local char = LocalPlayer.Character
          if char and char:FindFirstChild("HumanoidRootPart") then
             local effect = Instance.new("ParticleEmitter", char.HumanoidRootPart)
@@ -196,13 +248,11 @@ MainTab:CreateKeybind({
             game.Debris:AddItem(effect, 1)
          end
 
-         -- Sound Effect
          local sound = Instance.new("Sound", LocalPlayer.Character.HumanoidRootPart)
          sound.SoundId = "rbxassetid://9125472915"
          sound.Volume = 1.2
          sound:Play()
 
-         -- Explosion + Reset
          task.wait(1.2)
          local explosion = Instance.new("Explosion")
          explosion.Position = target.Character.HumanoidRootPart.Position
@@ -215,5 +265,65 @@ MainTab:CreateKeybind({
          task.wait(0.5)
          LocalPlayer.Character:BreakJoints()
       end
+   end,
+})
+
+--// Shadow Cloak (Key: V)
+Dark MagicTab:CreateKeybind({
+   Name = "Shadow Cloak",
+   CurrentKeybind = "V",
+   HoldToInteract = false,
+   Callback = function()
+      local char = LocalPlayer.Character
+      if char then
+         for _, part in ipairs(char:GetDescendants()) do
+            if part:IsA("BasePart") then
+               part.Transparency = 0.6
+            end
+         end
+         task.delay(6, function()
+            for _, part in ipairs(char:GetDescendants()) do
+               if part:IsA("BasePart") then
+                  part.Transparency = 0
+               end
+            end
+         end)
+      end
+   end,
+})
+
+--// Curse Mark (Key: X)
+Dark MagicTab:CreateKeybind({
+   Name = "Curse Mark",
+   CurrentKeybind = "X",
+   HoldToInteract = false,
+   Callback = function()
+      for _, player in ipairs(Players:GetPlayers()) do
+         if player ~= LocalPlayer and player.Character and player.Character:FindFirstChild("Humanoid") then
+            player.Character.Humanoid.WalkSpeed = 6
+            task.delay(5, function()
+               player.Character.Humanoid.WalkSpeed = 16
+            end)
+         end
+      end
+   end,
+})
+
+--// Witch’s Roar (Key: Z)
+Dark MagicTab:CreateKeybind({
+   Name = "Witch’s Roar",
+   CurrentKeybind = "Z",
+   HoldToInteract = false,
+   Callback = function()
+      for _, player in ipairs(Players:GetPlayers()) do
+         if player ~= LocalPlayer and player.Character and player.Character:FindFirstChild("Humanoid") then
+            player.Character.Humanoid:TakeDamage(15)
+         end
+      end
+
+      local sound = Instance.new("Sound", LocalPlayer.Character.HumanoidRootPart)
+      sound.SoundId = "rbxassetid://9125472915"
+      sound.Volume = 2
+      sound:Play()
    end,
 })
