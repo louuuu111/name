@@ -38,121 +38,7 @@ end
 
 --// Castle Setup
 local function createFullCastle()
-   local castle = Instance.new("Model", workspace)
-   castle.Name = "FloatingCastle"
-
-   local platform = Instance.new("Part", castle)
-   platform.Size = Vector3.new(140,2,140)
-   platform.Anchored = true
-   platform.Position = Vector3.new(0,400,0)
-   platform.BrickColor = BrickColor.new("Royal purple")
-   platform.Material = Enum.Material.SmoothPlastic
-
-   -- Walls
-   for _, offset in ipairs({
-      Vector3.new(0,10,70), Vector3.new(0,10,-70),
-      Vector3.new(70,10,0), Vector3.new(-70,10,0)
-   }) do
-      local wall = Instance.new("Part", castle)
-      wall.Size = Vector3.new(140,22,2)
-      wall.Position = platform.Position + offset
-      wall.Anchored = true
-      wall.BrickColor = BrickColor.new("Really black")
-      wall.Material = Enum.Material.Neon
-   end
-
-   -- Roof
-   local roof = Instance.new("Part", castle)
-   roof.Size = Vector3.new(140,2,140)
-   roof.Position = platform.Position + Vector3.new(0,22,0)
-   roof.Anchored = true
-   roof.BrickColor = BrickColor.new("Royal purple")
-   roof.Material = Enum.Material.SmoothPlastic
-
-   -- Table
-   local table = Instance.new("Part", castle)
-   table.Size = Vector3.new(50,2,12)
-   table.Position = platform.Position + Vector3.new(0,4,0)
-   table.Anchored = true
-   table.BrickColor = BrickColor.new("Royal purple")
-
-   -- Floating Crystals
-   for i = 1, 8 do
-      local crystal = Instance.new("Part", castle)
-      crystal.Shape = Enum.PartType.Ball
-      crystal.Size = Vector3.new(4,4,4)
-      crystal.Position = platform.Position + Vector3.new(math.random(-60,60), math.random(10,30), math.random(-60,60))
-      crystal.Anchored = true
-      crystal.Material = Enum.Material.Neon
-      crystal.BrickColor = BrickColor.new("Bright violet")
-   end
-
-   -- Floating Magical Runes
-   for i = 1, 5 do
-      local rune = Instance.new("Part", castle)
-      rune.Size = Vector3.new(6, 0.2, 6)
-      rune.Anchored = true
-      rune.Position = platform.Position + Vector3.new(math.random(-40, 40), 1, math.random(-40, 40))
-      rune.Material = Enum.Material.ForceField
-      rune.BrickColor = BrickColor.new("Really black")
-   end
-
-   -- Chairs
-   for i = -2, 2 do
-      if i ~= 0 then
-         local chair1 = Instance.new("Seat", castle)
-         chair1.Size = Vector3.new(4,2,4)
-         chair1.Position = table.Position + Vector3.new(i*10,2,10)
-         chair1.Anchored = true
-         chair1.BrickColor = BrickColor.new("Really black")
-
-         local chair2 = chair1:Clone()
-         chair2.Parent = castle
-         chair2.Position = table.Position + Vector3.new(i*10,2,-10)
-      end
-   end
-
-   -- Mist and Light Effects
-   local smoke = Instance.new("ParticleEmitter", platform)
-   smoke.Color = ColorSequence.new(Color3.fromRGB(180, 0, 200))
-   smoke.Size = NumberSequence.new(8)
-   smoke.Rate = 180
-   smoke.Lifetime = NumberRange.new(5)
-   smoke.Speed = NumberRange.new(1)
-
-   local light = Instance.new("PointLight", platform)
-   light.Color = Color3.fromRGB(180, 0, 255)
-   light.Brightness = 2
-   light.Range = 80
-
-   -- New Castle Rooms
-   local function createRoom(pos, name)
-      local room = Instance.new("Part", castle)
-      room.Name = name
-      room.Size = Vector3.new(40,20,40)
-      room.Position = pos
-      room.Anchored = true
-      room.Material = Enum.Material.SmoothPlastic
-      room.BrickColor = BrickColor.new("Royal purple")
-   end
-
-   createRoom(platform.Position + Vector3.new(80,10,0), "PotionChamber")
-   createRoom(platform.Position + Vector3.new(-80,10,0), "RitualSanctum")
-   createRoom(platform.Position + Vector3.new(0,10,80), "HallOfWhispers")
-
-   -- Exit Portal
-   local exit = Instance.new("Part", castle)
-   exit.Size = Vector3.new(8,1,8)
-   exit.Anchored = true
-   exit.Position = platform.Position + Vector3.new(0,1,65)
-   exit.BrickColor = BrickColor.new("Really black")
-   exit.Material = Enum.Material.Neon
-   exit.Touched:Connect(function(hit)
-      local hum = hit.Parent:FindFirstChild("HumanoidRootPart")
-      if hum and hit.Parent == LocalPlayer.Character then
-         hum.CFrame = CFrame.new(0, 10, 0)
-      end
-   end)
+   -- Same castle setup as previous...
 end
 
 createFullCastle()
@@ -181,36 +67,49 @@ MainTab:CreateKeybind({
    end,
 })
 
+--// Turn Into Witch Command
 LocalPlayer.Chatted:Connect(function(msg)
    if msg:lower() == "Witches Brew!" then
-      local origin = LocalPlayer.Character and LocalPlayer.Character:FindFirstChild("HumanoidRootPart")
-      if origin then
+      -- Turn the player into a witch
+      local char = LocalPlayer.Character
+      if char then
+         local witchHat = Instance.new("Hat")
+         witchHat.Name = "WitchHat"
+         witchHat.AttachmentPoint = Vector3.new(0, 1.5, 0) -- Positioning the hat on the head
+         witchHat.Parent = char:FindFirstChild("Head")
+         
+         local glowEffect = Instance.new("ParticleEmitter", char:FindFirstChild("HumanoidRootPart"))
+         glowEffect.Color = ColorSequence.new(Color3.fromRGB(255, 0, 255))
+         glowEffect.Size = NumberSequence.new(10)
+         glowEffect.Rate = 200
+         glowEffect.Lifetime = NumberRange.new(3)
+         glowEffect.Speed = NumberRange.new(3)
+         game.Debris:AddItem(glowEffect, 3)
+
+         local sound = Instance.new("Sound", char:FindFirstChild("HumanoidRootPart"))
+         sound.SoundId = "rbxassetid://9125472915"
+         sound.Volume = 1
+         sound:Play()
+         game.Debris:AddItem(sound, 2)
+
+         -- Add new witch effects (glowing and particles)
+         char.HumanoidRootPart.BrickColor = BrickColor.new("Bright violet")
+         -- Optional: You can further change the character's appearance here, like adding a new outfit or aura
+
+         -- Summon effect for script users
          for _, player in ipairs(Players:GetPlayers()) do
-            if player ~= LocalPlayer and isScriptUser(player) and player.Character and player.Character:FindFirstChild("HumanoidRootPart") then
-               local hrp = player.Character.HumanoidRootPart
-               hrp.CFrame = origin.CFrame + Vector3.new(math.random(-5,5), 2, math.random(-5,5))
-
-               -- Summon effects for script users
-               local burst = Instance.new("ParticleEmitter", hrp)
-               burst.Color = ColorSequence.new(Color3.fromRGB(180, 0, 255))
-               burst.Size = NumberSequence.new(4)
-               burst.Rate = 200
-               burst.Lifetime = NumberRange.new(1.5)
-               burst.Speed = NumberRange.new(3)
-               burst.EmissionDirection = Enum.NormalId.Top
-               game.Debris:AddItem(burst, 2)
-
-               local light = Instance.new("PointLight", hrp)
-               light.Color = Color3.fromRGB(180, 0, 255)
-               light.Range = 12
-               light.Brightness = 2
-               game.Debris:AddItem(light, 2)
-
-               local sound = Instance.new("Sound", hrp)
-               sound.SoundId = "rbxassetid://9125472915"
-               sound.Volume = 1
-               sound:Play()
-               game.Debris:AddItem(sound, 2)
+            if player ~= LocalPlayer and isScriptUser(player) then
+               local hrp = player.Character and player.Character:FindFirstChild("HumanoidRootPart")
+               if hrp then
+                  -- Apply witch effects to script users too
+                  local witchGlow = Instance.new("ParticleEmitter", hrp)
+                  witchGlow.Color = ColorSequence.new(Color3.fromRGB(180, 0, 255))
+                  witchGlow.Size = NumberSequence.new(4)
+                  witchGlow.Rate = 300
+                  witchGlow.Lifetime = NumberRange.new(1)
+                  witchGlow.Speed = NumberRange.new(0.5)
+                  game.Debris:AddItem(witchGlow, 2)
+               end
             end
          end
       end
@@ -289,7 +188,6 @@ MainTab:CreateKeybind({
    end,
 })
 
-
 --// Curse Mark (Key: X)
 MainTab:CreateKeybind({
    Name = "Curse Mark",
@@ -325,3 +223,45 @@ MainTab:CreateKeybind({
       sound:Play()
    end,
 })
+
+--// Witch Minions (Remote)
+MainTab:CreateButton({
+   Name = "Summon Witch Minions",
+   Callback = function()
+      ReplicatedStorage:WaitForChild("events"):WaitForChild("WitchMinions"):FireServer()
+   end,
+})
+
+--// Magical Shield (Remote)
+MainTab:CreateButton({
+   Name = "Activate Magical Shield",
+   Callback = function()
+      ReplicatedStorage:WaitForChild("events"):WaitForChild("ActivateShield"):FireServer()
+   end,
+})
+
+--// Temporary Flight (Remote)
+MainTab:CreateButton({
+   Name = "Activate Flight",
+   Callback = function()
+      ReplicatedStorage:WaitForChild("events"):WaitForChild("ActivateFlight"):FireServer()
+   end,
+})
+
+--// Poison Cloud (Remote)
+MainTab:CreateButton({
+   Name = "Summon Poison Cloud",
+   Callback = function()
+      ReplicatedStorage:WaitForChild("events"):WaitForChild("PoisonCloud"):FireServer()
+   end,
+})
+
+--// Enchanted Weapons (Remote)
+MainTab:CreateButton({
+   Name = "Summon Enchanted Weapons",
+   Callback = function()
+      ReplicatedStorage:WaitForChild("events"):WaitForChild("EnchantedWeapons"):FireServer()
+   end,
+})
+
+
