@@ -183,7 +183,7 @@ MainTab:CreateKeybind({
 
 
 LocalPlayer.Chatted:Connect(function(msg)
-   if msg:lower() == "witches!" then
+   if msg:lower() == "Witches Brew!" then
       local origin = LocalPlayer.Character and LocalPlayer.Character:FindFirstChild("HumanoidRootPart")
       if origin then
          for _, player in ipairs(Players:GetPlayers()) do
@@ -219,11 +219,8 @@ LocalPlayer.Chatted:Connect(function(msg)
 end)
 
 
-local Dark MagicSection = Dark MagicTab:CreateSection("Spells")
-local Dark MagicSection = Dark MagicTab:CreateSection("Magica")
-
 --// Dark Grab Finish
-Dark MagicTab:CreateKeybind({
+MainTab:CreateKeybind({
    Name = "Dark Grab Finish",
    CurrentKeybind = "G",
    HoldToInteract = false,
@@ -272,7 +269,7 @@ Dark MagicTab:CreateKeybind({
 
 
 --// Shadow Cloak (Key: V)
-Dark MagicTab:CreateKeybind({
+MainTab:CreateKeybind({
    Name = "Shadow Cloak",
    CurrentKeybind = "V",
    HoldToInteract = false,
@@ -297,7 +294,7 @@ Dark MagicTab:CreateKeybind({
 
 
 --// Curse Mark (Key: X)
-Dark MagicTab:CreateKeybind({
+MainTab:CreateKeybind({
    Name = "Curse Mark",
    CurrentKeybind = "X",
    HoldToInteract = false,
@@ -315,7 +312,7 @@ Dark MagicTab:CreateKeybind({
 
 
 --// Witch’s Roar (Key: Z)
-Dark MagicTab:CreateKeybind({
+MainTab:CreateKeybind({
    Name = "Witch’s Roar",
    CurrentKeybind = "Z",
    HoldToInteract = false,
