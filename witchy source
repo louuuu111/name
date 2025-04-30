@@ -265,3 +265,162 @@ MainTab:CreateButton({
 })
 
 
+local Keybind = MainTab:CreateKeybind({
+   Name = "Rush All",
+   CurrentKeybind = "T",
+   HoldToInteract = false,
+   Flag = "Keybind1", -- A flag is the identifier for the configuration file, make sure every element has a different flag if you're using configuration saving to ensure no overlaps
+   Callback = function(Keybind)
+               local Players = game:GetService("Players")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+
+local LocalPlayer = Players.LocalPlayer
+
+local function rushAll()
+    for _, player in ipairs(Players:GetPlayers()) do
+        if player ~= LocalPlayer then
+            local args = {
+                [1] = "Rush",
+                [2] = player.Name
+            }
+            ReplicatedStorage:WaitForChild("events"):WaitForChild("DuoPlrEvents"):FireServer(unpack(args))
+        end
+    end
+end
+
+-- You can connect it to a keybind too if you want:
+local UserInputService = game:GetService("UserInputService")
+
+UserInputService.InputBegan:Connect(function(input)
+    if input.KeyCode == Enum.KeyCode.T then -- press T to Rush All
+        rushAll()
+    end
+end)
+   end,
+})
+
+local Keybind = MainTab:CreateKeybind({
+   Name = "HeadLock All",
+   CurrentKeybind = "R",
+   HoldToInteract = false,
+   Flag = "Keybind1", -- A flag is the identifier for the configuration file, make sure every element has a different flag if you're using configuration saving to ensure no overlaps
+   Callback = function(Keybind)
+              local Players = game:GetService("Players")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local UserInputService = game:GetService("UserInputService")
+
+local LocalPlayer = Players.LocalPlayer
+
+local function damageAll()
+    for _, player in ipairs(Players:GetPlayers()) do
+        if player ~= LocalPlayer and player.Character and player.Character:FindFirstChild("HumanoidRootPart") then
+            local args = {
+                [1] = "DamageTool",
+                [2] = player.Name
+            }
+            ReplicatedStorage:WaitForChild("events"):WaitForChild("DuoPlrEvents"):FireServer(unpack(args))
+        end
+    end
+end
+
+UserInputService.InputBegan:Connect(function(input)
+    if input.KeyCode == Enum.KeyCode.R then -- Press R
+        damageAll()
+    end
+end)
+   end,
+})
+
+local Button = MainTab:CreateButton({
+   Name = "Infinite Yield",
+   Callback = function()
+            loadstring(game:HttpGet('https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source'))()
+   end,
+})
+
+local Button = MainTab:CreateButton({
+   Name = "Money Gain",
+   Callback = function()
+            local args = {
+    [1] = 10000000000000000
+}
+
+game:GetService("ReplicatedStorage"):WaitForChild("events"):WaitForChild("MoneyGain"):FireServer(unpack(args))
+   end,
+})
+
+local Button = MainTab:CreateButton({
+   Name = "Lose Fight",
+   Callback = function()
+            local args = {
+    [1] = "LooseFight"
+}
+
+game:GetService("ReplicatedStorage"):WaitForChild("events"):WaitForChild("SoloPlrEvents"):FireServer(unpack(args))
+   end,
+})
+
+
+local Button = MainTab:CreateButton({
+   Name = "Kill All",
+   Callback = function()
+             --// 1. DamageTool everyone first
+for _, player in pairs(game.Players:GetPlayers()) do
+    if player ~= game.Players.LocalPlayer then
+        local args = {
+            [1] = "DamageTool",
+            [2] = player.Name
+        }
+        game:GetService("ReplicatedStorage"):WaitForChild("events"):WaitForChild("DuoPlrEvents"):FireServer(unpack(args))
+    end
+end
+
+--// 2. Pop up a message saying "SUFFER."
+local StarterGui = game:GetService("StarterGui")
+StarterGui:SetCore("SendNotification", {
+    Title = "Baddie Attack",
+    Text = "SUFFER.",
+    Duration = 2,
+})
+
+--// 3. Create a dramatic explosion effect around you
+local char = game.Players.LocalPlayer.Character
+if char and char:FindFirstChild("HumanoidRootPart") then
+    local explosion = Instance.new("Explosion")
+    explosion.Position = char.HumanoidRootPart.Position
+    explosion.BlastRadius = 10
+    explosion.BlastPressure = 50000
+    explosion.Parent = workspace
+end
+
+--// 4. Wait a moment then RESET yourself to finish the kill
+task.wait(1.2)
+game.Players.LocalPlayer.Character:BreakJoints()
+   end,
+})
+
+local Button = MainTab:CreateButton({
+   Name = "Mace All",
+   Callback = function()
+            for _, player in pairs(game.Players:GetPlayers()) do
+    if player ~= game.Players.LocalPlayer then
+        -- Rush them first
+        local argsRush = {
+            [1] = "Rush",
+            [2] = player.Name
+        }
+        game:GetService("ReplicatedStorage"):WaitForChild("events"):WaitForChild("DuoPlrEvents"):FireServer(unpack(argsRush))
+        
+        task.wait(0.1) -- small wait so server registers Rush
+        
+        -- Fire (Pepper Spray) them after Rush
+        local argsFire = {
+            [1] = "Fire",
+            [2] = player.Name
+        }
+        game:GetService("ReplicatedStorage"):WaitForChild("events"):WaitForChild("DuoPlrEvents"):FireServer(unpack(argsFire))
+    end
+end
+   end,
+})
+
