@@ -213,3 +213,175 @@ local Input = MainTab:CreateInput({
         game:GetService("ReplicatedStorage"):WaitForChild("events"):WaitForChild("Announcement"):FireServer(unpack(args))
     end,
 })
+
+local Button = MainTab:CreateButton({
+   Name = "Smoke",
+   Callback = function()
+            local character = game.Players.LocalPlayer.Character
+local humanoid = character:FindFirstChildOfClass("Humanoid")
+
+-- Animation
+local anim = Instance.new("Animation")
+anim.AnimationId = "rbxassetid://507766388" -- Chill idle animation
+local loaded = humanoid:LoadAnimation(anim)
+loaded:Play()
+
+-- Fake Blunt Prop
+local blunt = Instance.new("Part")
+blunt.Size = Vector3.new(0.2, 0.2, 1)
+blunt.BrickColor = BrickColor.new("White")
+blunt.Material = Enum.Material.SmoothPlastic
+blunt.Anchored = false
+blunt.CanCollide = false
+blunt.Name = "Blunt"
+
+-- Weld it to the hand
+local hand = character:FindFirstChild("RightHand") or character:FindFirstChild("Right Arm")
+blunt.CFrame = hand.CFrame * CFrame.new(0, 0, -0.5)
+blunt.Parent = character
+
+local weld = Instance.new("WeldConstraint")
+weld.Part0 = blunt
+weld.Part1 = hand
+weld.Parent = blunt
+
+-- Smoke Particle
+local smoke = Instance.new("ParticleEmitter")
+smoke.Texture = "rbxassetid://258128463"
+smoke.Rate = 20
+smoke.Speed = NumberRange.new(0.5, 1)
+smoke.Lifetime = NumberRange.new(0.5, 1.2)
+smoke.Size = NumberSequence.new(0.8)
+smoke.Parent = blunt
+
+-- Cleanup
+task.delay(6, function()
+	loaded:Stop()
+	smoke.Enabled = false
+	blunt:Destroy()
+end)
+
+   end,
+})
+
+local Button = MainTab:CreateButton({
+   Name = "Wind Blast (press c on someone)",
+   Callback = function()
+           local UIS = game:GetService("UserInputService")
+local Players = game:GetService("Players")
+local LocalPlayer = Players.LocalPlayer
+local Mouse = LocalPlayer:GetMouse()
+local RS = game:GetService("ReplicatedStorage")
+local DuoPlrEvents = RS:WaitForChild("events"):WaitForChild("DuoPlrEvents")
+
+UIS.InputBegan:Connect(function(input, gp)
+    if gp then return end
+    if input.KeyCode == Enum.KeyCode.C then
+        local target = Mouse.Target
+        if target and target.Parent then
+            local model = target:FindFirstAncestorWhichIsA("Model")
+            if model and Players:GetPlayerFromCharacter(model) then
+                local victim = Players:GetPlayerFromCharacter(model)
+                -- FIRE RUSH
+                DuoPlrEvents:FireServer("Rush", victim.Name)
+            end
+        end
+    end
+end)
+
+   end,
+})
+
+local Button = MainTab:CreateButton({
+   Name = "Caribbean Castle",
+   Callback = function()
+           local Players = game:GetService("Players")
+local LocalPlayer = Players.LocalPlayer
+local Character = LocalPlayer.Character or LocalPlayer.CharacterAdded:Wait()
+
+-- Base only for script users
+local function isScriptUser()
+    return true
+end
+
+if isScriptUser() then
+    local baseCenter = Vector3.new(0, 300, 0)
+
+    -- Floor
+    local base = Instance.new("Part")
+    base.Size = Vector3.new(150, 2, 150)
+    base.Anchored = true
+    base.Position = baseCenter
+    base.Material = Enum.Material.SmoothPlastic
+    base.BrickColor = BrickColor.new("Bright bluish green")
+    base.Name = "FloatingBase"
+    base.Parent = workspace
+
+    -- Walls
+    local wallHeight = 20
+    local wallThickness = 2
+    local wallLength = 150
+
+    local function makeWall(pos, size)
+        local wall = Instance.new("Part")
+        wall.Size = size
+        wall.Anchored = true
+        wall.Position = pos
+        wall.BrickColor = BrickColor.new("Sea green")
+        wall.Material = Enum.Material.SmoothPlastic
+        wall.Parent = workspace
+    end
+
+    -- 4 walls
+    makeWall(baseCenter + Vector3.new(0, wallHeight/2, wallLength/2), Vector3.new(wallLength, wallHeight, wallThickness)) -- Front
+    makeWall(baseCenter + Vector3.new(0, wallHeight/2, -wallLength/2), Vector3.new(wallLength, wallHeight, wallThickness)) -- Back
+    makeWall(baseCenter + Vector3.new(wallLength/2, wallHeight/2, 0), Vector3.new(wallThickness, wallHeight, wallLength)) -- Right
+    makeWall(baseCenter + Vector3.new(-wallLength/2, wallHeight/2, 0), Vector3.new(wallThickness, wallHeight, wallLength)) -- Left
+
+    -- Roof
+    local roof = Instance.new("Part")
+    roof.Size = Vector3.new(150, 1, 150)
+    roof.Anchored = true
+    roof.Position = baseCenter + Vector3.new(0, wallHeight + 1, 0)
+    roof.BrickColor = BrickColor.new("Toothpaste")
+    roof.Material = Enum.Material.SmoothPlastic
+    roof.Parent = workspace
+
+    -- Sparkle Decor
+    local sparkles = Instance.new("ParticleEmitter")
+    sparkles.Texture = "rbxassetid://258128463"
+    sparkles.Rate = 35
+    sparkles.Lifetime = NumberRange.new(1.5, 2.5)
+    sparkles.Speed = NumberRange.new(1, 2)
+    sparkles.Size = NumberSequence.new(1)
+    sparkles.Color = ColorSequence.new(Color3.fromRGB(0, 200, 255))
+    sparkles.Parent = base
+
+    -- Island NPC
+    local npc = Instance.new("Model", base)
+    npc.Name = "IslandNPC"
+
+    local head = Instance.new("Part")
+    head.Name = "Head"
+    head.Size = Vector3.new(2, 1, 1)
+    head.Position = baseCenter + Vector3.new(0, 5, 0)
+    head.Anchored = true
+    head.BrickColor = BrickColor.new("Reddish brown")
+    head.Parent = npc
+
+    local torso = Instance.new("Part")
+    torso.Name = "Torso"
+    torso.Size = Vector3.new(2, 2, 1)
+    torso.Position = head.Position - Vector3.new(0, 1.5, 0)
+    torso.Anchored = true
+    torso.BrickColor = BrickColor.new("Cocoa")
+    torso.Parent = npc
+
+    -- TP you to the base
+    if Character and Character:FindFirstChild("HumanoidRootPart") then
+        Character:MoveTo(baseCenter + Vector3.new(0, 5, 0))
+    end
+end
+
+   end,
+})
