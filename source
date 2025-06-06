@@ -1,9 +1,9 @@
 local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
 
 local Window = Rayfield:CreateWindow({
-   Name = "Loading...",
+   Name = "Baddies Caribbean",
    Icon = 0, -- Icon in Topbar. Can use Lucide Icons (string) or Roblox Image (number). 0 to use no icon (default).
-   LoadingTitle = "Baddies Caribbean",
+   LoadingTitle = "Loading...",
    LoadingSubtitle = "by Jace",
    Theme = "Ocean - Ocean", -- Check https://docs.sirius.menu/rayfield/configuration/themes
 
@@ -196,4 +196,20 @@ local Button = MainTab:CreateButton({
     end
 end
    end,
+})
+
+local Input = MainTab:CreateInput({
+    Name = "Announcement",
+    CurrentValue = "",
+    PlaceholderText = "Type your announcement here...",
+    RemoveTextAfterFocusLost = false,
+    Flag = "Input1",
+    Callback = function(Text)
+        -- Fire the Announcement Remote with the input text
+        local args = {
+            [1] = Text
+        }
+
+        game:GetService("ReplicatedStorage"):WaitForChild("events"):WaitForChild("Announcement"):FireServer(unpack(args))
+    end,
 })
