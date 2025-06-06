@@ -1,11 +1,11 @@
 local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
 
 local Window = Rayfield:CreateWindow({
-   Name = "my script for me only",
+   Name = "Loading...",
    Icon = 0, -- Icon in Topbar. Can use Lucide Icons (string) or Roblox Image (number). 0 to use no icon (default).
    LoadingTitle = "Baddies Caribbean",
-   LoadingSubtitle = "by Jace and Landon x",
-   Theme = "Dark Blue - DarkBlue", -- Check https://docs.sirius.menu/rayfield/configuration/themes
+   LoadingSubtitle = "by Jace",
+   Theme = "Ocean - Ocean", -- Check https://docs.sirius.menu/rayfield/configuration/themes
 
    DisableRayfieldPrompts = false,
    DisableBuildWarnings = false, -- Prevents Rayfield from warning when the script has a version mismatch with the interface
@@ -25,12 +25,12 @@ local Window = Rayfield:CreateWindow({
    KeySystem = true, -- Set this to true to use our key system
    KeySettings = {
       Title = "SilkPress Quaker",
-      Subtitle = "sofia, trey, riz, tristan was here...",
+      Subtitle = "Riz was here...",
       Note = "discord channel for key",
-      FileName = "DoneKey", 
+      FileName = "BackKey", 
       SaveKey = false, -- 
       GrabKeyFromSite = false,
-      Key = {"Done"}
+      Key = {"WeAreBack"}
    }
 })
 
