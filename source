@@ -667,7 +667,7 @@ local character = player.Character or player.CharacterAdded:Wait()
 local hrp = character:WaitForChild("HumanoidRootPart")
 
 -- Height offset for floating cave
-local floatHeight = 150
+local floatHeight = 130
 
 -- Function to clear previous cave if exists
 local function clearOldCave()
