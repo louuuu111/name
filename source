@@ -27,10 +27,10 @@ local Window = Rayfield:CreateWindow({
       Title = "SilkPress Quaker",
       Subtitle = "Riz was here...",
       Note = "No Entry For You | No Ticket",
-      FileName = "BackKey", 
+      FileName = "QuitKey", 
       SaveKey = false, -- 
       GrabKeyFromSite = false,
-      Key = {"WeAreBack"}
+      Key = {"Inactive"}
    }
 })
 
