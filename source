@@ -742,7 +742,7 @@ local ChatService = game:GetService("StarterGui")
 -- 🔐 WHITELIST SYSTEM
 local AllowedUsers = {
     ["BaddiesCarbbiean"] = true,
-    ["AnotherUser"] = true,
+    ["BaddiesHolder0"] = true,
     -- Add more if needed
 }
 
