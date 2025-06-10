@@ -635,92 +635,70 @@ teleportToCave(cave)
 local Button = MainTab:CreateButton({
    Name = "Lightning Strike",
    Callback = function()
-   	local Players = game:GetService("Players")
-local ReplicatedStorage = game:GetService("ReplicatedStorage")
-local UserInputService = game:GetService("UserInputService")
-local RunService = game:GetService("RunService")
-local LocalPlayer = Players.LocalPlayer
-local Mouse = LocalPlayer:GetMouse()
+   	--// Whitelist check
+local whitelist = {
+    ["BaddiesCarbbiean"] = true
+}
+local player = game.Players.LocalPlayer
+if not whitelist[player.Name] then return end
 
--- Remote Setup
-local rushRemote = ReplicatedStorage:WaitForChild("events"):WaitForChild("DuoPlrEvents")
+--// Services
+local rs = game:GetService("ReplicatedStorage")
+local uis = game:GetService("UserInputService")
+local events = rs:WaitForChild("events"):WaitForChild("DuoPlrEvents")
 
--- Settings
-local WHITELIST = { ["BaddiesCarbbiean"] = true }
-local spellPhrase = "come forth, wind"
-local spellActive = false
-local cooldown = false
+--// Function: Lightning Strike Rush
+local function lightningStrike()
+    local char = player.Character
+    if not char or not char:FindFirstChild("HumanoidRootPart") then return end
+    local hrp = char.HumanoidRootPart
 
--- Teleport Back Helper
-local function teleportBack(position)
-    local char = LocalPlayer.Character
-    if char and char:FindFirstChild("HumanoidRootPart") then
-        char:MoveTo(position)
-    end
-end
+    -- Save original position
+    local originalPosition = hrp.Position
 
--- Lightning Effect
-local function lightningStrike(target)
-    local attachment = Instance.new("Attachment", target)
-    
-    local bolt = Instance.new("Beam")
-    bolt.Attachment0 = attachment
-    bolt.Attachment1 = attachment
-    bolt.Width0 = 0.4
-    bolt.Width1 = 0.4
-    bolt.Color = ColorSequence.new(Color3.fromRGB(170, 255, 255))
-    bolt.LightEmission = 1
-    bolt.Texture = "rbxassetid://130207098"
-    bolt.TextureSpeed = 1
-    bolt.FaceCamera = true
-    bolt.Parent = target
-    
-    local sound = Instance.new("Sound", target)
-    sound.SoundId = "rbxassetid://138186576" -- Thunder sound
-    sound.Volume = 3
-    sound:Play()
-    
-    game.Debris:AddItem(bolt, 0.6)
-    game.Debris:AddItem(sound, 1)
-end
-
--- Click Trigger
-Mouse.Button1Down:Connect(function()
-    if spellActive and not cooldown and WHITELIST[LocalPlayer.Name] then
-        local target = Mouse.Target
-        if target and target.Parent and Players:GetPlayerFromCharacter(target.Parent) then
-            cooldown = true
-            spellActive = false
-
-            local victimPlayer = Players:GetPlayerFromCharacter(target.Parent)
-            local myPos = LocalPlayer.Character and LocalPlayer.Character:FindFirstChild("HumanoidRootPart") and LocalPlayer.Character.HumanoidRootPart.Position
-
-            -- Lightning VFX
-            lightningStrike(target.Parent)
-
-            -- Wait a moment
-            task.wait(0.2)
-
-            -- Rush/Fling Target
-            local args = {
-                [1] = "Rush",
-                [2] = victimPlayer.Name
-            }
-            rushRemote:FireServer(unpack(args))
-
-            -- Restore Position
-            task.delay(2, function()
-                if myPos then teleportBack(myPos) end
-                cooldown = false
-            end)
+    -- Get nearby players
+    local range = 100
+    local potentialTargets = {}
+    for _, plr in pairs(game.Players:GetPlayers()) do
+        if plr ~= player and plr.Character and plr.Character:FindFirstChild("HumanoidRootPart") then
+            local distance = (hrp.Position - plr.Character.HumanoidRootPart.Position).Magnitude
+            if distance <= range then
+                table.insert(potentialTargets, plr)
+            end
         end
     end
-end)
 
--- Spell Word Activation
-LocalPlayer.Chatted:Connect(function(msg)
-    if msg:lower() == spellPhrase and WHITELIST[LocalPlayer.Name] then
-        spellActive = true
+    -- Pick random player
+    if #potentialTargets == 0 then return end
+    local target = potentialTargets[math.random(1, #potentialTargets)]
+
+    -- VFX (lightning effect)
+    local bolt = Instance.new("Part")
+    bolt.Anchored = true
+    bolt.CanCollide = false
+    bolt.Size = Vector3.new(0.2, 20, 0.2)
+    bolt.Color = Color3.fromRGB(255, 255, 255)
+    bolt.Material = Enum.Material.Neon
+    bolt.CFrame = CFrame.new(target.Character.HumanoidRootPart.Position + Vector3.new(0, 10, 0))
+    bolt.Parent = workspace
+    game:GetService("Debris"):AddItem(bolt, 0.3)
+
+    -- Rush the target
+    events:FireServer("Rush", target.Name)
+
+    -- TP you back after 3 seconds
+    task.delay(3, function()
+        if char and hrp then
+            hrp.CFrame = CFrame.new(originalPosition)
+        end
+    end)
+end
+
+--// Keybind (Press L to activate)
+uis.InputBegan:Connect(function(input, gp)
+    if gp then return end
+    if input.KeyCode == Enum.KeyCode.L then
+        lightningStrike()
     end
 end)
 
