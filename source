@@ -1,6 +1,6 @@
 local Whitelist = {
     ["BaddiesCarbbiean"] = true,
-    ["MFMacShow"] = true,
+    ["BaddiesHolder0"] = true,
     -- add more if needed
 }
 
