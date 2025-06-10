@@ -706,7 +706,7 @@ end)
 })
 
 local Button = Maintab:CreateButton({
-   Name = "Fluctus Impulsa",
+   Name = "Fluctua Impulsa",
    Callback = function()
   	-- 🌀 FLUCTUA IMPULSA: Chat-based Tornado Rush Spell
 local Players = game:GetService("Players")
