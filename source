@@ -652,7 +652,7 @@ local chat = game:GetService("Players").LocalPlayer
 --// Config
 local TORNADO_DURATION = 4
 local TORNADO_RANGE = 30
-local TORNADO_KEYBIND = Enum.KeyCode.K
+local TORNADO_KEYBIND = Enum.KeyCode.Q
 local TORNADO_COMMAND = "Fluctua Impulsa"
 
 --// Function: Create Tornado Effect
