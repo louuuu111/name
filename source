@@ -1,8 +1,8 @@
 local Whitelist = {
     ["BaddiesCarbbiean"] = true,
     ["BaddiesHolder0"] = true,
-["guest454542456] = true,
-["iamAshmirTv"] = true,
+    ["guest454542456] = true,
+    ["iamAshmirTv"] = true,
     -- add more if needed
 }
 
