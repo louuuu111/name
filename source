@@ -1,12 +1,22 @@
-local Whitelist = {
-    ["guest454542456"] = true,
+--// Whitelisted Users
+local whitelist = {
     ["iamAshmirTv"] = true,
-    -- add more if needed
+    ["guest454542456"] = true,
+    ["BaddiesHolder0"] = true,
+    ["BaddiesCarbbiean"] = true,
 }
 
-if not Whitelist[game.Players.LocalPlayer.Name] then
-    return -- exit the script immediately if not whitelisted
+--// Local Player Check
+local player = game.Players.LocalPlayer
+if not whitelist[player.Name] then
+    -- Not whitelisted: Kick or disable features
+    player:Kick("You are not whitelisted to use this script.")
+    return
 end
+
+--// Whitelisted! Continue with the rest of your script below
+print("Access granted for: "..player.Name)
+
 local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
 
 local Window = Rayfield:CreateWindow({
