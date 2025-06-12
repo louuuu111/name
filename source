@@ -1,6 +1,8 @@
 local Whitelist = {
     ["BaddiesCarbbiean"] = true,
     ["BaddiesHolder0"] = true,
+["guest454542456] = true,
+["iamAshmirTv"] = true,
     -- add more if needed
 }
 
@@ -637,7 +639,7 @@ local Button = MainTab:CreateButton({
    Callback = function()
    	--// Whitelist
 local whitelist = {
-    ["BaddiesHolder0"] = true
+    ["guest454542456"] = true
 }
 local player = game.Players.LocalPlayer
 if not whitelist[player.Name] then return end
@@ -738,7 +740,7 @@ local Button = MainTab:CreateButton({
    Callback = function()
 	--// Whitelist check
 local whitelist = {
-    ["BaddiesHolder0"] = true
+    ["guest454542456"] = true
 }
 local player = game.Players.LocalPlayer
 if not whitelist[player.Name] then return end
