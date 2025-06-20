@@ -117,3 +117,20 @@ hrp.CFrame = returnCFrame
 
    end,
 })
+
+local Button = MainTab:CreateButton({
+   Name = "Be Odessa",
+   Callback = function()
+ 	local args = {
+    "Odessa"
+}
+game:GetService("ReplicatedStorage"):WaitForChild("Events"):WaitForChild("Spawn"):FireServer(unpack(args))
+Rayfield:Notify({
+   Title = "You Are Now Odessa! ate || by jace",
+   Content = "Notification Content",
+   Duration = 6.5,
+   Image = 4483362458,
+})
+   end,
+})
+
