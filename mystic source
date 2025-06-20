@@ -126,11 +126,5 @@ local Button = MainTab:CreateButton({
 }
 game:GetService("ReplicatedStorage"):WaitForChild("Events"):WaitForChild("Spawn"):FireServer(unpack(args))
 
-Rayfield:Notify({
-   Title = "You Are Now Odessa! ate || by jace",
-   Content = "Period",
-   Duration = 6.5,
-   Image = 4483362458,
-})
    end,
 })
