@@ -1,1 +1,118 @@
 
+local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
+
+local Window = Rayfield:CreateWindow({
+   Name = "Mystic Falls",
+   Icon = 0, -- Icon in Topbar. Can use Lucide Icons (string) or Roblox Image (number). 0 to use no icon (default).
+   LoadingTitle = "Loading...",
+   LoadingSubtitle = "by Jace",
+   Theme = "Ocean - Ocean", -- Check https://docs.sirius.menu/rayfield/configuration/themes
+
+   DisableRayfieldPrompts = false,
+   DisableBuildWarnings = false, -- Prevents Rayfield from warning when the script has a version mismatch with the interface
+
+   ConfigurationSaving = {
+      Enabled = false,
+      FolderName = nil, -- Create a custom folder for your hub/game
+      FileName = "Mystic"
+   },
+
+   Discord = {
+      Enabled = false, -- Prompt the user to join your Discord server if their executor supports it
+      Invite = "noinvitelink", -- The Discord invite code, do not include discord.gg/. E.g. discord.gg/ ABCD would be ABCD
+      RememberJoins = true -- Set this to false to make them join the discord every time they load it up
+   },
+
+   KeySystem = true, -- Set this to true to use our key system
+   KeySettings = {
+      Title = "Mystic Falls GUI",
+      Subtitle = "other mystic falls better",
+      Note = "Join discord.gg/mysticfallss,
+      FileName = "TvdKey", 
+      SaveKey = false, -- 
+      GrabKeyFromSite = false,
+      Key = {"Qetsiyah"}
+   }
+})
+
+
+local MainTab = Window:CreateTab("Main", nil) -- Title, Image
+local MainSection = MainTab:CreateSection("Main")
+
+local Button = MainTab:CreateButton({
+   Name = "Delfan anyone (R)",
+   Callback = function()
+             local Players = game:GetService("Players")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local UserInputService = game:GetService("UserInputService")
+
+local AbilityRemote = ReplicatedStorage:WaitForChild("Events"):WaitForChild("Ability")
+local localPlayer = Players.LocalPlayer
+local mouse = localPlayer:GetMouse()
+
+local keybind = Enum.KeyCode.R -- Change to any key you like
+
+UserInputService.InputBegan:Connect(function(input, gameProcessed)
+	if gameProcessed then return end
+	if input.KeyCode == keybind then
+		local target = mouse.Target
+		if not target then return end
+
+		local model = target:FindFirstAncestorOfClass("Model")
+		if model and Players:GetPlayerFromCharacter(model) then
+			local targetPlayer = Players:GetPlayerFromCharacter(model)
+			local targetChar = targetPlayer.Character
+			if targetChar and targetChar:FindFirstChild("HumanoidRootPart") then
+				-- Say the phrase
+				ReplicatedStorage.DefaultChatSystemChatEvents.SayMessageRequest:FireServer("Delfan Mass Fractus", "All")
+
+				local position = targetChar.HumanoidRootPart.Position
+				local args = {
+					"Delfan",
+					targetChar,
+					position
+				}
+				AbilityRemote:FireServer(unpack(args))
+			end
+		end
+	end
+end)
+
+   end,
+})
+
+local Button = MainTab:CreateButton({
+   Name = "Cosmix",
+   Callback = function()
+            local Players = game:GetService("Players")
+local player = Players.LocalPlayer
+local character = player.Character or player.CharacterAdded:Wait()
+local hrp = character:WaitForChild("HumanoidRootPart")
+
+-- Saved Staff Room Position + Rotation
+local savedCFrame = CFrame.new(Vector3.new(-377.279, -267.460, -4887.841)) * 
+                    CFrame.Angles(math.rad(0.000), math.rad(-2.100), math.rad(0.000))
+
+-- Teleport
+hrp.CFrame = savedCFrame
+
+   end,
+})
+
+local Button = MainTab:CreateButton({
+   Name = "Teleport Back",
+   Callback = function()
+            local Players = game:GetService("Players")
+local player = Players.LocalPlayer
+local character = player.Character or player.CharacterAdded:Wait()
+local hrp = character:WaitForChild("HumanoidRootPart")
+
+-- Saved return location
+local returnCFrame = CFrame.new(Vector3.new(-502.096, 4.774, 242.424)) * 
+                     CFrame.Angles(math.rad(0.000), math.rad(-1.470), math.rad(0.000))
+
+-- Teleport
+hrp.CFrame = returnCFrame
+
+   end,
+})
