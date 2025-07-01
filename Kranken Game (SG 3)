@@ -1,7 +1,7 @@
 local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
 
 local Window = Rayfield:CreateWindow({
-   Name = "Mystic Falls",
+   Name = "Squid Game GUI",
    Icon = 0, -- Icon in Topbar. Can use Lucide Icons (string) or Roblox Image (number). 0 to use no icon (default).
    LoadingTitle = "Loading...",
    LoadingSubtitle = "by Jace",
@@ -13,7 +13,7 @@ local Window = Rayfield:CreateWindow({
    ConfigurationSaving = {
       Enabled = false,
       FolderName = nil, -- Create a custom folder for your hub/game
-      FileName = "Mystic"
+      FileName = "SquidGame"
    },
 
    Discord = {
@@ -24,13 +24,13 @@ local Window = Rayfield:CreateWindow({
 
    KeySystem = true, -- Set this to true to use our key system
    KeySettings = {
-      Title = "Mystic Falls GUI",
-      Subtitle = "other mystic falls better",
+      Title = "Kranken Game GUI",
+      Subtitle = "Enjoy@!",
       Note = "Join discord.gg/mysticfallss",
-      FileName = "TvdKey", 
+      FileName = "SquidKey", 
       SaveKey = false, -- 
       GrabKeyFromSite = false,
-      Key = {"Qetsiyah"}
+      Key = {"222"}
    }
 })
 
@@ -38,3 +38,109 @@ local Window = Rayfield:CreateWindow({
 local MainTab = Window:CreateTab("Main", nil) -- Title, Image
 local MainSection = MainTab:CreateSection("Main")
 
+local Button = MainTab:CreateButton({
+   Name = "Square Cookie",
+   Callback = function()
+         local args = {
+    "Square"
+}
+game:GetService("ReplicatedStorage"):WaitForChild("Remote"):WaitForChild("HoneyComp"):WaitForChild("PickedCookie"):FireServer(unpack(args))
+   end,
+})
+
+local Button = MainTab:CreateButton({
+   Name = "Circle Cookie",
+   Callback = function()
+         local args = {
+    "Circle"
+}
+game:GetService("ReplicatedStorage"):WaitForChild("Remote"):WaitForChild("HoneyComp"):WaitForChild("PickedCookie"):FireServer(unpack(args))
+   end,
+})
+
+local Button = MainTab:CreateButton({
+   Name = "Umbrella Cookie",
+   Callback = function()
+         local args = {
+    "Umbrella"
+}
+game:GetService("ReplicatedStorage"):WaitForChild("Remote"):WaitForChild("HoneyComp"):WaitForChild("PickedCookie"):FireServer(unpack(args))
+   end,
+})
+
+local Button = MainTab:CreateButton({
+   Name = "Cookie Finsh",
+   Callback = function()
+         game:GetService("ReplicatedStorage"):WaitForChild("Remote"):WaitForChild("HoneyComp"):WaitForChild("CarveComplete"):FireServer()
+   end,
+})
+
+local Button = MainTab:CreateButton({
+   Name = "Ddakji Win",
+   Callback = function()
+         local args = {
+    3,
+    2
+}
+game:GetService("ReplicatedStorage"):WaitForChild("Remote"):WaitForChild("SixLegs"):WaitForChild("DdakjiEndded"):FireServer(unpack(args))
+   end,
+})
+
+local Button = MainTab:CreateButton({
+   Name = "Flying Rock Win",
+   Callback = function()
+         local args = {
+    3,
+    2
+}
+game:GetService("ReplicatedStorage"):WaitForChild("Remote"):WaitForChild("SixLegs"):WaitForChild("FlyingRockEndded"):FireServer(unpack(args))
+   end,
+})
+
+local Button = MainTab:CreateButton({
+   Name = "Gonggi Win",
+   Callback = function()
+            local args = {
+    workspace:WaitForChild("MapHolder"):WaitForChild("map"):WaitForChild("PlayGrounds"):WaitForChild("3"):WaitForChild("Tracks"):WaitForChild("2"):WaitForChild("checkpoints"):WaitForChild("Gonggi"):WaitForChild("checkpoint"),
+    3,
+    2
+}
+game:GetService("ReplicatedStorage"):WaitForChild("Remote"):WaitForChild("SixLegs"):WaitForChild("RemoveBoard"):FireServer(unpack(args))
+   end,
+})
+
+local Button = MainTab:CreateButton({
+   Name = "Beyblade Win",
+   Callback = function()
+            local args = {
+    3,
+    2
+}
+game:GetService("ReplicatedStorage"):WaitForChild("Remote"):WaitForChild("SixLegs"):WaitForChild("BeybladeEndded"):FireServer(unpack(args))
+   end,
+})
+
+local Button = MainTab:CreateButton({
+   Name = "Jengi Win",
+   Callback = function()
+            local args = {
+    3,
+    2
+}
+game:GetService("ReplicatedStorage"):WaitForChild("Remote"):WaitForChild("SixLegs"):WaitForChild("JengiEndded"):FireServer(unpack(args))
+   end,
+})
+
+local Button = MainTab:CreateButton({
+   Name = "Animation Hub",
+   Callback = function()
+            loadstring(game:HttpGet('https://raw.githubusercontent.com/Emerson2-creator/Scripts-Roblox/refs/heads/main/ScriptR6/AnimGuiV2.lua))()
+   end,
+})
+
+local Button = MainTab:CreateButton({
+   Name = "Infinite Yield",
+   Callback = function()
+           loadstring(game:HttpGet(('https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source'),true))()
+   end,
+})
