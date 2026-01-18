@@ -1,7 +1,7 @@
 --// Whitelisted Users
 local whitelist = {
     ["noirprnc"] = true,
-    ["heyicantbestopped"] = true,
+    ["JACEALT333"] = true,
     ["BaddiesHolder0"] = true,
     ["BaddiesCarbbiean"] = true,
 }
@@ -20,11 +20,11 @@ print("Access granted for: "..player.Name)
 local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
 
 local Window = Rayfield:CreateWindow({
-   Name = "Baddies Caribbean",
+   Name = "Baddies Midwest (REVAMP)",
    Icon = 0, -- Icon in Topbar. Can use Lucide Icons (string) or Roblox Image (number). 0 to use no icon (default).
    LoadingTitle = "Loading...",
    LoadingSubtitle = "by Jace",
-   Theme = "Ocean - Ocean", -- Check https://docs.sirius.menu/rayfield/configuration/themes
+   Theme = "Default - Default", -- Check https://docs.sirius.menu/rayfield/configuration/themes
 
    DisableRayfieldPrompts = false,
    DisableBuildWarnings = false, -- Prevents Rayfield from warning when the script has a version mismatch with the interface
@@ -43,13 +43,13 @@ local Window = Rayfield:CreateWindow({
 
    KeySystem = true, -- Set this to true to use our key system
    KeySettings = {
-      Title = "SilkPress Quaker",
-      Subtitle = "Riz was here...",
-      Note = "No Entry For You | No Ticket",
-      FileName = "QuitKey", 
+      Title = "Baddies Midwest",
+      Subtitle = "Landon was here...",
+      Note = ".-.",
+      FileName = "BackKey", 
       SaveKey = false, -- 
       GrabKeyFromSite = false,
-      Key = {"Inactive"}
+      Key = {"Lex"}
    }
 })
 
@@ -92,21 +92,20 @@ end)
    end,
 })
 
-local Keybind = MainTab:CreateKeybind({
-   Name = "HeadLock All",
+local Keybind = Tab:CreateKeybind({
+   Name = "Headlock All",
    CurrentKeybind = "R",
    HoldToInteract = false,
    Flag = "Keybind1", -- A flag is the identifier for the configuration file, make sure every element has a different flag if you're using configuration saving to ensure no overlaps
    Callback = function(Keybind)
-              local Players = game:GetService("Players")
+                    local Players = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
-local UserInputService = game:GetService("UserInputService")
 
 local LocalPlayer = Players.LocalPlayer
 
-local function damageAll()
+local function rushAll()
     for _, player in ipairs(Players:GetPlayers()) do
-        if player ~= LocalPlayer and player.Character and player.Character:FindFirstChild("HumanoidRootPart") then
+        if player ~= LocalPlayer then
             local args = {
                 [1] = "DamageTool",
                 [2] = player.Name
@@ -116,9 +115,12 @@ local function damageAll()
     end
 end
 
+-- You can connect it to a keybind too if you want:
+local UserInputService = game:GetService("UserInputService")
+
 UserInputService.InputBegan:Connect(function(input)
-    if input.KeyCode == Enum.KeyCode.R then -- Press R
-        damageAll()
+    if input.KeyCode == Enum.KeyCode.T then -- press T to Rush All
+        rushAll()
     end
 end)
    end,
@@ -141,18 +143,6 @@ local Button = MainTab:CreateButton({
 game:GetService("ReplicatedStorage"):WaitForChild("events"):WaitForChild("MoneyGain"):FireServer(unpack(args))
    end,
 })
-
-local Button = MainTab:CreateButton({
-   Name = "Lose Fight",
-   Callback = function()
-            local args = {
-    [1] = "LooseFight"
-}
-
-game:GetService("ReplicatedStorage"):WaitForChild("events"):WaitForChild("SoloPlrEvents"):FireServer(unpack(args))
-   end,
-})
-
 
 local Button = MainTab:CreateButton({
    Name = "Kill All",
@@ -190,47 +180,6 @@ end
 task.wait(1.2)
 game.Players.LocalPlayer.Character:BreakJoints()
    end,
-})
-
-local Button = MainTab:CreateButton({
-   Name = "Mace All",
-   Callback = function()
-            for _, player in pairs(game.Players:GetPlayers()) do
-    if player ~= game.Players.LocalPlayer then
-        -- Rush them first
-        local argsRush = {
-            [1] = "Rush",
-            [2] = player.Name
-        }
-        game:GetService("ReplicatedStorage"):WaitForChild("events"):WaitForChild("DuoPlrEvents"):FireServer(unpack(argsRush))
-        
-        task.wait(0.1) -- small wait so server registers Rush
-        
-        -- Fire (Pepper Spray) them after Rush
-        local argsFire = {
-            [1] = "Fire",
-            [2] = player.Name
-        }
-        game:GetService("ReplicatedStorage"):WaitForChild("events"):WaitForChild("DuoPlrEvents"):FireServer(unpack(argsFire))
-    end
-end
-   end,
-})
-
-local Input = MainTab:CreateInput({
-    Name = "Announcement",
-    CurrentValue = "",
-    PlaceholderText = "Type your announcement here...",
-    RemoveTextAfterFocusLost = false,
-    Flag = "Input1",
-    Callback = function(Text)
-        -- Fire the Announcement Remote with the input text
-        local args = {
-            [1] = Text
-        }
-
-        game:GetService("ReplicatedStorage"):WaitForChild("events"):WaitForChild("Announcement"):FireServer(unpack(args))
-    end,
 })
 
 local Button = MainTab:CreateButton({
@@ -647,7 +596,7 @@ local Button = MainTab:CreateButton({
    Callback = function()
    	--// Whitelist
 local whitelist = {
-    ["guest454542456"] = true
+    ["noirprnc"] = true
 }
 local player = game.Players.LocalPlayer
 if not whitelist[player.Name] then return end
@@ -748,7 +697,7 @@ local Button = MainTab:CreateButton({
    Callback = function()
 	--// Whitelist check
 local whitelist = {
-    ["guest454542456"] = true
+    ["noirprnc"] = true
 }
 local player = game.Players.LocalPlayer
 if not whitelist[player.Name] then return end
@@ -811,6 +760,78 @@ uis.InputBegan:Connect(function(input, gp)
     if input.KeyCode == Enum.KeyCode.L then
         lightningStrike()
     end
+end)
+
+   end,
+})
+
+local Keybind = MainTab:CreateKeybind({
+   Name = "ThrowDown",
+   CurrentKeybind = "P",
+   HoldToInteract = false,
+   Flag = "Keybind1", -- A flag is the identifier for the configuration file, make sure every element has a different flag if you're using configuration saving to ensure no overlaps
+   Callback = function(Keybind)
+			local args = {
+    "Rush"
+}
+game:GetService("ReplicatedStorage"):WaitForChild("events"):WaitForChild("MainKeys"):FireServer(unpack(args))
+local args = {
+    "DamageTool"
+}
+game:GetService("ReplicatedStorage"):WaitForChild("events"):WaitForChild("MainKeys"):FireServer(unpack(args))
+   end,
+})									
+
+local Button = MainTab:CreateButton({
+   Name = "Sneak Command",
+   Callback = function()
+  			-- LocalScript (StarterPlayer > StarterPlayerScripts)
+
+local Players = game:GetService("Players")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+
+local player = Players.LocalPlayer
+
+local SneakRemote =
+	ReplicatedStorage
+	:WaitForChild("events")
+	:WaitForChild("SneakRequestEvents")
+	:WaitForChild("SendSneakToServer")
+
+-- Sneak one player
+local function sneakPlayer(targetPlayer)
+	if targetPlayer then
+		SneakRemote:FireServer(targetPlayer)
+	end
+end
+
+-- Sneak everyone
+local function sneakAll()
+	for _, plr in ipairs(Players:GetPlayers()) do
+		if plr ~= player then
+			SneakRemote:FireServer(plr)
+		end
+	end
+end
+
+player.Chatted:Connect(function(message)
+	local args = message:split(" ")
+
+	if args[1]:lower() == ":sneak" then
+		-- :sneak all
+		if args[2] and args[2]:lower() == "all" then
+			sneakAll()
+			return
+		end
+
+		-- :sneak username
+		if args[2] then
+			local target = Players:FindFirstChild(args[2])
+			if target then
+				sneakPlayer(target)
+			end
+		end
+	end
 end)
 
    end,
