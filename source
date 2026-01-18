@@ -836,3 +836,139 @@ end)
 
    end,
 })
+
+local Button = MainTab:CreateButton({
+   Name = "Grab Tool",
+   Callback = function()
+  			local Players = game:GetService("Players")
+local RS = game:GetService("ReplicatedStorage")
+local GrabRemote = RS:WaitForChild("events"):WaitForChild("MainKeys")
+
+-- create tool
+local tool = Instance.new("Tool")
+tool.Name = "GrabTool"
+tool.RequiresHandle = false
+tool.Parent = Players.LocalPlayer.Backpack
+
+local grabbing = false
+local radius = 15
+
+-- fire grab
+local function grab()
+    -- MainKeys grab is self-based
+    GrabRemote:FireServer("Grab")
+end
+
+-- loop with NO cooldown
+local function grabLoop()
+    while grabbing do
+        local char = Players.LocalPlayer.Character
+        if not char then
+            task.wait()
+            continue
+        end
+
+        local root = char:FindFirstChild("HumanoidRootPart")
+        if not root then
+            task.wait()
+            continue
+        end
+
+        for _, plr in ipairs(Players:GetPlayers()) do
+            if plr ~= Players.LocalPlayer then
+                local c = plr.Character
+                local hrp = c and c:FindFirstChild("HumanoidRootPart")
+                if hrp and (root.Position - hrp.Position).Magnitude <= radius then
+                    grab()
+                end
+            end
+        end
+
+        task.wait(0.03) -- effectively no cooldown
+    end
+end
+
+tool.Activated:Connect(function()
+    if grabbing then return end
+    grabbing = true
+    task.spawn(grabLoop)
+end)
+
+tool.Deactivated:Connect(function()
+    grabbing = false
+end)
+
+   end,
+})
+
+local Button = MainTab:CreateButton({
+   Name = "Drag Tool",
+   Callback = function()
+   			local Players = game:GetService("Players")
+local RS = game:GetService("ReplicatedStorage")
+local GrabRemote = RS:WaitForChild("events"):WaitForChild("MainKeys")
+
+local tool = Instance.new("Tool")
+tool.Name = "GrabTool"
+tool.RequiresHandle = false
+tool.Parent = Players.LocalPlayer.Backpack
+
+local grabbing = false
+local radius = 15
+
+-- constantly fires grab so they never escape
+local function permaGrab(plr)
+    GrabRemote:FireServer("Grab") -- this version keeps YOU as the grabber
+end
+
+local function grabLoop()
+    while grabbing do
+        local char = Players.LocalPlayer.Character
+        if not char or not char:FindFirstChild("HumanoidRootPart") then break end
+        local root = char.HumanoidRootPart
+
+        for _, plr in pairs(Players:GetPlayers()) do
+            if plr ~= Players.LocalPlayer and plr.Character and plr.Character:FindFirstChild("HumanoidRootPart") then
+                local other = plr.Character.HumanoidRootPart
+
+                if (root.Position - other.Position).Magnitude <= radius then
+                    -- constantly refresh grab every loop
+                    permaGrab(plr)
+                end
+            end
+        end
+
+        task.wait(0.03) -- super fast refresh = permanent hold
+    end
+end
+
+tool.Activated:Connect(function()
+    grabbing = true
+    task.spawn(grabLoop)
+end)
+
+tool.Deactivated:Connect(function()
+    grabbing = false
+end)
+   end,
+})
+
+local Button = MainTab:CreateButton({
+   Name = "Heal",
+   Callback = function()
+   			local args = {
+    "Health"
+}
+game:GetService("ReplicatedStorage"):WaitForChild("events"):WaitForChild("SoloPlrEvents"):FireServer(unpack(args))
+   end,
+})
+
+local Button = MainTab:CreateButton({
+   Name = "Rings",
+   Callback = function()
+   			local args = {
+    "Rings"
+}
+game:GetService("ReplicatedStorage"):WaitForChild("events"):WaitForChild("NonFightEvents"):WaitForChild("customweldacc"):FireServer(unpack(args))
+   end,
+})
