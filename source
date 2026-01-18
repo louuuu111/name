@@ -92,7 +92,7 @@ end)
    end,
 })
 
-local Keybind = Tab:CreateKeybind({
+local Keybind = MainTab:CreateKeybind({
    Name = "Headlock All",
    CurrentKeybind = "R",
    HoldToInteract = false,
@@ -126,12 +126,14 @@ end)
    end,
 })
 
+
 local Button = MainTab:CreateButton({
    Name = "Infinite Yield",
    Callback = function()
             loadstring(game:HttpGet('https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source'))()
    end,
 })
+
 
 local Button = MainTab:CreateButton({
    Name = "Money Gain",
@@ -143,6 +145,7 @@ local Button = MainTab:CreateButton({
 game:GetService("ReplicatedStorage"):WaitForChild("events"):WaitForChild("MoneyGain"):FireServer(unpack(args))
    end,
 })
+
 
 local Button = MainTab:CreateButton({
    Name = "Kill All",
@@ -231,6 +234,7 @@ end)
 
    end,
 })
+
 
 local Button = MainTab:CreateButton({
    Name = "Caribbean Castle",
@@ -389,6 +393,7 @@ end
    end,
 })
 
+
 local Button = MainTab:CreateButton({
    Name = "Exit Base",
    Callback = function()
@@ -406,6 +411,7 @@ end
 
    end,
 })
+
 
 local Button = MainTab:CreateButton({
    Name = "Jace's Cave",
@@ -591,6 +597,7 @@ teleportToCave(cave)
    end,
 })
 
+
 local Button = MainTab:CreateButton({
    Name = "Impulse Tornado",
    Callback = function()
@@ -692,6 +699,7 @@ end)
    end,
 })
 
+
 local Button = MainTab:CreateButton({
    Name = "Lightning Strike",
    Callback = function()
@@ -765,6 +773,7 @@ end)
    end,
 })
 
+
 local Keybind = MainTab:CreateKeybind({
    Name = "ThrowDown",
    CurrentKeybind = "P",
@@ -781,6 +790,7 @@ local args = {
 game:GetService("ReplicatedStorage"):WaitForChild("events"):WaitForChild("MainKeys"):FireServer(unpack(args))
    end,
 })									
+
 
 local Button = MainTab:CreateButton({
    Name = "Sneak Command",
@@ -836,6 +846,7 @@ end)
 
    end,
 })
+
 
 local Button = MainTab:CreateButton({
    Name = "Grab Tool",
@@ -953,6 +964,7 @@ end)
    end,
 })
 
+
 local Button = MainTab:CreateButton({
    Name = "Heal",
    Callback = function()
@@ -962,6 +974,7 @@ local Button = MainTab:CreateButton({
 game:GetService("ReplicatedStorage"):WaitForChild("events"):WaitForChild("SoloPlrEvents"):FireServer(unpack(args))
    end,
 })
+
 
 local Button = MainTab:CreateButton({
    Name = "Rings",
