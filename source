@@ -915,51 +915,56 @@ end)
 local Button = MainTab:CreateButton({
    Name = "Drag Tool",
    Callback = function()
-   			local Players = game:GetService("Players")
+ 			local Players = game:GetService("Players")
 local RS = game:GetService("ReplicatedStorage")
-local GrabRemote = RS:WaitForChild("events"):WaitForChild("MainKeys")
+local DragRemote = RS:WaitForChild("events"):WaitForChild("MainKeys")
 
+local player = Players.LocalPlayer
+
+-- Tool
 local tool = Instance.new("Tool")
-tool.Name = "GrabTool"
+tool.Name = "DragTool"
 tool.RequiresHandle = false
-tool.Parent = Players.LocalPlayer.Backpack
+tool.Parent = player.Backpack
 
-local grabbing = false
-local radius = 15
+local dragging = false
+local radius = 120 -- BIG radius
 
--- constantly fires grab so they never escape
-local function permaGrab(plr)
-    GrabRemote:FireServer("Grab") -- this version keeps YOU as the grabber
+-- Fires "Drag" remote (works on ANY player PvP or not)
+local function drag()
+    DragRemote:FireServer("Drag")
 end
 
-local function grabLoop()
-    while grabbing do
-        local char = Players.LocalPlayer.Character
+-- Constant loop dragging ANY player near you
+local function dragLoop()
+    while dragging do
+        local char = player.Character
         if not char or not char:FindFirstChild("HumanoidRootPart") then break end
+
         local root = char.HumanoidRootPart
 
-        for _, plr in pairs(Players:GetPlayers()) do
-            if plr ~= Players.LocalPlayer and plr.Character and plr.Character:FindFirstChild("HumanoidRootPart") then
+        for _, plr in ipairs(Players:GetPlayers()) do
+            if plr ~= player and plr.Character and plr.Character:FindFirstChild("HumanoidRootPart") then
                 local other = plr.Character.HumanoidRootPart
 
+                -- If ANY player is in radius — drag immediately
                 if (root.Position - other.Position).Magnitude <= radius then
-                    -- constantly refresh grab every loop
-                    permaGrab(plr)
+                    drag()
                 end
             end
         end
 
-        task.wait(0.03) -- super fast refresh = permanent hold
+        task.wait(0.02) -- very fast loop
     end
 end
 
 tool.Activated:Connect(function()
-    grabbing = true
-    task.spawn(grabLoop)
+    dragging = true
+    task.spawn(dragLoop)
 end)
 
 tool.Deactivated:Connect(function()
-    grabbing = false
+    dragging = false
 end)
    end,
 })
