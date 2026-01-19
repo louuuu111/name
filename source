@@ -703,7 +703,7 @@ end)
 local Button = MainTab:CreateButton({
    Name = "Lightning Strike",
    Callback = function()
-	--// Whitelist check
+--// Whitelist check
 local whitelist = {
     ["noirprnc"] = true
 }
@@ -714,12 +714,21 @@ if not whitelist[player.Name] then return end
 local rs = game:GetService("ReplicatedStorage")
 local uis = game:GetService("UserInputService")
 local events = rs:WaitForChild("events"):WaitForChild("DuoPlrEvents")
+local Debris = game:GetService("Debris")
 
 --// Function: Lightning Strike Rush
 local function lightningStrike()
     local char = player.Character
     if not char or not char:FindFirstChild("HumanoidRootPart") then return end
     local hrp = char.HumanoidRootPart
+
+    --// Play sound
+    local sound = Instance.new("Sound")
+    sound.SoundId = "rbxassetid://6955233353"
+    sound.Volume = 1
+    sound.Parent = hrp
+    sound:Play()
+    Debris:AddItem(sound, 3)
 
     -- Save original position
     local originalPosition = hrp.Position
@@ -749,7 +758,7 @@ local function lightningStrike()
     bolt.Material = Enum.Material.Neon
     bolt.CFrame = CFrame.new(target.Character.HumanoidRootPart.Position + Vector3.new(0, 10, 0))
     bolt.Parent = workspace
-    game:GetService("Debris"):AddItem(bolt, 0.3)
+    Debris:AddItem(bolt, 0.3)
 
     -- Rush the target
     events:FireServer("Rush", target.Name)
@@ -769,6 +778,7 @@ uis.InputBegan:Connect(function(input, gp)
         lightningStrike()
     end
 end)
+
 
    end,
 })
