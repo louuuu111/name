@@ -2,8 +2,8 @@
 local whitelist = {
     ["noirprnc"] = true,
     ["JACEALT333"] = true,
-    ["BaddiesHolder0"] = true,
-    ["BaddiesCarbbiean"] = true,
+    ["messiahzjx123481"] = true,
+    ["youknowwherehomeat1"] = true,
 }
 
 --// Local Player Check
@@ -599,7 +599,7 @@ teleportToCave(cave)
 
 
 local Button = MainTab:CreateButton({
-   Name = "Impulse Tornado",
+   Name = "Fireball",
    Callback = function()
    	--// Whitelist
 local whitelist = {
@@ -608,93 +608,7 @@ local whitelist = {
 local player = game.Players.LocalPlayer
 if not whitelist[player.Name] then return end
 
---// Services
-local rs = game:GetService("ReplicatedStorage")
-local events = rs:WaitForChild("events"):WaitForChild("DuoPlrEvents")
-local debris = game:GetService("Debris")
-local uis = game:GetService("UserInputService")
-local chat = game:GetService("Players").LocalPlayer
 
---// Config
-local TORNADO_DURATION = 4
-local TORNADO_RANGE = 30
-local TORNADO_KEYBIND = Enum.KeyCode.Q
-local TORNADO_COMMAND = "Fluctua Impulsa"
-
---// Function: Create Tornado Effect
-local function spawnTornado(center)
-	local tornado = Instance.new("Part")
-	tornado.Size = Vector3.new(12, 25, 12)
-	tornado.Anchored = true
-	tornado.CanCollide = false
-	tornado.Shape = Enum.PartType.Cylinder
-	tornado.CFrame = CFrame.new(center) * CFrame.Angles(0, math.rad(90), 0)
-	tornado.BrickColor = BrickColor.new("Bright violet")
-	tornado.Material = Enum.Material.ForceField
-	tornado.Transparency = 0.4
-	tornado.Parent = workspace
-	debris:AddItem(tornado, TORNADO_DURATION)
-	
-	return tornado
-end
-
---// Function: Rush Nearby One at a Time
-local function activateTornadoRush()
-	local char = player.Character
-	if not char or not char:FindFirstChild("HumanoidRootPart") then return end
-	local hrp = char.HumanoidRootPart
-	local originalPos = hrp.Position
-
-	-- Spawn effect
-	local tornado = spawnTornado(hrp.Position)
-
-	-- Get targets
-	local playersInRange = {}
-	for _, plr in pairs(game.Players:GetPlayers()) do
-		if plr ~= player and plr.Character and plr.Character:FindFirstChild("HumanoidRootPart") then
-			local dist = (hrp.Position - plr.Character.HumanoidRootPart.Position).Magnitude
-			if dist <= TORNADO_RANGE then
-				table.insert(playersInRange, plr)
-			end
-		end
-	end
-
-	-- Rush one-by-one
-	task.spawn(function()
-		for _, victim in pairs(playersInRange) do
-			-- Make sure they're still in range
-			if victim.Character and victim.Character:FindFirstChild("HumanoidRootPart") then
-				local dist = (hrp.Position - victim.Character.HumanoidRootPart.Position).Magnitude
-				if dist <= TORNADO_RANGE then
-					events:FireServer("Rush", victim.Name)
-					task.wait(1) -- 1 second delay between each
-				end
-			end
-		end
-	end)
-
-	-- Return the user to original pos after a few sec
-	task.delay(4, function()
-		if char and char:FindFirstChild("HumanoidRootPart") then
-			char.HumanoidRootPart.CFrame = CFrame.new(originalPos)
-		end
-	end)
-end
-
---// Chat activation
-chat.Chatted:Connect(function(msg)
-	if msg:lower() == TORNADO_COMMAND:lower() then
-		activateTornadoRush()
-	end
-end)
-
---// Keybind activation
-uis.InputBegan:Connect(function(input, gp)
-	if gp then return end
-	if input.KeyCode == TORNADO_KEYBIND then
-		activateTornadoRush()
-	end
-end)
 
    end,
 })
@@ -706,6 +620,7 @@ local Button = MainTab:CreateButton({
 --// Whitelist check
 local whitelist = {
     ["noirprnc"] = true
+	["messiahzjx123481"] = true,
 }
 local player = game.Players.LocalPlayer
 if not whitelist[player.Name] then return end
