@@ -801,13 +801,13 @@ local function grabLoop()
         local char = Players.LocalPlayer.Character
         if not char then
             task.wait()
-            continue
+            'continue'
         end
 
         local root = char:FindFirstChild("HumanoidRootPart")
         if not root then
             task.wait()
-            continue
+            'continue'
         end
 
         for _, plr in ipairs(Players:GetPlayers()) do
