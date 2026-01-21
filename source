@@ -3,7 +3,7 @@ local whitelist = {
     ["noirprnc"] = true,
     ["JACEALT333"] = true,
     ["messiahzjx123481"] = true,
-    ["youknowwherehomeat1"] = true,
+    
 }
 
 --// Local Player Check
