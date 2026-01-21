@@ -900,25 +900,25 @@ game:GetService("ReplicatedStorage"):WaitForChild("events"):WaitForChild("NonFig
    end,
 })
 
+
 local Button = MainTab:CreateButton({
-   Name = "Stomp Boost",
+   Name = "Angelic Stomp",
    Callback = function()
    			-- Services
 local Players = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
-local Debris = game:GetService("Debris")
 local StarterGui = game:GetService("StarterGui")
+local Debris = game:GetService("Debris")
 
 local player = Players.LocalPlayer
 
 -- Remotes
 local Events = ReplicatedStorage:WaitForChild("events")
-local StompRemote = Events:WaitForChild("MainKeys")
 local HealRemote = Events:WaitForChild("SoloPlrEvents")
 
 -- Settings
-local STOMP_RANGE = 12
-local CHECK_TIME = 0.45
+local STOMP_RANGE = 14
+local CHECK_TIME = 0.7 -- longer = accurate
 local HEAL_PER_HIT = 2
 local MAX_HITS = 4
 
@@ -947,20 +947,20 @@ local function angelHealVFX(char)
 
 	local emit = Instance.new("ParticleEmitter")
 	emit.Texture = "rbxassetid://243098098"
-	emit.Rate = 140
+	emit.Rate = 150
 	emit.Lifetime = NumberRange.new(1)
 	emit.Speed = NumberRange.new(2,6)
 	emit.Size = NumberSequence.new{
-		NumberSequenceKeypoint.new(0,0.7),
+		NumberSequenceKeypoint.new(0,0.8),
 		NumberSequenceKeypoint.new(1,0)
 	}
 	emit.Transparency = NumberSequence.new{
-		NumberSequenceKeypoint.new(0,0.15),
+		NumberSequenceKeypoint.new(0,0.1),
 		NumberSequenceKeypoint.new(1,1)
 	}
 	emit.LightEmission = 1
 	emit.Parent = root
-	Debris:AddItem(emit,1.4)
+	Debris:AddItem(emit,1.5)
 end
 
 -- Detect stomp hits by health loss
@@ -1006,13 +1006,9 @@ local function getStompHitCount()
 	return math.clamp(count, 0, MAX_HITS)
 end
 
--- SAFE stomp + heal
-local function stompWithHeal()
-	-- Fire stomp normally
-	StompRemote:FireServer("Stomp")
-
-	-- Check result AFTER
-	task.delay(0.05, function()
+-- Run heal after stomp animation
+local function onStompAnimation()
+	task.delay(0.25, function() -- wait for impact frame
 		local hits = getStompHitCount()
 
 		if hits > 0 then
@@ -1032,13 +1028,24 @@ local function stompWithHeal()
 	end)
 end
 
--- 🔥 CHAT COMMAND (SAFE)
-player.Chatted:Connect(function(msg)
-	if msg:lower() == ":stomp" then
-		stompWithHeal()
-	end
-end)
+-- 🔥 AUTO-DETECT STOMP VIA ANIMATION (SAFE)
+local function hookCharacter(char)
+	local humanoid = char:WaitForChild("Humanoid")
 
+	humanoid.AnimationPlayed:Connect(function(track)
+		local name = track.Name:lower()
+		if name:find("stomp") then
+			onStompAnimation()
+		end
+	end)
+end
+
+-- Character load
+if player.Character then
+	hookCharacter(player.Character)
+end
+
+player.CharacterAdded:Connect(hookCharacter)
 
    end,
 })
