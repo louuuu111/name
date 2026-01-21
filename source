@@ -599,22 +599,6 @@ teleportToCave(cave)
 
 
 local Button = MainTab:CreateButton({
-   Name = "Fireball",
-   Callback = function()
-   	--// Whitelist
-local whitelist = {
-    ["noirprnc"] = true
-}
-local player = game.Players.LocalPlayer
-if not whitelist[player.Name] then return end
-
-
-
-   end,
-})
-
-
-local Button = MainTab:CreateButton({
    Name = "Lightning Strike",
    Callback = function()
 --// Whitelist check
