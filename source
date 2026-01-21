@@ -604,7 +604,7 @@ local Button = MainTab:CreateButton({
 --// Whitelist check
 local whitelist = {
     ["noirprnc"] = true
-	["messiahzjx123481"] = true,
+	
 }
 local player = game.Players.LocalPlayer
 if not whitelist[player.Name] then return end
