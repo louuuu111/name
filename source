@@ -907,22 +907,23 @@ local Button = MainTab:CreateButton({
    			-- Services
 local Players = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
-local StarterGui = game:GetService("StarterGui")
 local Debris = game:GetService("Debris")
+local StarterGui = game:GetService("StarterGui")
 
 local player = Players.LocalPlayer
 
 -- Remotes
 local Events = ReplicatedStorage:WaitForChild("events")
+local StompRemote = Events:WaitForChild("MainKeys") -- the stomp remote the tool uses
 local HealRemote = Events:WaitForChild("SoloPlrEvents")
 
 -- Settings
-local STOMP_RANGE = 14
-local CHECK_TIME = 0.7 -- longer = accurate
+local STOMP_RANGE = 14          -- Max distance to count a hit
+local CHECK_TIME = 0.7          -- How long to listen for health loss
 local HEAL_PER_HIT = 2
 local MAX_HITS = 4
 
--- Notification
+-- Notification helper
 local function notify(title, text)
 	pcall(function()
 		StarterGui:SetCore("SendNotification", {
@@ -963,7 +964,7 @@ local function angelHealVFX(char)
 	Debris:AddItem(emit,1.5)
 end
 
--- Detect stomp hits by health loss
+-- Detect how many players were stomped
 local function getStompHitCount()
 	local char = player.Character
 	local root = char and char:FindFirstChild("HumanoidRootPart")
@@ -976,17 +977,15 @@ local function getStompHitCount()
 		if plr ~= player and plr.Character then
 			local hum = plr.Character:FindFirstChildOfClass("Humanoid")
 			local hrp = plr.Character:FindFirstChild("HumanoidRootPart")
-
 			if hum and hrp then
 				if (hrp.Position - root.Position).Magnitude <= STOMP_RANGE then
 					local lastHealth = hum.Health
-					connections[#connections+1] =
-						hum.HealthChanged:Connect(function(newHealth)
-							if newHealth < lastHealth then
-								hitPlayers[plr] = true
-							end
-							lastHealth = newHealth
-						end)
+					connections[#connections+1] = hum.HealthChanged:Connect(function(newHealth)
+						if newHealth < lastHealth then
+							hitPlayers[plr] = true
+						end
+						lastHealth = newHealth
+					end)
 				end
 			end
 		end
@@ -1006,46 +1005,67 @@ local function getStompHitCount()
 	return math.clamp(count, 0, MAX_HITS)
 end
 
--- Run heal after stomp animation
-local function onStompAnimation()
-	task.delay(0.25, function() -- wait for impact frame
-		local hits = getStompHitCount()
+-- Heal & VFX after stomp
+local function applyHealAndVFX(hitCount)
+	if hitCount > 0 then
+		notify("STOMP HIT ✨", "Enemies hit: "..hitCount)
 
-		if hits > 0 then
-			notify("STOMP HIT ✨", "Enemies hit: "..hits)
-
-			for i = 1, hits * HEAL_PER_HIT do
-				HealRemote:FireServer("Health")
-				task.wait(0.08)
-			end
-
-			if player.Character then
-				angelHealVFX(player.Character)
-			end
-		else
-			notify("STOMP MISSED ❌", "No enemies hit")
+		for i = 1, hitCount * HEAL_PER_HIT do
+			HealRemote:FireServer("Health")
+			task.wait(0.08)
 		end
+
+		if player.Character then
+			angelHealVFX(player.Character)
+		end
+	else
+		notify("STOMP MISSED ❌", "No enemies hit")
+	end
+end
+
+-- 🔥 Listen for the stomp tool being used
+local function monitorStompTool(tool)
+	if not tool then return end
+
+	tool.Activated:Connect(function()
+		-- Wait a short moment to let server apply damage
+		task.delay(0.1, function()
+			local hits = getStompHitCount()
+			applyHealAndVFX(hits)
+		end)
 	end)
 end
 
--- 🔥 AUTO-DETECT STOMP VIA ANIMATION (SAFE)
-local function hookCharacter(char)
-	local humanoid = char:WaitForChild("Humanoid")
+-- Monitor when player equips a tool
+player.Backpack.ChildAdded:Connect(function(tool)
+	if tool.Name:lower():find("stomp") then
+		monitorStompTool(tool)
+	end
+end)
 
-	humanoid.AnimationPlayed:Connect(function(track)
-		local name = track.Name:lower()
-		if name:find("stomp") then
-			onStompAnimation()
-		end
-	end)
+-- Monitor tools already in backpack (in case equipped on spawn)
+for _, tool in ipairs(player.Backpack:GetChildren()) do
+	if tool.Name:lower():find("stomp") then
+		monitorStompTool(tool)
+	end
 end
 
--- Character load
+-- Also monitor currently equipped tool
 if player.Character then
-	hookCharacter(player.Character)
+	local equippedTool = player.Character:FindFirstChildOfClass("Tool")
+	if equippedTool and equippedTool.Name:lower():find("stomp") then
+		monitorStompTool(equippedTool)
+	end
 end
 
-player.CharacterAdded:Connect(hookCharacter)
+-- Detect when character equips a new tool
+player.CharacterAdded:Connect(function(char)
+	char.ChildAdded:Connect(function(child)
+		if child:IsA("Tool") and child.Name:lower():find("stomp") then
+			monitorStompTool(child)
+		end
+	end)
+end)
 
    end,
 })
