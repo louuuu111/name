@@ -913,7 +913,7 @@ local player = Players.LocalPlayer
 
 -- Remotes
 local Events = ReplicatedStorage:WaitForChild("events")
-local MainKeys = Events:WaitForChild("MainKeys")
+local StompRemote = Events:WaitForChild("MainKeys")
 local HealRemote = Events:WaitForChild("SoloPlrEvents")
 
 -- Settings
@@ -922,13 +922,13 @@ local CHECK_TIME = 0.45
 local HEAL_PER_HIT = 2
 local MAX_HITS = 4
 
--- Notification helper
-local function notify(title, text, duration)
+-- Notification
+local function notify(title, text)
 	pcall(function()
 		StarterGui:SetCore("SendNotification", {
 			Title = title,
 			Text = text,
-			Duration = duration or 2
+			Duration = 2
 		})
 	end)
 end
@@ -963,7 +963,7 @@ local function angelHealVFX(char)
 	Debris:AddItem(emit,1.4)
 end
 
--- Detect stomp hits
+-- Detect stomp hits by health loss
 local function getStompHitCount()
 	local char = player.Character
 	local root = char and char:FindFirstChild("HumanoidRootPart")
@@ -1006,16 +1006,19 @@ local function getStompHitCount()
 	return math.clamp(count, 0, MAX_HITS)
 end
 
--- Run heal logic AFTER stomp happens
-local function onStompUsed()
+-- SAFE stomp + heal
+local function stompWithHeal()
+	-- Fire stomp normally
+	StompRemote:FireServer("Stomp")
+
+	-- Check result AFTER
 	task.delay(0.05, function()
 		local hits = getStompHitCount()
 
 		if hits > 0 then
-			notify("STOMP HIT ✨", "Enemies hit: "..hits, 2)
+			notify("STOMP HIT ✨", "Enemies hit: "..hits)
 
-			local heals = hits * HEAL_PER_HIT
-			for i = 1, heals do
+			for i = 1, hits * HEAL_PER_HIT do
 				HealRemote:FireServer("Health")
 				task.wait(0.08)
 			end
@@ -1024,23 +1027,18 @@ local function onStompUsed()
 				angelHealVFX(player.Character)
 			end
 		else
-			notify("STOMP MISSED ❌", "No enemies hit", 2)
+			notify("STOMP MISSED ❌", "No enemies hit")
 		end
 	end)
 end
 
--- 🔥 HOOK THE STOMP REMOTE
-local oldFireServer
-oldFireServer = hookmetamethod(game, "__namecall", function(self, ...)
-	local method = getnamecallmethod()
-	local args = {...}
-
-	if method == "FireServer" and self == MainKeys and args[1] == "Stomp" then
-		onStompUsed()
+-- 🔥 CHAT COMMAND (SAFE)
+player.Chatted:Connect(function(msg)
+	if msg:lower() == ":stomp" then
+		stompWithHeal()
 	end
-
-	return oldFireServer(self, ...)
 end)
+
 
    end,
 })
