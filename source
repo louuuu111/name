@@ -20,7 +20,7 @@ print("Access granted for: "..player.Name)
 local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
 
 local Window = Rayfield:CreateWindow({
-   Name = "Baddies Midwest (REVAMP)",
+   Name = "Baddies Midwest (in progress 2026)",
    Icon = 0, -- Icon in Topbar. Can use Lucide Icons (string) or Roblox Image (number). 0 to use no icon (default).
    LoadingTitle = "Loading...",
    LoadingSubtitle = "by Jace",
@@ -44,9 +44,9 @@ local Window = Rayfield:CreateWindow({
    KeySystem = true, -- Set this to true to use our key system
    KeySettings = {
       Title = "Baddies Midwest",
-      Subtitle = "Landon was here...",
+      Subtitle = "Prince was here...",
       Note = ".-.",
-      FileName = "BackKey", 
+      FileName = "ProgressKey", 
       SaveKey = false, -- 
       GrabKeyFromSite = false,
       Key = {"Lex"}
@@ -897,5 +897,21 @@ local Button = MainTab:CreateButton({
     "Rings"
 }
 game:GetService("ReplicatedStorage"):WaitForChild("events"):WaitForChild("NonFightEvents"):WaitForChild("customweldacc"):FireServer(unpack(args))
+   end,
+})
+
+local Button = MainTab:CreateButton({
+   Name = "BREAK UP (NEW)",
+   Callback = function()
+   		 local tool = script.Parent
+
+tool.Activated:Connect(function()
+	game:GetService("ReplicatedStorage")
+		:WaitForChild("events")
+		:WaitForChild("NonFightEvents")
+		:WaitForChild("CarryPlr")
+		:FireServer()
+end)
+
    end,
 })
