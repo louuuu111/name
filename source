@@ -900,11 +900,8 @@ game:GetService("ReplicatedStorage"):WaitForChild("events"):WaitForChild("NonFig
    end,
 })
 
-local Button = MainTab:CreateButton({
-   Name = "BreakUp Tool (New)",
-   Callback = function()
-   			local Button = Tab:CreateButton({
-	Name = "Carry Player",
+local Button =  MainTab:CreateButton({
+	Name = "Carry Player (New)",
 	Callback = function()
 		local remote = game:GetService("ReplicatedStorage")
 			:WaitForChild("events")
@@ -913,6 +910,4 @@ local Button = MainTab:CreateButton({
 
 		remote:FireServer()
 	end,
-})
-   end,
 })
