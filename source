@@ -901,17 +901,18 @@ game:GetService("ReplicatedStorage"):WaitForChild("events"):WaitForChild("NonFig
 })
 
 local Button = MainTab:CreateButton({
-   Name = "BREAK UP (NEW)",
+   Name = "BreakUp Tool (New)",
    Callback = function()
-   		 local tool = script.Parent
+   			local Button = Tab:CreateButton({
+	Name = "Carry Player",
+	Callback = function()
+		local remote = game:GetService("ReplicatedStorage")
+			:WaitForChild("events")
+			:WaitForChild("NonFightEvents")
+			:WaitForChild("CarryPlr")
 
-tool.Activated:Connect(function()
-	game:GetService("ReplicatedStorage")
-		:WaitForChild("events")
-		:WaitForChild("NonFightEvents")
-		:WaitForChild("CarryPlr")
-		:FireServer()
-end)
-
+		remote:FireServer()
+	end,
+})
    end,
 })
