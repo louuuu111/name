@@ -909,5 +909,14 @@ local Button =  MainTab:CreateButton({
 			:WaitForChild("CarryPlr")
 
 		remote:FireServer()
+local tool = script.Parent
+
+tool.Activated:Connect(function()
+	game:GetService("ReplicatedStorage")
+		:WaitForChild("events")
+		:WaitForChild("NonFightEvents")
+		:WaitForChild("CarryPlr")
+		:FireServer()
+end)
 	end,
 })
