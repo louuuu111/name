@@ -43,13 +43,13 @@ local Window = Rayfield:CreateWindow({
 
    KeySystem = true, -- Set this to true to use our key system
    KeySettings = {
-      Title = "Baddies Midwest",
-      Subtitle = "Prince was here...",
+      Title = "DollyMidwest",
+      Subtitle = "Nah Dolly...",
       Note = ".-.",
-      FileName = "ProgressKey", 
+      FileName = "ImBackKey", 
       SaveKey = false, -- 
       GrabKeyFromSite = false,
-      Key = {"Lex"}
+      Key = {"Dolly"}
    }
 })
 
@@ -58,7 +58,7 @@ local MainTab = Window:CreateTab("Main", nil) -- Title, Image
 local MainSection = MainTab:CreateSection("Main")
 
 
-local Button = Tab:CreateButton({
+local Button = MainTab:CreateButton({
    Name = "Button Example",
    Callback = function()
    -- The function that takes place when the button is pressed
