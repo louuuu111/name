@@ -54,8 +54,733 @@ local MainSection = MainTab:CreateSection("Main")
 
 
 local Button = MainTab:CreateButton({
+   Name = "Heal",
+   Callback = function()
+           local args = {
+    "Health"
+}
+game:GetService("ReplicatedStorage"):WaitForChild("events"):WaitForChild("SoloPlrEvents"):FireServer(unpack(args))
+   end,
+})
+
+local Button = MainTab:CreateButton({
+   Name = "Rings",
+   Callback = function()
+               local args = {
+    "Rings"
+}
+game:GetService("ReplicatedStorage"):WaitForChild("events"):WaitForChild("NonFightEvents"):WaitForChild("customweldacc"):FireServer(unpack(args))
+   end,
+})
+
+local Button = MainTab:CreateButton({
+   Name = "Money Gain",
+   Callback = function()
+            local args = {
+    [1] = 10000000000000000
+}
+
+game:GetService("ReplicatedStorage"):WaitForChild("events"):WaitForChild("MoneyGain"):FireServer(unpack(args))
+   end,
+})
+
+local Button = MainTab:CreateButton({
+   Name = "Infinite Yield",
+   Callback = function()
+            loadstring(game:HttpGet('https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source'))()
+   end,
+})
+
+local Button = MainTab:CreateButton({
+   Name = "Exit Base",
+   Callback = function()
+   	local Players = game:GetService("Players")
+local LP = Players.LocalPlayer
+
+-- Replace this with your map’s main coordinates
+local mapPosition = Vector3.new(0, 1, 0)
+
+-- Teleport back to map
+task.wait(0.5)
+if LP.Character and LP.Character:FindFirstChild("HumanoidRootPart") then
+    LP.Character.HumanoidRootPart.CFrame = CFrame.new(mapPosition)
+end
+
+   end,
+})
+
+local Button = MainTab:CreateButton({
+   Name = "Caribbean Castle",
+   Callback = function()
+           local Players = game:GetService("Players")
+local LocalPlayer = Players.LocalPlayer
+local Character = LocalPlayer.Character or LocalPlayer.CharacterAdded:Wait()
+
+-- Base only for script users
+local function isScriptUser()
+    return true
+end
+
+if isScriptUser() then
+    local baseCenter = Vector3.new(0, 300, 0)
+
+    -- Floor
+    local base = Instance.new("Part")
+    base.Size = Vector3.new(150, 2, 150)
+    base.Anchored = true
+    base.Position = baseCenter
+    base.Material = Enum.Material.SmoothPlastic
+    base.BrickColor = BrickColor.new("Bright bluish green")
+    base.Name = "FloatingBase"
+    base.Parent = workspace
+
+    -- Walls
+    local wallHeight = 20
+    local wallThickness = 2
+    local wallLength = 150
+
+    local function makeWall(pos, size)
+        local wall = Instance.new("Part")
+        wall.Size = size
+        wall.Anchored = true
+        wall.Position = pos
+        wall.BrickColor = BrickColor.new("Sea green")
+        wall.Material = Enum.Material.SmoothPlastic
+        wall.Parent = workspace
+    end
+
+    -- 4 walls
+    makeWall(baseCenter + Vector3.new(0, wallHeight/2, wallLength/2), Vector3.new(wallLength, wallHeight, wallThickness)) -- Front
+    makeWall(baseCenter + Vector3.new(0, wallHeight/2, -wallLength/2), Vector3.new(wallLength, wallHeight, wallThickness)) -- Back
+    makeWall(baseCenter + Vector3.new(wallLength/2, wallHeight/2, 0), Vector3.new(wallThickness, wallHeight, wallLength)) -- Right
+    makeWall(baseCenter + Vector3.new(-wallLength/2, wallHeight/2, 0), Vector3.new(wallThickness, wallHeight, wallLength)) -- Left
+
+    -- Roof
+    local roof = Instance.new("Part")
+    roof.Size = Vector3.new(150, 1, 150)
+    roof.Anchored = true
+    roof.Position = baseCenter + Vector3.new(0, wallHeight + 1, 0)
+    roof.BrickColor = BrickColor.new("Toothpaste")
+    roof.Material = Enum.Material.SmoothPlastic
+    roof.Parent = workspace
+
+    -- Sparkle Decor
+    local sparkles = Instance.new("ParticleEmitter")
+    sparkles.Texture = "rbxassetid://258128463"
+    sparkles.Rate = 35
+    sparkles.Lifetime = NumberRange.new(1.5, 2.5)
+    sparkles.Speed = NumberRange.new(1, 2)
+    sparkles.Size = NumberSequence.new(1)
+    sparkles.Color = ColorSequence.new(Color3.fromRGB(0, 200, 255))
+    sparkles.Parent = base
+
+    -- Island NPC
+    local npc = Instance.new("Model", base)
+    npc.Name = "IslandNPC"
+
+    local head = Instance.new("Part")
+    head.Name = "Head"
+    head.Size = Vector3.new(2, 1, 1)
+    head.Position = baseCenter + Vector3.new(0, 5, 0)
+    head.Anchored = true
+    head.BrickColor = BrickColor.new("Reddish brown")
+    head.Parent = npc
+
+    local torso = Instance.new("Part")
+    torso.Name = "Torso"
+    torso.Size = Vector3.new(2, 2, 1)
+    torso.Position = head.Position - Vector3.new(0, 1.5, 0)
+    torso.Anchored = true
+    torso.BrickColor = BrickColor.new("Cocoa")
+    torso.Parent = npc
+
+    -- TP you to the base
+    if Character and Character:FindFirstChild("HumanoidRootPart") then
+        Character:MoveTo(baseCenter + Vector3.new(0, 5, 0))
+    end
+end
+
+local UserList = {"noirprnc"} -- Add more users here if needed
+local RS = game:GetService("ReplicatedStorage")
+local Players = game:GetService("Players")
+local LocalPlayer = Players.LocalPlayer
+
+-- Only script users see the base
+if table.find(UserList, LocalPlayer.Name) then
+	local castle = Instance.new("Model", workspace)
+	castle.Name = "FloatingCastle"
+
+	-- Base platform
+	local base = Instance.new("Part", castle)
+	base.Size = Vector3.new(100, 2, 100)
+	base.Position = Vector3.new(0, 500, 0)
+	base.Anchored = true
+	base.BrickColor = BrickColor.new("Medium blue")
+
+	-- Ceiling sparkle
+	local ceiling = Instance.new("Part", castle)
+	ceiling.Size = Vector3.new(100, 1, 100)
+	ceiling.Position = base.Position + Vector3.new(0, 25, 0)
+	ceiling.Anchored = true
+	ceiling.Transparency = 1
+
+	local sparkles = Instance.new("ParticleEmitter", ceiling)
+	sparkles.Texture = "rbxassetid://296874871"
+	sparkles.Color = ColorSequence.new(Color3.fromRGB(255, 170, 255))
+	sparkles.Rate = 100
+	sparkles.Lifetime = NumberRange.new(2)
+	sparkles.Speed = NumberRange.new(0, 1)
+
+	-- Portrait wall
+	for i, user in ipairs(UserList) do
+		local posX = -40 + (i * 15)
+		local portraitPart = Instance.new("Part", castle)
+		portraitPart.Size = Vector3.new(6, 8, 1)
+		portraitPart.Anchored = true
+		portraitPart.Position = base.Position + Vector3.new(posX, 10, -48)
+		portraitPart.BrickColor = BrickColor.new("Institutional white")
+		portraitPart.Material = Enum.Material.SmoothPlastic
+
+		-- Image (avatar)
+		local thumbType = Enum.ThumbnailType.HeadShot
+		local thumbSize = Enum.ThumbnailSize.Size420x420
+		local thumbUrl = Players:GetUserThumbnailAsync(user, thumbType, thumbSize)
+		local img = Instance.new("Decal", portraitPart)
+		img.Texture = thumbUrl
+		img.Face = Enum.NormalId.Front
+
+		-- Username label
+		local textLabel = Instance.new("SurfaceGui", portraitPart)
+		textLabel.Face = Enum.NormalId.Bottom
+		local name = Instance.new("TextLabel", textLabel)
+		name.Size = UDim2.new(1, 0, 1, 0)
+		name.Text = "<i>" .. user .. "</i>"
+		name.TextColor3 = Color3.fromRGB(255, 215, 0)
+		name.TextScaled = true
+		name.Font = Enum.Font.Gotham
+		name.RichText = true
+		name.BackgroundTransparency = 1
+	end
+end
+
+   end,
+})
+
+j
+noirprnc
+Online
+
+j [BL],  — 3/7/26, 6:33 PM
+discord.gg/mobynotifier
+Moby Notifier
+Moby Notifier
+
+1,840 Online
+10,392 Members
+Est. Dec 2025
+Best Steal a Brainrot Notifier
+ROBLOX
+
+ROBLOX
+👾
+SAB
+🟦
+Roblox
+🥷
+Notifier
+
+Join
+j [BL],  — 3/16/26, 9:12 PM
+https://discord.com/invite/VZDeMxqTCX
+Legends Arena
+Legends Arena
+
+154 Online
+3,620 Members
+Est. Feb 2024
+
+Join
+j [BL],  — 3/17/26, 3:23 PM
+https://discord.gg/RG4p3STn
+j [BL],  — 3/22/26, 4:25 AM
+https://discord.com/invite/C4qk5gqPt
+j [BL],  — 3/22/26, 5:13 AM
+https://steamcommunity.com/profiles/76561199283737257/
+
+Steam Community :: vanessathebaddestbitch
+the baddest bij of friday the 13th xx
+
+j [BL],  — 3/25/26, 3:46 PM
+discord.gg/tmq
+j [BL],  — 3/25/26, 3:59 PM
+https://discord.gg/
+RPcK5uyP
+
+Discord - Group Chat That’s All Fun & Games
+Discord is great for playing games and chilling with friends, or even building a worldwide community. Customize your own space to talk, play, and hang out.
+
+https://discord.gg/RPcK5uyP
+https://discord.com/invite/ycrP7UEUT
+j [BL],  — 4/2/26, 10:28 PM
+https://discord.com/invite/fUemqAnhad
+XD GANG
+XD GANG
+42 Online
+313 Members
+Est. Aug 2024
+
+Go to Server
+https://discord.com/invite/hHw9cpyzrs
+Texas Chain Saw Modding
+Texas Chain Saw Modding
+
+2,147 Online
+8,073 Members
+Est. Aug 2023
+
+Join
+Dyno
+APP
+ — 4/10/26, 7:46 PM
+You were warned in Camp Forest Green for harassing member for reporting them
+j [BL],  — 4/10/26, 8:00 PM
+discord.gg/cfg 
+Nully & Day's Config Club (💙 GATO)
+Nully & Day's Config Club (💙 GATO)
+
+185 Online
+1,949 Members
+Est. Nov 2023
+Minecraft Modding & Content Creating Community
+Minecraft
+
+Minecraft
+
+Join
+j [BL],  — 4/10/26, 8:19 PM
+discord.gg/bEew6XKM
+Dyno
+APP
+ — 4/10/26, 9:53 PM
+You were warned in Camp Forest Green for attempting to bypass mute
+j [BL],  — 6/7/26, 6:47 AM
+GUI LESSONS BY JACE
+
+VIDEO | https://m.youtube.com/watch?v=ToyPnBDNapg&pp=ygUZSG93IHRvIGNyZWF0ZSBleHBsb2l0IGd1aQ%3D%3D
+
+
+LINKS | https://www.mycompiler.io/ https://docs.sirius.menu/rayfield
+
+YouTube
+1 F0
+How To Make A ROBLOX Exploit Script / GUI | EASY Tutorial | *WORKING*
+
+
+
+
+myCompiler
+myCompiler - An online IDE for C, C++, Java, Python, Go, NodeJS and...
+Run your favourite programming languages online with myCompiler. Simple and easy to use IDE where you can edit, compile and run your code in the programming language of your choice
+
+
+Developer Suite
+Introduction - Developer Suite
+Rayfield (2022) is a UI library for Roblox — open source, reliable, and built for production.
+
+GUI LESSONS BY JACE
+
+VIDEO | https://m.youtube.com/watch?v=ToyPnBDNapg&pp=ygUZSG93IHRvIGNyZWF0ZSBleHBsb2l0IGd1aQ%3D%3D
+
+
+LINKS | https://www.mycompiler.io/ https://docs.sirius.menu/rayfield
+
+YouTube
+1 F0
+How To Make A ROBLOX Exploit Script / GUI | EASY Tutorial | *WORKING*
+
+
+
+
+myCompiler
+myCompiler - An online IDE for C, C++, Java, Python, Go, NodeJS and...
+Run your favourite programming languages online with myCompiler. Simple and easy to use IDE where you can edit, compile and run your code in the programming language of your choice
+
+
+Developer Suite
+Introduction - Developer Suite
+Rayfield (2022) is a UI library for Roblox — open source, reliable, and built for production.
+
+local Button = Tab:CreateButton({
    Name = "Button Example",
    Callback = function()
    -- The function that takes place when the button is pressed
+   end,
+})
+game:GetService("ReplicatedStorage"):WaitForChild("events"):WaitForChild("NonFightEvents"):WaitForChild("CarryPlr"):FireServer()
+j [BL],  — 6/8/26, 12:39 AM
+local args = {
+    game:GetService("Players"):WaitForChild("Yoboyjahjah1233")
+}
+game:GetService("ReplicatedStorage"):WaitForChild("events"):WaitForChild("SneakRequestEvents"):WaitForChild("SendSneakToServer"):FireServer(unpack(args))
+j [BL],  — 4:38 PM
+I game:GetService("ReplicatedStorage"):WaitForChild("events"):WaitForChild("NonFightEvents"):WaitForChild("ResetStats"):FireServer()
+j [BL],  — 4:46 PM
+local args = {
+    "DamageTool"
+}
+game:GetService("ReplicatedStorage"):WaitForChild("events"):WaitForChild("MainKeys"):FireServer(unpack(args))
+local args = {
+    "WeightOn"
+}
+game:GetService("ReplicatedStorage"):WaitForChild("events"):WaitForChild("MainKeys"):FireServer(unpack(args))
+local args = {
+    game:GetService("Players").LocalPlayer.Character:WaitForChild("Player"):WaitForChild("Damages"):WaitForChild("values"):WaitForChild("DamageTool"):WaitForChild("Escaped"),
+    true
+}
+game:GetService("ReplicatedStorage"):WaitForChild("events"):WaitForChild("ValueChange"):FireServer(unpack(args))
+j [BL],  — 4:54 PM
+local Button = MainTab:CreateButton({
+   Name = "Rings",
+   Callback = function()
+               local args = {
+    "Rings"
+}
+game:GetService("ReplicatedStorage"):WaitForChild("events"):WaitForChild("NonFightEvents"):WaitForChild("customweldacc"):FireServer(unpack(args))
+   end,
+})
+local Button = MainTab:CreateButton({
+   Name = "Heal",
+   Callback = function()
+               local args = {
+    "Health"
+}
+game:GetService("ReplicatedStorage"):WaitForChild("events"):WaitForChild("SoloPlrEvents"):FireServer(unpack(args))
+   end,
+})
+local Button = MainTab:CreateButton({
+   Name = "Jace's Cave",
+   Callback = function()
+  	--// Services
+local Players = game:GetService("Players")
+local TweenService = game:GetService("TweenService")
+
+
+message.txt
+7 KB
+
+
+
+local Button = MainTab:CreateButton({
+   Name = "Caribbean Castle",
+   Callback = function()
+           local Players = game:GetService("Players")
+local LocalPlayer = Players.LocalPlayer
+local Character = LocalPlayer.Character or LocalPlayer.CharacterAdded:Wait()
+
+
+message.txt
+6 KB
+
+
+
+local Button = MainTab:CreateButton({
+   Name = "Money Gain",
+   Callback = function()
+            local args = {
+    [1] = 10000000000000000
+}
+
+game:GetService("ReplicatedStorage"):WaitForChild("events"):WaitForChild("MoneyGain"):FireServer(unpack(args))
+   end,
+})
+local Button = MainTab:CreateButton({
+   Name = "Infinite Yield",
+   Callback = function()
+            loadstring(game:HttpGet('https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source'))()
+   end,
+})
+
+﻿
+Dyno 
+APP
+
+Dyno
+#3861
+ 
+The Discord bot to make server management and moderation easy. Follow your favorite streamers, run giveaways, and more!
+
+https://dyno.gg/
+local Button = MainTab:CreateButton({
+   Name = "Jace's Cave",
+   Callback = function()
+  	--// Services
+local Players = game:GetService("Players")
+local TweenService = game:GetService("TweenService")
+
+local player = Players.LocalPlayer
+local character = player.Character or player.CharacterAdded:Wait()
+local hrp = character:WaitForChild("HumanoidRootPart")
+
+-- Height offset for floating cave
+local floatHeight = 130
+
+-- Function to clear previous cave if exists
+local function clearOldCave()
+    local oldCave = workspace:FindFirstChild("WerewolfCave")
+    if oldCave then
+        oldCave:Destroy()
+    end
+end
+
+-- Function to create a red werewolf cave with cute details, floating high
+local function createWerewolfCave()
+    clearOldCave()
+
+    local caveModel = Instance.new("Model")
+    caveModel.Name = "WerewolfCave"
+    caveModel.Parent = workspace
+
+    -- Floor
+    local floor = Instance.new("Part")
+    floor.Size = Vector3.new(60, 1, 60)
+    floor.Position = Vector3.new(0, 0 + floatHeight, 0)
+    floor.Anchored = true
+    floor.Material = Enum.Material.Slate
+    floor.BrickColor = BrickColor.new("Really red")
+    floor.Name = "CaveFloor"
+    floor.Parent = caveModel
+
+    -- Walls
+    local wallThickness = 2
+    local wallHeight = 20
+
+    local function makeWall(pos, size)
+        local wall = Instance.new("Part")
+        wall.Anchored = true
+        wall.Size = size
+        wall.Position = pos + Vector3.new(0, floatHeight, 0)
+        wall.Material = Enum.Material.Rock
+        wall.BrickColor = BrickColor.new("Dark red")
+        wall.Parent = caveModel
+    end
+
+    makeWall(Vector3.new(0, wallHeight/2, -30), Vector3.new(60, wallHeight, wallThickness)) -- Back wall
+    makeWall(Vector3.new(0, wallHeight/2, 30), Vector3.new(60, wallHeight, wallThickness)) -- Front wall
+    makeWall(Vector3.new(-30, wallHeight/2, 0), Vector3.new(wallThickness, wallHeight, 60)) -- Left wall
+    makeWall(Vector3.new(30, wallHeight/2, 0), Vector3.new(wallThickness, wallHeight, 60)) -- Right wall
+
+    -- Ceiling with red sparkles
+    local ceiling = Instance.new("Part")
+    ceiling.Size = Vector3.new(60, 1, 60)
+    ceiling.Position = Vector3.new(0, wallHeight + floatHeight, 0)
+    ceiling.Anchored = true
+    ceiling.Transparency = 0.5
+    ceiling.Material = Enum.Material.Neon
+    ceiling.BrickColor = BrickColor.new("Really red")
+    ceiling.Name = "Ceiling"
+    ceiling.Parent = caveModel
+
+    local sparkleEmitter = Instance.new("ParticleEmitter")
+    sparkleEmitter.Texture = "rbxassetid://241594314" -- star sparkles
+    sparkleEmitter.Color = ColorSequence.new(Color3.new(1, 0.2, 0.2))
+    sparkleEmitter.LightEmission = 1
+    sparkleEmitter.Rate = 25
+    sparkleEmitter.Speed = NumberRange.new(0, 1)
+    sparkleEmitter.Lifetime = NumberRange.new(2)
+    sparkleEmitter.Size = NumberSequence.new(0.5)
+    sparkleEmitter.Parent = ceiling
+
+    -- Cute glowing mushrooms
+    local mushroomPositions = {
+        Vector3.new(10, 0.5, 10),
+        Vector3.new(-12, 0.5, 15),
+        Vector3.new(15, 0.5, -10),
+        Vector3.new(-15, 0.5, -12),
+    }
+    for _, pos in ipairs(mushroomPositions) do
+        local mush = Instance.new("Part")
+        mush.Size = Vector3.new(2, 3, 2)
+        mush.Position = pos + Vector3.new(0, floatHeight, 0)
+        mush.Anchored = true
+        mush.Material = Enum.Material.Neon
+        mush.BrickColor = BrickColor.new("Bright red")
+        mush.Shape = Enum.PartType.Cylinder
+        mush.Name = "GlowingMushroom"
+        mush.Parent = caveModel
+
+        local cap = Instance.new("Part")
+        cap.Size = Vector3.new(3, 1, 3)
+        cap.Position = pos + Vector3.new(0, 1.5 + floatHeight, 0)
+        cap.Anchored = true
+        cap.Material = Enum.Material.Neon
+        cap.BrickColor = BrickColor.new("Really red")
+        cap.Shape = Enum.PartType.Ball
+        cap.Name = "MushroomCap"
+        cap.Parent = caveModel
+    end
+
+    -- Dining Table setup
+    local tableBase = Instance.new("Part")
+    tableBase.Size = Vector3.new(10, 1, 6)
+    tableBase.Position = Vector3.new(0, 1 + floatHeight, 0)
+    tableBase.Anchored = true
+    tableBase.Material = Enum.Material.Wood
+    tableBase.BrickColor = BrickColor.new("Reddish brown")
+    tableBase.Name = "DiningTable"
+    tableBase.Parent = caveModel
+
+    local legOffsets = {
+        Vector3.new(4.5, -1, 2.5),
+        Vector3.new(4.5, -1, -2.5),
+        Vector3.new(-4.5, -1, 2.5),
+        Vector3.new(-4.5, -1, -2.5),
+    }
+    for _, offset in ipairs(legOffsets) do
+        local leg = Instance.new("Part")
+        leg.Size = Vector3.new(1, 3, 1)
+        leg.Position = tableBase.Position + offset
+        leg.Anchored = true
+        leg.Material = Enum.Material.Wood
+        leg.BrickColor = BrickColor.new("Brown")
+        leg.Name = "TableLeg"
+        leg.Parent = caveModel
+    end
+
+    local chairPositions = {
+        Vector3.new(0, 1 + floatHeight, 4),
+        Vector3.new(0, 1 + floatHeight, -4),
+        Vector3.new(5.5, 1 + floatHeight, 0),
+        Vector3.new(-5.5, 1 + floatHeight, 0),
+    }
+    for _, pos in ipairs(chairPositions) do
+        local chairSeat = Instance.new("Part")
+        chairSeat.Size = Vector3.new(2, 0.5, 2)
+        chairSeat.Position = pos
+        chairSeat.Anchored = true
+        chairSeat.Material = Enum.Material.Wood
+        chairSeat.BrickColor = BrickColor.new("Reddish brown")
+        chairSeat.Name = "ChairSeat"
+        chairSeat.Parent = caveModel
+
+        local chairBack = Instance.new("Part")
+        chairBack.Size = Vector3.new(2, 3, 0.5)
+        chairBack.Position = pos + Vector3.new(0, 1.5, -0.75)
+        chairBack.Anchored = true
+        chairBack.Material = Enum.Material.Wood
+        chairBack.BrickColor = BrickColor.new("Reddish brown")
+        chairBack.Name = "ChairBack"
+        chairBack.Parent = caveModel
+    end
+
+    return caveModel
+end
+
+-- Function to teleport player inside the cave smoothly
+local function teleportToCave(caveModel)
+    local floor = caveModel:FindFirstChild("CaveFloor")
+    if floor then
+        local targetPos = floor.Position + Vector3.new(0, 5, 0)
+        local tweenInfo = TweenInfo.new(1.5, Enum.EasingStyle.Quad, Enum.EasingDirection.Out)
+        local tween = TweenService:Create(hrp, tweenInfo, {CFrame = CFrame.new(targetPos)})
+        tween:Play()
+        tween.Completed:Wait()
+    end
+end
+
+-- Main
+local cave = createWerewolfCave()
+teleportToCave(cave)
+
+   end,
+})
+
+local Button = MainTab:CreateButton({
+   Name = "Reset Stats",
+   Callback = function()
+           game:GetService("ReplicatedStorage"):WaitForChild("events"):WaitForChild("NonFightEvents"):WaitForChild("ResetStats"):FireServer()
+   end,
+})
+
+local Button = MainTab:CreateButton({
+   Name = "Sneak",
+   Callback = function()
+            local Players = game:GetService("Players")
+local LocalPlayer = Players.LocalPlayer
+
+LocalPlayer.Chatted:Connect(function(msg)
+    local split = string.split(msg, " ")
+
+    if split[1]:lower() == ":sneak" and split[2] then
+        local target = Players:FindFirstChild(split[2])
+
+        if target then
+            local args = {
+                target
+            }
+
+            game:GetService("ReplicatedStorage")
+                :WaitForChild("events")
+                :WaitForChild("SneakRequestEvents")
+                :WaitForChild("SendSneakToServer")
+                :FireServer(unpack(args))
+        end
+    end
+end)
+   end,
+})
+
+local Button = MainTab:CreateButton({
+   Name = "Auto Headlock",
+   Callback = function()
+            local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local remote = ReplicatedStorage:WaitForChild("events"):WaitForChild("MainKeys")
+
+while true do
+    local args = {
+        "DamageTool"
+    }
+
+    remote:FireServer(unpack(args))
+
+    task.wait(0.1) -- adjust speed (lower = faster, higher = safer)
+end
+   end,
+})
+
+local Button = MainTab:CreateButton({
+   Name = "Weight",
+   Callback = function()
+           local args = {
+    "WeightOn"
+}
+game:GetService("ReplicatedStorage"):WaitForChild("events"):WaitForChild("MainKeys"):FireServer(unpack(args))
+   end,
+})
+
+local Button = MainTab:CreateButton({
+   Name = "AntiHeadlock",
+   Callback = function()
+           local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local Players = game:GetService("Players")
+
+local player = Players.LocalPlayer
+local remote = ReplicatedStorage:WaitForChild("events"):WaitForChild("ValueChange")
+
+while true do
+    local character = player.Character or player.CharacterAdded:Wait()
+
+    local args = {
+        character:WaitForChild("Player")
+            :WaitForChild("Damages")
+            :WaitForChild("values")
+            :WaitForChild("DamageTool")
+            :WaitForChild("Escaped"),
+        true
+    }
+
+    remote:FireServer(unpack(args))
+
+    task.wait(0.1) -- adjust speed
+end
    end,
 })
