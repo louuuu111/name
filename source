@@ -19,12 +19,14 @@ print("Access granted for: "..player.Name)
 
 local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
 
+print("Rayfield loaded")
+
 local Window = Rayfield:CreateWindow({
    Name = "DollyMidwest",
    LoadingTitle = "Loading...",
    LoadingSubtitle = "by Jace",
 
-   Theme = Rayfield.Themes.Amethyst,
+   Theme = "Amethyst",
 
    DisableRayfieldPrompts = false,
    DisableBuildWarnings = false,
