@@ -20,34 +20,11 @@ print("Access granted for: "..player.Name)
 local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
 
 local Window = Rayfield:CreateWindow({
-    Name = "DollyMidwest",
-    LoadingTitle = "Loading...",
-    LoadingSubtitle = "by Jace",
-    Theme = Rayfield.Themes.Amethyst,
-    
-})
+   Name = "DollyMidwest",
+   LoadingTitle = "Loading...",
+   LoadingSubtitle = "by Jace",
 
-   Theme = {
-      TextColor = Color3.fromRGB(255,255,255),
-      Background = Color3.fromRGB(24,24,24),
-      Topbar = Color3.fromRGB(34,34,34),
-
-      TabBackground = Color3.fromRGB(80,0,120),
-      TabBackgroundSelected = Color3.fromRGB(120,0,180),
-      TabTextColor = Color3.fromRGB(255,255,255),
-      SelectedTabTextColor = Color3.fromRGB(255,255,255),
-
-      ElementBackground = Color3.fromRGB(35,35,35),
-      ElementBackgroundHover = Color3.fromRGB(45,45,45),
-
-      SliderBackground = Color3.fromRGB(120,0,180),
-      SliderProgress = Color3.fromRGB(170,0,255),
-
-      ToggleEnabled = Color3.fromRGB(170,0,255),
-
-      InputBackground = Color3.fromRGB(30,30,30),
-      PlaceholderColor = Color3.fromRGB(178,178,178)
-   },
+   Theme = Rayfield.Themes.Amethyst,
 
    DisableRayfieldPrompts = false,
    DisableBuildWarnings = false,
