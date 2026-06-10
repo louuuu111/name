@@ -266,169 +266,11 @@ end
    end,
 })
 
-j
-noirprnc
-Online
-
-j [BL],  — 3/7/26, 6:33 PM
-discord.gg/mobynotifier
-Moby Notifier
-Moby Notifier
-
-1,840 Online
-10,392 Members
-Est. Dec 2025
-Best Steal a Brainrot Notifier
-ROBLOX
-
-ROBLOX
-👾
-SAB
-🟦
-Roblox
-🥷
-Notifier
-
-Join
-j [BL],  — 3/16/26, 9:12 PM
-https://discord.com/invite/VZDeMxqTCX
-Legends Arena
-Legends Arena
-
-154 Online
-3,620 Members
-Est. Feb 2024
-
-Join
-j [BL],  — 3/17/26, 3:23 PM
-https://discord.gg/RG4p3STn
-j [BL],  — 3/22/26, 4:25 AM
-https://discord.com/invite/C4qk5gqPt
-j [BL],  — 3/22/26, 5:13 AM
-https://steamcommunity.com/profiles/76561199283737257/
-
-Steam Community :: vanessathebaddestbitch
-the baddest bij of friday the 13th xx
-
-j [BL],  — 3/25/26, 3:46 PM
-discord.gg/tmq
-j [BL],  — 3/25/26, 3:59 PM
-https://discord.gg/
-RPcK5uyP
-
-Discord - Group Chat That’s All Fun & Games
-Discord is great for playing games and chilling with friends, or even building a worldwide community. Customize your own space to talk, play, and hang out.
-
-https://discord.gg/RPcK5uyP
-https://discord.com/invite/ycrP7UEUT
-j [BL],  — 4/2/26, 10:28 PM
-https://discord.com/invite/fUemqAnhad
-XD GANG
-XD GANG
-42 Online
-313 Members
-Est. Aug 2024
-
-Go to Server
-https://discord.com/invite/hHw9cpyzrs
-Texas Chain Saw Modding
-Texas Chain Saw Modding
-
-2,147 Online
-8,073 Members
-Est. Aug 2023
-
-Join
-Dyno
-APP
- — 4/10/26, 7:46 PM
-You were warned in Camp Forest Green for harassing member for reporting them
-j [BL],  — 4/10/26, 8:00 PM
-discord.gg/cfg 
-Nully & Day's Config Club (💙 GATO)
-Nully & Day's Config Club (💙 GATO)
-
-185 Online
-1,949 Members
-Est. Nov 2023
-Minecraft Modding & Content Creating Community
-Minecraft
-
-Minecraft
-
-Join
-j [BL],  — 4/10/26, 8:19 PM
-discord.gg/bEew6XKM
-Dyno
-APP
- — 4/10/26, 9:53 PM
-You were warned in Camp Forest Green for attempting to bypass mute
-j [BL],  — 6/7/26, 6:47 AM
-GUI LESSONS BY JACE
-
-VIDEO | https://m.youtube.com/watch?v=ToyPnBDNapg&pp=ygUZSG93IHRvIGNyZWF0ZSBleHBsb2l0IGd1aQ%3D%3D
-
-
-LINKS | https://www.mycompiler.io/ https://docs.sirius.menu/rayfield
-
-YouTube
-1 F0
-How To Make A ROBLOX Exploit Script / GUI | EASY Tutorial | *WORKING*
-
-
-
-
-myCompiler
-myCompiler - An online IDE for C, C++, Java, Python, Go, NodeJS and...
-Run your favourite programming languages online with myCompiler. Simple and easy to use IDE where you can edit, compile and run your code in the programming language of your choice
-
-
-Developer Suite
-Introduction - Developer Suite
-Rayfield (2022) is a UI library for Roblox — open source, reliable, and built for production.
-
-GUI LESSONS BY JACE
-
-VIDEO | https://m.youtube.com/watch?v=ToyPnBDNapg&pp=ygUZSG93IHRvIGNyZWF0ZSBleHBsb2l0IGd1aQ%3D%3D
-
-
-LINKS | https://www.mycompiler.io/ https://docs.sirius.menu/rayfield
-
-YouTube
-1 F0
-How To Make A ROBLOX Exploit Script / GUI | EASY Tutorial | *WORKING*
-
-
-
-
-myCompiler
-myCompiler - An online IDE for C, C++, Java, Python, Go, NodeJS and...
-Run your favourite programming languages online with myCompiler. Simple and easy to use IDE where you can edit, compile and run your code in the programming language of your choice
-
-
-Developer Suite
-Introduction - Developer Suite
-Rayfield (2022) is a UI library for Roblox — open source, reliable, and built for production.
-
-local Button = Tab:CreateButton({
-   Name = "Button Example",
-   Callback = function()
-   -- The function that takes place when the button is pressed
-   end,
-})
-game:GetService("ReplicatedStorage"):WaitForChild("events"):WaitForChild("NonFightEvents"):WaitForChild("CarryPlr"):FireServer()
-j [BL],  — 6/8/26, 12:39 AM
-local args = {
-    game:GetService("Players"):WaitForChild("Yoboyjahjah1233")
-}
-game:GetService("ReplicatedStorage"):WaitForChild("events"):WaitForChild("SneakRequestEvents"):WaitForChild("SendSneakToServer"):FireServer(unpack(args))
-j [BL],  — 4:38 PM
-I game:GetService("ReplicatedStorage"):WaitForChild("events"):WaitForChild("NonFightEvents"):WaitForChild("ResetStats"):FireServer()
-j [BL],  — 4:46 PM
 local args = {
     "DamageTool"
 }
 game:GetService("ReplicatedStorage"):WaitForChild("events"):WaitForChild("MainKeys"):FireServer(unpack(args))
+
 local args = {
     "WeightOn"
 }
@@ -438,7 +280,8 @@ local args = {
     true
 }
 game:GetService("ReplicatedStorage"):WaitForChild("events"):WaitForChild("ValueChange"):FireServer(unpack(args))
-j [BL],  — 4:54 PM
+
+
 local Button = MainTab:CreateButton({
    Name = "Rings",
    Callback = function()
@@ -448,6 +291,7 @@ local Button = MainTab:CreateButton({
 game:GetService("ReplicatedStorage"):WaitForChild("events"):WaitForChild("NonFightEvents"):WaitForChild("customweldacc"):FireServer(unpack(args))
    end,
 })
+
 local Button = MainTab:CreateButton({
    Name = "Heal",
    Callback = function()
@@ -457,30 +301,6 @@ local Button = MainTab:CreateButton({
 game:GetService("ReplicatedStorage"):WaitForChild("events"):WaitForChild("SoloPlrEvents"):FireServer(unpack(args))
    end,
 })
-local Button = MainTab:CreateButton({
-   Name = "Jace's Cave",
-   Callback = function()
-  	--// Services
-local Players = game:GetService("Players")
-local TweenService = game:GetService("TweenService")
-
-
-message.txt
-7 KB
-
-
-
-local Button = MainTab:CreateButton({
-   Name = "Caribbean Castle",
-   Callback = function()
-           local Players = game:GetService("Players")
-local LocalPlayer = Players.LocalPlayer
-local Character = LocalPlayer.Character or LocalPlayer.CharacterAdded:Wait()
-
-
-message.txt
-6 KB
-
 
 
 local Button = MainTab:CreateButton({
@@ -493,6 +313,8 @@ local Button = MainTab:CreateButton({
 game:GetService("ReplicatedStorage"):WaitForChild("events"):WaitForChild("MoneyGain"):FireServer(unpack(args))
    end,
 })
+
+
 local Button = MainTab:CreateButton({
    Name = "Infinite Yield",
    Callback = function()
@@ -500,16 +322,7 @@ local Button = MainTab:CreateButton({
    end,
 })
 
-﻿
-Dyno 
-APP
 
-Dyno
-#3861
- 
-The Discord bot to make server management and moderation easy. Follow your favorite streamers, run giveaways, and more!
-
-https://dyno.gg/
 local Button = MainTab:CreateButton({
    Name = "Jace's Cave",
    Callback = function()
