@@ -21,33 +21,25 @@ local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
 
 local Window = Rayfield:CreateWindow({
    Name = "DollyMidwest",
-   Icon = 0, -- Icon in Topbar. Can use Lucide Icons (string) or Roblox Image (number). 0 to use no icon (default).
    LoadingTitle = "Loading...",
    LoadingSubtitle = "by Jace",
-   Theme = "Amethyst - Default", -- Check https://docs.sirius.menu/rayfield/configuration/themes
+   Theme = "Amethyst",
 
    DisableRayfieldPrompts = false,
-   DisableBuildWarnings = false, -- Prevents Rayfield from warning when the script has a version mismatch with the interface
+   DisableBuildWarnings = false,
 
    ConfigurationSaving = {
       Enabled = false,
-      FolderName = nil, -- Create a custom folder for your hub/game
       FileName = "Baddie"
    },
 
-   Discord = {
-      Enabled = false, -- Prompt the user to join your Discord server if their executor supports it
-      Invite = "noinvitelink", -- The Discord invite code, do not include discord.gg/. E.g. discord.gg/ ABCD would be ABCD
-      RememberJoins = true -- Set this to false to make them join the discord every time they load it up
-   },
-
-   KeySystem = true, -- Set this to true to use our key system
+   KeySystem = true,
    KeySettings = {
       Title = "DollyMidwest",
       Subtitle = "Nah Dolly...",
       Note = ".-.",
-      FileName = "ImBackKey", 
-      SaveKey = false, -- 
+      FileName = "ImBackKey",
+      SaveKey = false,
       GrabKeyFromSite = false,
       Key = {"Dolly"}
    }
