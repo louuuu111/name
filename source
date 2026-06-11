@@ -579,24 +579,17 @@ end)
 local Button = MainTab:CreateButton({
    Name = "Carry Plr",
    Callback = function()
-			local Tool = script.Parent
-local ReplicatedStorage = game:GetService("ReplicatedStorage")
-
--- When tool is equipped
-Tool.Equipped:Connect(function()
-    task.wait(0.1) -- Small delay to ensure remote exists
-    
-    local events = ReplicatedStorage:FindFirstChild("events")
-    local nonFightEvents = events and events:FindFirstChild("NonFightEvents")
-    local carryPlr = nonFightEvents and nonFightEvents:FindFirstChild("CarryPlr")
-    
-    if carryPlr then
-        carryPlr:FireServer()
-        print("Carry Plr activated!")
-    else
-        print("CarryPlr remote not found!")
-    end
-end)
+			local Button = MainTab:CreateButton({
+   Name = "Carry Plr",
+   Callback = function()
+       local ReplicatedStorage = game:GetService("ReplicatedStorage")
+       
+       pcall(function()
+           ReplicatedStorage:WaitForChild("events"):WaitForChild("NonFightEvents"):WaitForChild("CarryPlr"):FireServer()
+           print("Carry Plr activated!")
+       end)
+   end,
+})
    end,
 })
 
