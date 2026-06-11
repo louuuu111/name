@@ -545,35 +545,89 @@ game:GetService("ReplicatedStorage"):WaitForChild("events"):WaitForChild("MainKe
 local Button = MainTab:CreateButton({
    Name = "Sneak",
    Callback = function()
-   			local Players = game:GetService("Players")
+			local Players = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 
 -- Get the local player
 local localPlayer = Players.LocalPlayer
 
+-- Function to fire sneak event
+local function fireSneak(targetPlayer)
+    local args = {targetPlayer}
+    ReplicatedStorage:WaitForChild("events"):WaitForChild("SneakRequestEvents"):WaitForChild("SendSneakToServer"):FireServer(unpack(args))
+end
+
 -- Listen for chat messages
 localPlayer.Chatted:Connect(function(message)
     -- Check if the message starts with ':sneak'
     if message:sub(1, 6):lower() == ":sneak" then
-        -- Extract the username from the message
-        local username = message:sub(8):match("^%s*(.-)%s*$") -- Gets everything after ':sneak ' and trims whitespace
+        -- Extract the argument from the message
+        local argument = message:sub(8):match("^%s*(.-)%s*$") -- Gets everything after ':sneak ' and trims whitespace
         
-        if username and username ~= "" then
-            -- Find the player with that username
-            local targetPlayer = Players:FindFirstChild(username)
-            
-            if targetPlayer then
-                -- Fire the sneak event with the target player
-                local args = {targetPlayer}
-                ReplicatedStorage:WaitForChild("events"):WaitForChild("SneakRequestEvents"):WaitForChild("SendSneakToServer"):FireServer(unpack(args))
-                print("Sneaking " .. username)
+        if argument and argument ~= "" then
+            if argument:lower() == "all" then
+                -- Sneak all players except yourself
+                for _, player in ipairs(Players:GetPlayers()) do
+                    if player ~= localPlayer then
+                        fireSneak(player)
+                        print("Sneaking " .. player.Name)
+                    end
+                end
             else
-                print("Player '" .. username .. "' not found")
+                -- Find the player with that username
+                local targetPlayer = Players:FindFirstChild(argument)
+                
+                if targetPlayer then
+                    fireSneak(targetPlayer)
+                    print("Sneaking " .. argument)
+                else
+                    print("Player '" .. argument .. "' not found")
+                end
             end
         else
-            print("Please provide a username: :sneak <username>")
+            print("Please provide a username: :sneak <username> or :sneak all")
         end
     end
 end)
    end,
 })
+
+local Button = MainTab:CreateButton({
+   Name = "Carry Plr",
+   Callback = function()
+   			local Tool = script.Parent
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+
+-- When tool is equipped
+Tool.Equipped:Connect(function()
+    ReplicatedStorage:WaitForChild("events"):WaitForChild("NonFightEvents"):WaitForChild("CarryPlr"):FireServer()
+    print("Carry Plr activated!")
+end)
+   end,
+})
+
+local Button = MainTab:CreateButton({
+   Name = "Anti Headlock",
+   Callback = function()
+   			local Players = game:GetService("Players")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local localPlayer = Players.LocalPlayer
+local character = localPlayer.Character or localPlayer.CharacterAdded:Wait()
+
+-- Function to fire the remote
+local function fireRemote()
+    local args = {
+        character:WaitForChild("Player"):WaitForChild("Damages"):WaitForChild("values"):WaitForChild("DamageTool"):WaitForChild("Escaped"),
+        true
+    }
+    ReplicatedStorage:WaitForChild("events"):WaitForChild("ValueChange"):FireServer(unpack(args))
+end
+
+-- Spam the remote continuously
+while true do
+    fireRemote()
+    wait(0.01) -- Adjust this value to control spam speed (0.01 = very fast, 0.1 = slower)
+end
+   end,
+})
+
