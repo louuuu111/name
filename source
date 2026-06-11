@@ -266,22 +266,6 @@ end
    end,
 })
 
-local args = {
-    "DamageTool"
-}
-game:GetService("ReplicatedStorage"):WaitForChild("events"):WaitForChild("MainKeys"):FireServer(unpack(args))
-
-local args = {
-    "WeightOn"
-}
-game:GetService("ReplicatedStorage"):WaitForChild("events"):WaitForChild("MainKeys"):FireServer(unpack(args))
-local args = {
-    game:GetService("Players").LocalPlayer.Character:WaitForChild("Player"):WaitForChild("Damages"):WaitForChild("values"):WaitForChild("DamageTool"):WaitForChild("Escaped"),
-    true
-}
-game:GetService("ReplicatedStorage"):WaitForChild("events"):WaitForChild("ValueChange"):FireServer(unpack(args))
-
-
 local Button = MainTab:CreateButton({
    Name = "Rings",
    Callback = function()
@@ -595,13 +579,15 @@ end)
 local Button = MainTab:CreateButton({
    Name = "Carry Plr",
    Callback = function()
-   			local Tool = script.Parent
+			local Tool = script.Parent
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 
 -- When tool is equipped
 Tool.Equipped:Connect(function()
-    ReplicatedStorage:WaitForChild("events"):WaitForChild("NonFightEvents"):WaitForChild("CarryPlr"):FireServer()
-    print("Carry Plr activated!")
+    pcall(function()
+        ReplicatedStorage:WaitForChild("events"):WaitForChild("NonFightEvents"):WaitForChild("CarryPlr"):FireServer()
+        print("Carry Plr activated!")
+    end)
 end)
    end,
 })
@@ -626,7 +612,7 @@ end
 -- Spam the remote continuously
 while true do
     fireRemote()
-    wait(0.01) -- Adjust this value to control spam speed (0.01 = very fast, 0.1 = slower)
+    wait(0.05) -- Adjust this value to control spam speed (0.01 = very fast, 0.1 = slower)
 end
    end,
 })
