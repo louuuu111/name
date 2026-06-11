@@ -543,54 +543,37 @@ game:GetService("ReplicatedStorage"):WaitForChild("events"):WaitForChild("MainKe
 })
 
 local Button = MainTab:CreateButton({
-   Name = "AntiHeadlock",
-   Callback = function()
-   			-- Server-side (this is the important part)
-DamageToolEvent.OnServerEvent:Connect(function(player)
-    local data = player.Player.Damages.values.DamageTool
-    data.Escaped.Value = false
-
-    -- optional: auto-escape logic
-    if data.CanAutoEscape then
-        data.Escaped.Value = true
-    end
-end)
-   end,
-})
-
-local Button = MainTab:CreateButton({
    Name = "Sneak",
    Callback = function()
    			local Players = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
-local LocalPlayer = Players.LocalPlayer
 
-local remote = ReplicatedStorage:WaitForChild("events")
-    :WaitForChild("SneakRequestEvents")
-    :WaitForChild("SendSneakToServer")
+-- Get the local player
+local localPlayer = Players.LocalPlayer
 
-local function findPlayer(name)
-	name = name:lower()
-
-	for _, p in ipairs(Players:GetPlayers()) do
-		if p.Name:lower():sub(1, #name) == name then
-			return p
-		end
-	end
-end
-
-LocalPlayer.Chatted:Connect(function(msg)
-	local split = string.split(msg, " ")
-
-	if split[1]:lower() == ":sneak" and split[2] then
-		local target = findPlayer(split[2])
-
-		if target then
-			remote:FireServer(target)
-		else
-			warn("Player not found")
-		end
-	end
+-- Listen for chat messages
+localPlayer.Chatted:Connect(function(message)
+    -- Check if the message starts with ':sneak'
+    if message:sub(1, 6):lower() == ":sneak" then
+        -- Extract the username from the message
+        local username = message:sub(8):match("^%s*(.-)%s*$") -- Gets everything after ':sneak ' and trims whitespace
+        
+        if username and username ~= "" then
+            -- Find the player with that username
+            local targetPlayer = Players:FindFirstChild(username)
+            
+            if targetPlayer then
+                -- Fire the sneak event with the target player
+                local args = {targetPlayer}
+                ReplicatedStorage:WaitForChild("events"):WaitForChild("SneakRequestEvents"):WaitForChild("SendSneakToServer"):FireServer(unpack(args))
+                print("Sneaking " .. username)
+            else
+                print("Player '" .. username .. "' not found")
+            end
+        else
+            print("Please provide a username: :sneak <username>")
+        end
+    end
 end)
    end,
 })
