@@ -52,7 +52,7 @@ game:GetService("ReplicatedStorage"):WaitForChild("Events"):WaitForChild("Witch"
 })
 
 local Button = MainTab:CreateButton({
-   Name = "Explosion (K)",
+   Name = "Explosion (J)",
    Callback = function()
             local UserInputService = game:GetService("UserInputService")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
@@ -63,7 +63,7 @@ local mouse = localPlayer:GetMouse()
 UserInputService.InputBegan:Connect(function(input, gameProcessed)
     if gameProcessed then return end
     
-    if input.KeyCode == Enum.KeyCode.K then
+    if input.KeyCode == Enum.KeyCode.J then
         local args = {
             "Magic",
             {
