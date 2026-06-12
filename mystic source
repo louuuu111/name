@@ -1,36 +1,31 @@
 local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
 
+print("Rayfield loaded")
+
 local Window = Rayfield:CreateWindow({
    Name = "Mystic Falls",
-   Icon = 0, -- Icon in Topbar. Can use Lucide Icons (string) or Roblox Image (number). 0 to use no icon (default).
    LoadingTitle = "Loading...",
    LoadingSubtitle = "by Jace",
-   Theme = "Ocean - Ocean", -- Check https://docs.sirius.menu/rayfield/configuration/themes
+
+   Theme = "Amethyst",
 
    DisableRayfieldPrompts = false,
-   DisableBuildWarnings = false, -- Prevents Rayfield from warning when the script has a version mismatch with the interface
+   DisableBuildWarnings = false,
 
    ConfigurationSaving = {
       Enabled = false,
-      FolderName = nil, -- Create a custom folder for your hub/game
-      FileName = "Mystic"
+      FileName = "Light"
    },
 
-   Discord = {
-      Enabled = false, -- Prompt the user to join your Discord server if their executor supports it
-      Invite = "noinvitelink", -- The Discord invite code, do not include discord.gg/. E.g. discord.gg/ ABCD would be ABCD
-      RememberJoins = true -- Set this to false to make them join the discord every time they load it up
-   },
-
-   KeySystem = true, -- Set this to true to use our key system
+   KeySystem = true,
    KeySettings = {
-      Title = "Mystic Falls GUI",
-      Subtitle = "other mystic falls better",
-      Note = "Join discord.gg/mysticfallss",
-      FileName = "TvdKey", 
-      SaveKey = false, -- 
+      Title = "CustAms",
+      Subtitle = "Nah Riz...",
+      Note = ".-.",
+      FileName = "ImBackKey",
+      SaveKey = false,
       GrabKeyFromSite = false,
-      Key = {"Qetsiyah"}
+      Key = {"Customs"}
    }
 })
 
@@ -38,57 +33,195 @@ local Window = Rayfield:CreateWindow({
 local MainTab = Window:CreateTab("Main", nil) -- Title, Image
 local MainSection = MainTab:CreateSection("Main")
 
-local Button = MainTab:CreateButton({
-   Name = "Cosmix",
-   Callback = function()
-            local Players = game:GetService("Players")
-local player = Players.LocalPlayer
-local character = player.Character or player.CharacterAdded:Wait()
-local hrp = character:WaitForChild("HumanoidRootPart")
 
--- Saved Staff Room Position + Rotation
-local savedCFrame = CFrame.new(Vector3.new(-377.279, -267.460, -4887.841)) * 
-                    CFrame.Angles(math.rad(0.000), math.rad(-2.100), math.rad(0.000))
-
--- Teleport
-hrp.CFrame = savedCFrame
-
-   end,
-})
-
-
-local Button = MainTab:CreateButton({
-   Name = "Teleport Back",
-   Callback = function()
-            local Players = game:GetService("Players")
-local player = Players.LocalPlayer
-local character = player.Character or player.CharacterAdded:Wait()
-local hrp = character:WaitForChild("HumanoidRootPart")
-
--- Saved return location
-local returnCFrame = CFrame.new(Vector3.new(-502.096, 4.774, 242.424)) * 
-                     CFrame.Angles(math.rad(0.000), math.rad(-1.470), math.rad(0.000))
-
--- Teleport
-hrp.CFrame = returnCFrame
-
-   end,
-})
-
-
-local Button = MainTab:CreateButton({
-   Name = "Be Odessa",
-   Callback = function()
-   	local args = {
-    "Odessa"
+local Keybind = MainTab:CreateKeybind({
+   Name = "Motus Spam",
+   CurrentKeybind = "F",
+   HoldToInteract = false,
+   Flag = "Keybind1", -- A flag is the identifier for the configuration file. Make sure every element has a different flag if you're using configuration saving to ensure no overlaps
+   Callback = function(Keybind)
+            local args = {
+    "Magic",
+    {
+        "Motus",
+        false
+    }
 }
-game:GetService("ReplicatedStorage"):WaitForChild("Events"):WaitForChild("Spawn"):FireServer(unpack(args))
+game:GetService("ReplicatedStorage"):WaitForChild("Events"):WaitForChild("Witch"):FireServer(unpack(args))
+   end,
+})
+
+local Button = MainTab:CreateButton({
+   Name = "Explosion (K)",
+   Callback = function()
+            local UserInputService = game:GetService("UserInputService")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local Players = game:GetService("Players")
+local localPlayer = Players.LocalPlayer
+local mouse = localPlayer:GetMouse()
+
+UserInputService.InputBegan:Connect(function(input, gameProcessed)
+    if gameProcessed then return end
+    
+    if input.KeyCode == Enum.KeyCode.K then
+        local args = {
+            "Magic",
+            {
+                "Explosion",
+                mouse.Hit.Position
+            }
+        }
+        ReplicatedStorage:WaitForChild("Events"):WaitForChild("Witch"):FireServer(unpack(args))
+        print("Explosion at: " .. tostring(mouse.Hit.Position))
+    end
+end)
+   end,
+})
+
+local Button = MainTab:CreateButton({
+   Name = "Fire (L)",
+   Callback = function()
+            local UserInputService = game:GetService("UserInputService")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local Players = game:GetService("Players")
+local localPlayer = Players.LocalPlayer
+local mouse = localPlayer:GetMouse()
+
+UserInputService.InputBegan:Connect(function(input, gameProcessed)
+    if gameProcessed then return end
+    
+    if input.KeyCode == Enum.KeyCode.L then
+        local targetCharacter = mouse.Target
+        
+        if targetCharacter then
+            -- Find the player that owns this character part
+            local targetPlayer = nil
+            for _, player in ipairs(Players:GetPlayers()) do
+                if player.Character and player.Character:IsDescendantOf(targetCharacter) or targetCharacter:IsDescendantOf(player.Character) then
+                    targetPlayer = player
+                    break
+                end
+            end
+            
+            if targetPlayer and targetPlayer.Character then
+                local args = {
+                    "Magic",
+                    {
+                        "FireSpell",
+                        targetPlayer.Character
+                    }
+                }
+                ReplicatedStorage:WaitForChild("Events"):WaitForChild("Witch"):FireServer(unpack(args))
+                print("Fire Spell cast on: " .. targetPlayer.Name)
+            else
+                print("No player targeted")
+            end
+        else
+            print("Mouse not pointing at anything")
+        end
+    end
+end)
+   end,
+})
+
+local Button = MainTab:CreateButton({
+   Name = "Invisibility (2)",
+   Callback = function()
+            local UserInputService = game:GetService("UserInputService")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+
+UserInputService.InputBegan:Connect(function(input, gameProcessed)
+    if gameProcessed then return end
+    
+    if input.KeyCode == Enum.KeyCode.Two then
+        local args = {
+            "Magic",
+            {
+                "Invisibility"
+            }
+        }
+        ReplicatedStorage:WaitForChild("Events"):WaitForChild("Witch"):FireServer(unpack(args))
+        print("Invisibility activated!")
+    end
+end)
+   end,
+})
+
+local Button = MainTab:CreateButton({
+   Name = "vestus",
+   Callback = function()
+            local Players = game:GetService("Players")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local localPlayer = Players.LocalPlayer
+
+localPlayer.Chatted:Connect(function(message)
+    if message:lower() == "vestus" then
+        -- Push all players except yourself
+        for _, player in ipairs(Players:GetPlayers()) do
+            if player ~= localPlayer and player.Character then
+                local args = {
+                    "Push",
+                    {
+                        player.Character
+                    }
+                }
+                ReplicatedStorage:WaitForChild("Events"):WaitForChild("Witch"):FireServer(unpack(args))
+                print("Pushing " .. player.Name)
+            end
+        end
+    end
+end)
+   end,
+})
+
+local Button = MainTab:CreateButton({
+   Name = "Pain Infliction",
+   Callback = function()
+            local UserInputService = game:GetService("UserInputService")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local Players = game:GetService("Players")
+local localPlayer = Players.LocalPlayer
+local mouse = localPlayer:GetMouse()
+
+UserInputService.InputBegan:Connect(function(input, gameProcessed)
+    if gameProcessed then return end
+    
+    if input.KeyCode == Enum.KeyCode.G then
+        local targetCharacter = mouse.Target
+        
+        if targetCharacter then
+            -- Find the player that owns this character part
+            local targetPlayer = nil
+            for _, player in ipairs(Players:GetPlayers()) do
+                if player.Character and player.Character:IsDescendantOf(targetCharacter) or targetCharacter:IsDescendantOf(player.Character) then
+                    targetPlayer = player
+                    break
+                end
+            end
+            
+            if targetPlayer and targetPlayer.Character then
+                local args = {
+                    "PainInflict",
+                    {
+                        targetPlayer.Character
+                    }
+                }
+                ReplicatedStorage:WaitForChild("Events"):WaitForChild("Witch"):FireServer(unpack(args))
+                print("Pain Inflict cast on: " .. targetPlayer.Name)
+            else
+                print("No player targeted")
+            end
+        else
+            print("Mouse not pointing at anything")
+        end
+    end
+end)
    end,
 })
 
 local Button = MainTab:CreateButton({
    Name = "Infinite Yield",
    Callback = function()
-   	loadstring(game:HttpGet('https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source'))()
+            loadstring(game:HttpGet('https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source'))()
    end,
 })
