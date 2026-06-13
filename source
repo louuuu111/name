@@ -623,7 +623,7 @@ local Button = MainTab:CreateButton({
    Callback = function()
 			local function stomp()
     local sound = Instance.new("Sound")
-    sound.SoundId = "rbxassetid://6062249834" -- Free public stomp sound
+    sound.SoundId = "rbxassetid://120612522159264"
     sound.Volume = 1
     sound.Parent = workspace
     sound:Play()
