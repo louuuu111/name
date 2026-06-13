@@ -492,13 +492,6 @@ teleportToCave(cave)
 })
 
 local Button = MainTab:CreateButton({
-   Name = "Reset Stats",
-   Callback = function()
-           game:GetService("ReplicatedStorage"):WaitForChild("events"):WaitForChild("NonFightEvents"):WaitForChild("ResetStats"):FireServer()
-   end,
-})
-
-local Button = MainTab:CreateButton({
    Name = "Auto Headlock",
    Callback = function()
             local ReplicatedStorage = game:GetService("ReplicatedStorage")
@@ -579,17 +572,30 @@ end)
 local Button = MainTab:CreateButton({
    Name = "Carry Plr",
    Callback = function()
-			local Button = MainTab:CreateButton({
-   Name = "Carry Plr",
-   Callback = function()
-       local ReplicatedStorage = game:GetService("ReplicatedStorage")
-       
-       pcall(function()
-           ReplicatedStorage:WaitForChild("events"):WaitForChild("NonFightEvents"):WaitForChild("CarryPlr"):FireServer()
-           print("Carry Plr activated!")
-       end)
-   end,
-})
+			local Tool = script.Parent
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+
+local isEquipped = false
+
+-- When tool is equipped
+Tool.Equipped:Connect(function()
+    isEquipped = true
+    print("Carry Plr tool equipped!")
+end)
+
+-- When tool is unequipped
+Tool.Unequipped:Connect(function()
+    isEquipped = false
+    print("Carry Plr tool unequipped!")
+end)
+
+-- When tool is activated (clicked/pressed)
+Tool.Activated:Connect(function()
+    if isEquipped then
+        ReplicatedStorage:WaitForChild("events"):WaitForChild("NonFightEvents"):WaitForChild("CarryPlr"):FireServer()
+        print("Carry Plr activated!")
+    end
+end)
    end,
 })
 
@@ -619,19 +625,23 @@ end
 })
 
 local Button = MainTab:CreateButton({
-   Name = "Dolly Empowerment 💟",
+   Name = "Dolly Empowerment",
    Callback = function()
-			local function stomp()
-    local sound = Instance.new("Sound")
-    sound.SoundId = "rbxassetid://120612522159264"
-    sound.Volume = 1
-    sound.Parent = workspace
-    sound:Play()
-    
-    local args = {"Stomp"}
-    game:GetService("ReplicatedStorage"):WaitForChild("events"):WaitForChild("MainKeys"):FireServer(unpack(args))
-end
+			local Players = game:GetService("Players")
+local player = Players.LocalPlayer
+local character = player.Character or player.CharacterAdded:Wait()
+local humanoid = character:WaitForChild("Humanoid")
 
-stomp()
+-- Detect stomp (when humanoid state changes to Landing)
+humanoid.StateChanged:Connect(function(oldState, newState)
+    if newState == Enum.HumanoidStateType.Landing then
+        local sound = Instance.new("Sound")
+        sound.SoundId = "rbxassetid://120612522159264"
+        sound.Volume = 1
+        sound.Parent = character:WaitForChild("HumanoidRootPart")
+        sound:Play()
+        game:GetService("Debris"):AddItem(sound, 2)
+    end
+end)
    end,
 })
