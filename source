@@ -624,16 +624,17 @@ local Button = MainTab:CreateButton({
    			local function stomp()
     local sound = Instance.new("Sound")
     sound.SoundId = "rbxassetid://85131790313970"
-    sound.Parent = workspace
+    sound.Volume = 1 -- Max volume to test
+    sound.Parent = workspace -- Try playing from workspace first
+    
+    print("Sound created, ID:", sound.SoundId)
+    print("Playing sound...")
     sound:Play()
     
-    local args = {
-        "Stomp"
-    }
+    local args = {"Stomp"}
     game:GetService("ReplicatedStorage"):WaitForChild("events"):WaitForChild("MainKeys"):FireServer(unpack(args))
 end
 
--- Call it whenever you need:
 stomp()
    end,
 })
