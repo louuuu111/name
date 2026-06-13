@@ -621,9 +621,9 @@ end
 local Button = MainTab:CreateButton({
    Name = "Dolly Empowerment",
    Callback = function()
- 			local function stomp()
+			local function stomp()
     local sound = Instance.new("Sound")
-    sound.SoundId = "rbxassetid://129337055277221"
+    sound.SoundId = "rbxassetid://139101587420431"
     sound.Volume = 1
     sound.Parent = workspace
     sound:Play()
