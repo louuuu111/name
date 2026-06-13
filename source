@@ -621,11 +621,12 @@ end
 local Button = MainTab:CreateButton({
    Name = "Dolly Empowerment",
    Callback = function()
-		local function stomp()
+			local function stomp()
     local sound = Instance.new("Sound")
     sound.SoundId = "rbxassetid://74918991017723"
     sound.Volume = 1
     sound.Parent = workspace
+    sound.Loaded:Wait() -- Wait for it to load
     sound:Play()
     
     local args = {"Stomp"}
