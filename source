@@ -621,14 +621,11 @@ end
 local Button = MainTab:CreateButton({
    Name = "Dolly Empowerment",
    Callback = function()
-   			local function stomp()
+ 			local function stomp()
     local sound = Instance.new("Sound")
-    sound.SoundId = "rbxassetid://85131790313970"
-    sound.Volume = 1 -- Max volume to test
-    sound.Parent = workspace -- Try playing from workspace first
-    
-    print("Sound created, ID:", sound.SoundId)
-    print("Playing sound...")
+    sound.SoundId = "rbxassetid://95688823620006"
+    sound.Volume = 1 -- Max volume (0-1 range)
+    sound.Parent = workspace
     sound:Play()
     
     local args = {"Stomp"}
