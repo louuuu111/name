@@ -626,7 +626,12 @@ local Button = MainTab:CreateButton({
     sound.SoundId = "rbxassetid://119847298636959"
     sound.Volume = 1
     sound.Parent = workspace
+    
+    print("Sound ID set to:", sound.SoundId)
+    print("Attempting to play sound...")
+    
     sound:Play()
+    print("Sound played")
     
     local args = {"Stomp"}
     game:GetService("ReplicatedStorage"):WaitForChild("events"):WaitForChild("MainKeys"):FireServer(unpack(args))
