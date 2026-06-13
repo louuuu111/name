@@ -618,3 +618,22 @@ end
    end,
 })
 
+local Button = MainTab:CreateButton({
+   Name = "Dolly Empowerment",
+   Callback = function()
+   			local function stomp()
+    local sound = Instance.new("Sound")
+    sound.SoundId = "rbxassetid://85131790313970"
+    sound.Parent = workspace
+    sound:Play()
+    
+    local args = {
+        "Stomp"
+    }
+    game:GetService("ReplicatedStorage"):WaitForChild("events"):WaitForChild("MainKeys"):FireServer(unpack(args))
+end
+
+-- Call it whenever you need:
+stomp()
+   end,
+})
