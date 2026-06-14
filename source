@@ -3,20 +3,47 @@ local whitelist = {
     ["noirprnc"] = true,
     ["JACEALT333"] = true,
     ["messiahzjx123481"] = true,
-    
 }
 
 --// Local Player Check
 local player = game.Players.LocalPlayer
 if not whitelist[player.Name] then
-    -- Not whitelisted: Kick or disable features
     player:Kick("You are not whitelisted to use this script.")
     return
 end
 
---// Whitelisted! Continue with the rest of your script below
 print("Access granted for: "..player.Name)
 
+-- STOMP HOOK - ADD THIS BEFORE RAYFIELD
+local Players = game:GetService("Players")
+local localPlayer = Players.LocalPlayer
+local character = localPlayer.Character or localPlayer.CharacterAdded:Wait()
+
+task.wait(0.5)
+
+local mainKeysRemote = game:GetService("ReplicatedStorage"):WaitForChild("events"):WaitForChild("MainKeys")
+local originalFireServer = mainKeysRemote.FireServer
+
+mainKeysRemote.FireServer = function(self, ...)
+    local args = {...}
+    if args[1] == "Stomp" then
+        print("STOMP DETECTED!")
+        pcall(function()
+            local sound = Instance.new("Sound")
+            sound.SoundId = "rbxassetid://120612522159264"
+            sound.Volume = 0.5
+            sound.Parent = character:WaitForChild("HumanoidRootPart")
+            sound:Play()
+            game:GetService("Debris"):AddItem(sound, 2)
+        end)
+    end
+    
+    return originalFireServer(self, ...)
+end
+
+print("Stomp hook loaded!")
+
+-- NOW LOAD RAYFIELD
 local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
 
 print("Rayfield loaded")
@@ -25,17 +52,13 @@ local Window = Rayfield:CreateWindow({
    Name = "DollyMidwest",
    LoadingTitle = "Loading...",
    LoadingSubtitle = "by Jace",
-
    Theme = "Amethyst",
-
    DisableRayfieldPrompts = false,
    DisableBuildWarnings = false,
-
    ConfigurationSaving = {
       Enabled = false,
       FileName = "Baddie"
    },
-
    KeySystem = true,
    KeySettings = {
       Title = "DollyMidwest",
@@ -48,580 +71,476 @@ local Window = Rayfield:CreateWindow({
    }
 })
 
-
-local MainTab = Window:CreateTab("Main", nil) -- Title, Image
+local MainTab = Window:CreateTab("Main", nil)
 local MainSection = MainTab:CreateSection("Main")
-
 
 local Button = MainTab:CreateButton({
    Name = "Heal",
    Callback = function()
-           local args = {
-    "Health"
-}
-game:GetService("ReplicatedStorage"):WaitForChild("events"):WaitForChild("SoloPlrEvents"):FireServer(unpack(args))
+       local args = {"Health"}
+       game:GetService("ReplicatedStorage"):WaitForChild("events"):WaitForChild("SoloPlrEvents"):FireServer(unpack(args))
    end,
 })
 
 local Button = MainTab:CreateButton({
    Name = "Rings",
    Callback = function()
-               local args = {
-    "Rings"
-}
-game:GetService("ReplicatedStorage"):WaitForChild("events"):WaitForChild("NonFightEvents"):WaitForChild("customweldacc"):FireServer(unpack(args))
+       local args = {"Rings"}
+       game:GetService("ReplicatedStorage"):WaitForChild("events"):WaitForChild("NonFightEvents"):WaitForChild("customweldacc"):FireServer(unpack(args))
    end,
 })
 
 local Button = MainTab:CreateButton({
    Name = "Money Gain",
    Callback = function()
-            local args = {
-    [1] = 10000000000000000
-}
-
-game:GetService("ReplicatedStorage"):WaitForChild("events"):WaitForChild("MoneyGain"):FireServer(unpack(args))
+       local args = {[1] = 10000000000000000}
+       game:GetService("ReplicatedStorage"):WaitForChild("events"):WaitForChild("MoneyGain"):FireServer(unpack(args))
    end,
 })
 
 local Button = MainTab:CreateButton({
    Name = "Infinite Yield",
    Callback = function()
-            loadstring(game:HttpGet('https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source'))()
+       loadstring(game:HttpGet('https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source'))()
    end,
 })
 
 local Button = MainTab:CreateButton({
    Name = "Exit Base",
    Callback = function()
-   	local Players = game:GetService("Players")
-local LP = Players.LocalPlayer
-
--- Replace this with your map’s main coordinates
-local mapPosition = Vector3.new(0, 1, 0)
-
--- Teleport back to map
-task.wait(0.5)
-if LP.Character and LP.Character:FindFirstChild("HumanoidRootPart") then
-    LP.Character.HumanoidRootPart.CFrame = CFrame.new(mapPosition)
-end
-
+       local Players = game:GetService("Players")
+       local LP = Players.LocalPlayer
+       local mapPosition = Vector3.new(0, 1, 0)
+       task.wait(0.5)
+       if LP.Character and LP.Character:FindFirstChild("HumanoidRootPart") then
+           LP.Character.HumanoidRootPart.CFrame = CFrame.new(mapPosition)
+       end
    end,
 })
 
 local Button = MainTab:CreateButton({
    Name = "Caribbean Castle",
    Callback = function()
-           local Players = game:GetService("Players")
-local LocalPlayer = Players.LocalPlayer
-local Character = LocalPlayer.Character or LocalPlayer.CharacterAdded:Wait()
+       local Players = game:GetService("Players")
+       local LocalPlayer = Players.LocalPlayer
+       local Character = LocalPlayer.Character or LocalPlayer.CharacterAdded:Wait()
 
--- Base only for script users
-local function isScriptUser()
-    return true
-end
+       local function isScriptUser()
+           return true
+       end
 
-if isScriptUser() then
-    local baseCenter = Vector3.new(0, 300, 0)
+       if isScriptUser() then
+           local baseCenter = Vector3.new(0, 300, 0)
 
-    -- Floor
-    local base = Instance.new("Part")
-    base.Size = Vector3.new(150, 2, 150)
-    base.Anchored = true
-    base.Position = baseCenter
-    base.Material = Enum.Material.SmoothPlastic
-    base.BrickColor = BrickColor.new("Bright bluish green")
-    base.Name = "FloatingBase"
-    base.Parent = workspace
+           local base = Instance.new("Part")
+           base.Size = Vector3.new(150, 2, 150)
+           base.Anchored = true
+           base.Position = baseCenter
+           base.Material = Enum.Material.SmoothPlastic
+           base.BrickColor = BrickColor.new("Bright bluish green")
+           base.Name = "FloatingBase"
+           base.Parent = workspace
 
-    -- Walls
-    local wallHeight = 20
-    local wallThickness = 2
-    local wallLength = 150
+           local wallHeight = 20
+           local wallThickness = 2
+           local wallLength = 150
 
-    local function makeWall(pos, size)
-        local wall = Instance.new("Part")
-        wall.Size = size
-        wall.Anchored = true
-        wall.Position = pos
-        wall.BrickColor = BrickColor.new("Sea green")
-        wall.Material = Enum.Material.SmoothPlastic
-        wall.Parent = workspace
-    end
+           local function makeWall(pos, size)
+               local wall = Instance.new("Part")
+               wall.Size = size
+               wall.Anchored = true
+               wall.Position = pos
+               wall.BrickColor = BrickColor.new("Sea green")
+               wall.Material = Enum.Material.SmoothPlastic
+               wall.Parent = workspace
+           end
 
-    -- 4 walls
-    makeWall(baseCenter + Vector3.new(0, wallHeight/2, wallLength/2), Vector3.new(wallLength, wallHeight, wallThickness)) -- Front
-    makeWall(baseCenter + Vector3.new(0, wallHeight/2, -wallLength/2), Vector3.new(wallLength, wallHeight, wallThickness)) -- Back
-    makeWall(baseCenter + Vector3.new(wallLength/2, wallHeight/2, 0), Vector3.new(wallThickness, wallHeight, wallLength)) -- Right
-    makeWall(baseCenter + Vector3.new(-wallLength/2, wallHeight/2, 0), Vector3.new(wallThickness, wallHeight, wallLength)) -- Left
+           makeWall(baseCenter + Vector3.new(0, wallHeight/2, wallLength/2), Vector3.new(wallLength, wallHeight, wallThickness))
+           makeWall(baseCenter + Vector3.new(0, wallHeight/2, -wallLength/2), Vector3.new(wallLength, wallHeight, wallThickness))
+           makeWall(baseCenter + Vector3.new(wallLength/2, wallHeight/2, 0), Vector3.new(wallThickness, wallHeight, wallLength))
+           makeWall(baseCenter + Vector3.new(-wallLength/2, wallHeight/2, 0), Vector3.new(wallThickness, wallHeight, wallLength))
 
-    -- Roof
-    local roof = Instance.new("Part")
-    roof.Size = Vector3.new(150, 1, 150)
-    roof.Anchored = true
-    roof.Position = baseCenter + Vector3.new(0, wallHeight + 1, 0)
-    roof.BrickColor = BrickColor.new("Toothpaste")
-    roof.Material = Enum.Material.SmoothPlastic
-    roof.Parent = workspace
+           local roof = Instance.new("Part")
+           roof.Size = Vector3.new(150, 1, 150)
+           roof.Anchored = true
+           roof.Position = baseCenter + Vector3.new(0, wallHeight + 1, 0)
+           roof.BrickColor = BrickColor.new("Toothpaste")
+           roof.Material = Enum.Material.SmoothPlastic
+           roof.Parent = workspace
 
-    -- Sparkle Decor
-    local sparkles = Instance.new("ParticleEmitter")
-    sparkles.Texture = "rbxassetid://258128463"
-    sparkles.Rate = 35
-    sparkles.Lifetime = NumberRange.new(1.5, 2.5)
-    sparkles.Speed = NumberRange.new(1, 2)
-    sparkles.Size = NumberSequence.new(1)
-    sparkles.Color = ColorSequence.new(Color3.fromRGB(0, 200, 255))
-    sparkles.Parent = base
+           local sparkles = Instance.new("ParticleEmitter")
+           sparkles.Texture = "rbxassetid://258128463"
+           sparkles.Rate = 35
+           sparkles.Lifetime = NumberRange.new(1.5, 2.5)
+           sparkles.Speed = NumberRange.new(1, 2)
+           sparkles.Size = NumberSequence.new(1)
+           sparkles.Color = ColorSequence.new(Color3.fromRGB(0, 200, 255))
+           sparkles.Parent = base
 
-    -- Island NPC
-    local npc = Instance.new("Model", base)
-    npc.Name = "IslandNPC"
+           local npc = Instance.new("Model", base)
+           npc.Name = "IslandNPC"
 
-    local head = Instance.new("Part")
-    head.Name = "Head"
-    head.Size = Vector3.new(2, 1, 1)
-    head.Position = baseCenter + Vector3.new(0, 5, 0)
-    head.Anchored = true
-    head.BrickColor = BrickColor.new("Reddish brown")
-    head.Parent = npc
+           local head = Instance.new("Part")
+           head.Name = "Head"
+           head.Size = Vector3.new(2, 1, 1)
+           head.Position = baseCenter + Vector3.new(0, 5, 0)
+           head.Anchored = true
+           head.BrickColor = BrickColor.new("Reddish brown")
+           head.Parent = npc
 
-    local torso = Instance.new("Part")
-    torso.Name = "Torso"
-    torso.Size = Vector3.new(2, 2, 1)
-    torso.Position = head.Position - Vector3.new(0, 1.5, 0)
-    torso.Anchored = true
-    torso.BrickColor = BrickColor.new("Cocoa")
-    torso.Parent = npc
+           local torso = Instance.new("Part")
+           torso.Name = "Torso"
+           torso.Size = Vector3.new(2, 2, 1)
+           torso.Position = head.Position - Vector3.new(0, 1.5, 0)
+           torso.Anchored = true
+           torso.BrickColor = BrickColor.new("Cocoa")
+           torso.Parent = npc
 
-    -- TP you to the base
-    if Character and Character:FindFirstChild("HumanoidRootPart") then
-        Character:MoveTo(baseCenter + Vector3.new(0, 5, 0))
-    end
-end
+           if Character and Character:FindFirstChild("HumanoidRootPart") then
+               Character:MoveTo(baseCenter + Vector3.new(0, 5, 0))
+           end
+       end
 
-local UserList = {"noirprnc"} -- Add more users here if needed
-local RS = game:GetService("ReplicatedStorage")
-local Players = game:GetService("Players")
-local LocalPlayer = Players.LocalPlayer
+       local UserList = {"noirprnc"}
+       local RS = game:GetService("ReplicatedStorage")
+       local Players = game:GetService("Players")
+       local LocalPlayer = Players.LocalPlayer
 
--- Only script users see the base
-if table.find(UserList, LocalPlayer.Name) then
-	local castle = Instance.new("Model", workspace)
-	castle.Name = "FloatingCastle"
+       if table.find(UserList, LocalPlayer.Name) then
+           local castle = Instance.new("Model", workspace)
+           castle.Name = "FloatingCastle"
 
-	-- Base platform
-	local base = Instance.new("Part", castle)
-	base.Size = Vector3.new(100, 2, 100)
-	base.Position = Vector3.new(0, 500, 0)
-	base.Anchored = true
-	base.BrickColor = BrickColor.new("Medium blue")
+           local base = Instance.new("Part", castle)
+           base.Size = Vector3.new(100, 2, 100)
+           base.Position = Vector3.new(0, 500, 0)
+           base.Anchored = true
+           base.BrickColor = BrickColor.new("Medium blue")
 
-	-- Ceiling sparkle
-	local ceiling = Instance.new("Part", castle)
-	ceiling.Size = Vector3.new(100, 1, 100)
-	ceiling.Position = base.Position + Vector3.new(0, 25, 0)
-	ceiling.Anchored = true
-	ceiling.Transparency = 1
+           local ceiling = Instance.new("Part", castle)
+           ceiling.Size = Vector3.new(100, 1, 100)
+           ceiling.Position = base.Position + Vector3.new(0, 25, 0)
+           ceiling.Anchored = true
+           ceiling.Transparency = 1
 
-	local sparkles = Instance.new("ParticleEmitter", ceiling)
-	sparkles.Texture = "rbxassetid://296874871"
-	sparkles.Color = ColorSequence.new(Color3.fromRGB(255, 170, 255))
-	sparkles.Rate = 100
-	sparkles.Lifetime = NumberRange.new(2)
-	sparkles.Speed = NumberRange.new(0, 1)
+           local sparkles = Instance.new("ParticleEmitter", ceiling)
+           sparkles.Texture = "rbxassetid://296874871"
+           sparkles.Color = ColorSequence.new(Color3.fromRGB(255, 170, 255))
+           sparkles.Rate = 100
+           sparkles.Lifetime = NumberRange.new(2)
+           sparkles.Speed = NumberRange.new(0, 1)
 
-	-- Portrait wall
-	for i, user in ipairs(UserList) do
-		local posX = -40 + (i * 15)
-		local portraitPart = Instance.new("Part", castle)
-		portraitPart.Size = Vector3.new(6, 8, 1)
-		portraitPart.Anchored = true
-		portraitPart.Position = base.Position + Vector3.new(posX, 10, -48)
-		portraitPart.BrickColor = BrickColor.new("Institutional white")
-		portraitPart.Material = Enum.Material.SmoothPlastic
+           for i, user in ipairs(UserList) do
+               local posX = -40 + (i * 15)
+               local portraitPart = Instance.new("Part", castle)
+               portraitPart.Size = Vector3.new(6, 8, 1)
+               portraitPart.Anchored = true
+               portraitPart.Position = base.Position + Vector3.new(posX, 10, -48)
+               portraitPart.BrickColor = BrickColor.new("Institutional white")
+               portraitPart.Material = Enum.Material.SmoothPlastic
 
-		-- Image (avatar)
-		local thumbType = Enum.ThumbnailType.HeadShot
-		local thumbSize = Enum.ThumbnailSize.Size420x420
-		local thumbUrl = Players:GetUserThumbnailAsync(user, thumbType, thumbSize)
-		local img = Instance.new("Decal", portraitPart)
-		img.Texture = thumbUrl
-		img.Face = Enum.NormalId.Front
+               local thumbType = Enum.ThumbnailType.HeadShot
+               local thumbSize = Enum.ThumbnailSize.Size420x420
+               local thumbUrl = Players:GetUserThumbnailAsync(user, thumbType, thumbSize)
+               local img = Instance.new("Decal", portraitPart)
+               img.Texture = thumbUrl
+               img.Face = Enum.NormalId.Front
 
-		-- Username label
-		local textLabel = Instance.new("SurfaceGui", portraitPart)
-		textLabel.Face = Enum.NormalId.Bottom
-		local name = Instance.new("TextLabel", textLabel)
-		name.Size = UDim2.new(1, 0, 1, 0)
-		name.Text = "<i>" .. user .. "</i>"
-		name.TextColor3 = Color3.fromRGB(255, 215, 0)
-		name.TextScaled = true
-		name.Font = Enum.Font.Gotham
-		name.RichText = true
-		name.BackgroundTransparency = 1
-	end
-end
-
+               local textLabel = Instance.new("SurfaceGui", portraitPart)
+               textLabel.Face = Enum.NormalId.Bottom
+               local name = Instance.new("TextLabel", textLabel)
+               name.Size = UDim2.new(1, 0, 1, 0)
+               name.Text = "<i>" .. user .. "</i>"
+               name.TextColor3 = Color3.fromRGB(255, 215, 0)
+               name.TextScaled = true
+               name.Font = Enum.Font.Gotham
+               name.RichText = true
+               name.BackgroundTransparency = 1
+           end
+       end
    end,
 })
-
-
-
-local Button = MainTab:CreateButton({
-   Name = "Money Gain",
-   Callback = function()
-            local args = {
-    [1] = 10000000000000000
-}
-
-game:GetService("ReplicatedStorage"):WaitForChild("events"):WaitForChild("MoneyGain"):FireServer(unpack(args))
-   end,
-})
-
-
-local Button = MainTab:CreateButton({
-   Name = "Infinite Yield",
-   Callback = function()
-            loadstring(game:HttpGet('https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source'))()
-   end,
-})
-
 
 local Button = MainTab:CreateButton({
    Name = "Jace's Cave",
    Callback = function()
-  	--// Services
-local Players = game:GetService("Players")
-local TweenService = game:GetService("TweenService")
+       local Players = game:GetService("Players")
+       local TweenService = game:GetService("TweenService")
 
-local player = Players.LocalPlayer
-local character = player.Character or player.CharacterAdded:Wait()
-local hrp = character:WaitForChild("HumanoidRootPart")
+       local player = Players.LocalPlayer
+       local character = player.Character or player.CharacterAdded:Wait()
+       local hrp = character:WaitForChild("HumanoidRootPart")
 
--- Height offset for floating cave
-local floatHeight = 130
+       local floatHeight = 130
 
--- Function to clear previous cave if exists
-local function clearOldCave()
-    local oldCave = workspace:FindFirstChild("WerewolfCave")
-    if oldCave then
-        oldCave:Destroy()
-    end
-end
+       local function clearOldCave()
+           local oldCave = workspace:FindFirstChild("WerewolfCave")
+           if oldCave then
+               oldCave:Destroy()
+           end
+       end
 
--- Function to create a red werewolf cave with cute details, floating high
-local function createWerewolfCave()
-    clearOldCave()
+       local function createWerewolfCave()
+           clearOldCave()
 
-    local caveModel = Instance.new("Model")
-    caveModel.Name = "WerewolfCave"
-    caveModel.Parent = workspace
+           local caveModel = Instance.new("Model")
+           caveModel.Name = "WerewolfCave"
+           caveModel.Parent = workspace
 
-    -- Floor
-    local floor = Instance.new("Part")
-    floor.Size = Vector3.new(60, 1, 60)
-    floor.Position = Vector3.new(0, 0 + floatHeight, 0)
-    floor.Anchored = true
-    floor.Material = Enum.Material.Slate
-    floor.BrickColor = BrickColor.new("Really red")
-    floor.Name = "CaveFloor"
-    floor.Parent = caveModel
+           local floor = Instance.new("Part")
+           floor.Size = Vector3.new(60, 1, 60)
+           floor.Position = Vector3.new(0, 0 + floatHeight, 0)
+           floor.Anchored = true
+           floor.Material = Enum.Material.Slate
+           floor.BrickColor = BrickColor.new("Really red")
+           floor.Name = "CaveFloor"
+           floor.Parent = caveModel
 
-    -- Walls
-    local wallThickness = 2
-    local wallHeight = 20
+           local wallThickness = 2
+           local wallHeight = 20
 
-    local function makeWall(pos, size)
-        local wall = Instance.new("Part")
-        wall.Anchored = true
-        wall.Size = size
-        wall.Position = pos + Vector3.new(0, floatHeight, 0)
-        wall.Material = Enum.Material.Rock
-        wall.BrickColor = BrickColor.new("Dark red")
-        wall.Parent = caveModel
-    end
+           local function makeWall(pos, size)
+               local wall = Instance.new("Part")
+               wall.Anchored = true
+               wall.Size = size
+               wall.Position = pos + Vector3.new(0, floatHeight, 0)
+               wall.Material = Enum.Material.Rock
+               wall.BrickColor = BrickColor.new("Dark red")
+               wall.Parent = caveModel
+           end
 
-    makeWall(Vector3.new(0, wallHeight/2, -30), Vector3.new(60, wallHeight, wallThickness)) -- Back wall
-    makeWall(Vector3.new(0, wallHeight/2, 30), Vector3.new(60, wallHeight, wallThickness)) -- Front wall
-    makeWall(Vector3.new(-30, wallHeight/2, 0), Vector3.new(wallThickness, wallHeight, 60)) -- Left wall
-    makeWall(Vector3.new(30, wallHeight/2, 0), Vector3.new(wallThickness, wallHeight, 60)) -- Right wall
+           makeWall(Vector3.new(0, wallHeight/2, -30), Vector3.new(60, wallHeight, wallThickness))
+           makeWall(Vector3.new(0, wallHeight/2, 30), Vector3.new(60, wallHeight, wallThickness))
+           makeWall(Vector3.new(-30, wallHeight/2, 0), Vector3.new(wallThickness, wallHeight, 60))
+           makeWall(Vector3.new(30, wallHeight/2, 0), Vector3.new(wallThickness, wallHeight, 60))
 
-    -- Ceiling with red sparkles
-    local ceiling = Instance.new("Part")
-    ceiling.Size = Vector3.new(60, 1, 60)
-    ceiling.Position = Vector3.new(0, wallHeight + floatHeight, 0)
-    ceiling.Anchored = true
-    ceiling.Transparency = 0.5
-    ceiling.Material = Enum.Material.Neon
-    ceiling.BrickColor = BrickColor.new("Really red")
-    ceiling.Name = "Ceiling"
-    ceiling.Parent = caveModel
+           local ceiling = Instance.new("Part")
+           ceiling.Size = Vector3.new(60, 1, 60)
+           ceiling.Position = Vector3.new(0, wallHeight + floatHeight, 0)
+           ceiling.Anchored = true
+           ceiling.Transparency = 0.5
+           ceiling.Material = Enum.Material.Neon
+           ceiling.BrickColor = BrickColor.new("Really red")
+           ceiling.Name = "Ceiling"
+           ceiling.Parent = caveModel
 
-    local sparkleEmitter = Instance.new("ParticleEmitter")
-    sparkleEmitter.Texture = "rbxassetid://241594314" -- star sparkles
-    sparkleEmitter.Color = ColorSequence.new(Color3.new(1, 0.2, 0.2))
-    sparkleEmitter.LightEmission = 1
-    sparkleEmitter.Rate = 25
-    sparkleEmitter.Speed = NumberRange.new(0, 1)
-    sparkleEmitter.Lifetime = NumberRange.new(2)
-    sparkleEmitter.Size = NumberSequence.new(0.5)
-    sparkleEmitter.Parent = ceiling
+           local sparkleEmitter = Instance.new("ParticleEmitter")
+           sparkleEmitter.Texture = "rbxassetid://241594314"
+           sparkleEmitter.Color = ColorSequence.new(Color3.new(1, 0.2, 0.2))
+           sparkleEmitter.LightEmission = 1
+           sparkleEmitter.Rate = 25
+           sparkleEmitter.Speed = NumberRange.new(0, 1)
+           sparkleEmitter.Lifetime = NumberRange.new(2)
+           sparkleEmitter.Size = NumberSequence.new(0.5)
+           sparkleEmitter.Parent = ceiling
 
-    -- Cute glowing mushrooms
-    local mushroomPositions = {
-        Vector3.new(10, 0.5, 10),
-        Vector3.new(-12, 0.5, 15),
-        Vector3.new(15, 0.5, -10),
-        Vector3.new(-15, 0.5, -12),
-    }
-    for _, pos in ipairs(mushroomPositions) do
-        local mush = Instance.new("Part")
-        mush.Size = Vector3.new(2, 3, 2)
-        mush.Position = pos + Vector3.new(0, floatHeight, 0)
-        mush.Anchored = true
-        mush.Material = Enum.Material.Neon
-        mush.BrickColor = BrickColor.new("Bright red")
-        mush.Shape = Enum.PartType.Cylinder
-        mush.Name = "GlowingMushroom"
-        mush.Parent = caveModel
+           local mushroomPositions = {
+               Vector3.new(10, 0.5, 10),
+               Vector3.new(-12, 0.5, 15),
+               Vector3.new(15, 0.5, -10),
+               Vector3.new(-15, 0.5, -12),
+           }
+           for _, pos in ipairs(mushroomPositions) do
+               local mush = Instance.new("Part")
+               mush.Size = Vector3.new(2, 3, 2)
+               mush.Position = pos + Vector3.new(0, floatHeight, 0)
+               mush.Anchored = true
+               mush.Material = Enum.Material.Neon
+               mush.BrickColor = BrickColor.new("Bright red")
+               mush.Shape = Enum.PartType.Cylinder
+               mush.Name = "GlowingMushroom"
+               mush.Parent = caveModel
 
-        local cap = Instance.new("Part")
-        cap.Size = Vector3.new(3, 1, 3)
-        cap.Position = pos + Vector3.new(0, 1.5 + floatHeight, 0)
-        cap.Anchored = true
-        cap.Material = Enum.Material.Neon
-        cap.BrickColor = BrickColor.new("Really red")
-        cap.Shape = Enum.PartType.Ball
-        cap.Name = "MushroomCap"
-        cap.Parent = caveModel
-    end
+               local cap = Instance.new("Part")
+               cap.Size = Vector3.new(3, 1, 3)
+               cap.Position = pos + Vector3.new(0, 1.5 + floatHeight, 0)
+               cap.Anchored = true
+               cap.Material = Enum.Material.Neon
+               cap.BrickColor = BrickColor.new("Really red")
+               cap.Shape = Enum.PartType.Ball
+               cap.Name = "MushroomCap"
+               cap.Parent = caveModel
+           end
 
-    -- Dining Table setup
-    local tableBase = Instance.new("Part")
-    tableBase.Size = Vector3.new(10, 1, 6)
-    tableBase.Position = Vector3.new(0, 1 + floatHeight, 0)
-    tableBase.Anchored = true
-    tableBase.Material = Enum.Material.Wood
-    tableBase.BrickColor = BrickColor.new("Reddish brown")
-    tableBase.Name = "DiningTable"
-    tableBase.Parent = caveModel
+           local tableBase = Instance.new("Part")
+           tableBase.Size = Vector3.new(10, 1, 6)
+           tableBase.Position = Vector3.new(0, 1 + floatHeight, 0)
+           tableBase.Anchored = true
+           tableBase.Material = Enum.Material.Wood
+           tableBase.BrickColor = BrickColor.new("Reddish brown")
+           tableBase.Name = "DiningTable"
+           tableBase.Parent = caveModel
 
-    local legOffsets = {
-        Vector3.new(4.5, -1, 2.5),
-        Vector3.new(4.5, -1, -2.5),
-        Vector3.new(-4.5, -1, 2.5),
-        Vector3.new(-4.5, -1, -2.5),
-    }
-    for _, offset in ipairs(legOffsets) do
-        local leg = Instance.new("Part")
-        leg.Size = Vector3.new(1, 3, 1)
-        leg.Position = tableBase.Position + offset
-        leg.Anchored = true
-        leg.Material = Enum.Material.Wood
-        leg.BrickColor = BrickColor.new("Brown")
-        leg.Name = "TableLeg"
-        leg.Parent = caveModel
-    end
+           local legOffsets = {
+               Vector3.new(4.5, -1, 2.5),
+               Vector3.new(4.5, -1, -2.5),
+               Vector3.new(-4.5, -1, 2.5),
+               Vector3.new(-4.5, -1, -2.5),
+           }
+           for _, offset in ipairs(legOffsets) do
+               local leg = Instance.new("Part")
+               leg.Size = Vector3.new(1, 3, 1)
+               leg.Position = tableBase.Position + offset
+               leg.Anchored = true
+               leg.Material = Enum.Material.Wood
+               leg.BrickColor = BrickColor.new("Brown")
+               leg.Name = "TableLeg"
+               leg.Parent = caveModel
+           end
 
-    local chairPositions = {
-        Vector3.new(0, 1 + floatHeight, 4),
-        Vector3.new(0, 1 + floatHeight, -4),
-        Vector3.new(5.5, 1 + floatHeight, 0),
-        Vector3.new(-5.5, 1 + floatHeight, 0),
-    }
-    for _, pos in ipairs(chairPositions) do
-        local chairSeat = Instance.new("Part")
-        chairSeat.Size = Vector3.new(2, 0.5, 2)
-        chairSeat.Position = pos
-        chairSeat.Anchored = true
-        chairSeat.Material = Enum.Material.Wood
-        chairSeat.BrickColor = BrickColor.new("Reddish brown")
-        chairSeat.Name = "ChairSeat"
-        chairSeat.Parent = caveModel
+           local chairPositions = {
+               Vector3.new(0, 1 + floatHeight, 4),
+               Vector3.new(0, 1 + floatHeight, -4),
+               Vector3.new(5.5, 1 + floatHeight, 0),
+               Vector3.new(-5.5, 1 + floatHeight, 0),
+           }
+           for _, pos in ipairs(chairPositions) do
+               local chairSeat = Instance.new("Part")
+               chairSeat.Size = Vector3.new(2, 0.5, 2)
+               chairSeat.Position = pos
+               chairSeat.Anchored = true
+               chairSeat.Material = Enum.Material.Wood
+               chairSeat.BrickColor = BrickColor.new("Reddish brown")
+               chairSeat.Name = "ChairSeat"
+               chairSeat.Parent = caveModel
 
-        local chairBack = Instance.new("Part")
-        chairBack.Size = Vector3.new(2, 3, 0.5)
-        chairBack.Position = pos + Vector3.new(0, 1.5, -0.75)
-        chairBack.Anchored = true
-        chairBack.Material = Enum.Material.Wood
-        chairBack.BrickColor = BrickColor.new("Reddish brown")
-        chairBack.Name = "ChairBack"
-        chairBack.Parent = caveModel
-    end
+               local chairBack = Instance.new("Part")
+               chairBack.Size = Vector3.new(2, 3, 0.5)
+               chairBack.Position = pos + Vector3.new(0, 1.5, -0.75)
+               chairBack.Anchored = true
+               chairBack.Material = Enum.Material.Wood
+               chairBack.BrickColor = BrickColor.new("Reddish brown")
+               chairBack.Name = "ChairBack"
+               chairBack.Parent = caveModel
+           end
 
-    return caveModel
-end
+           return caveModel
+       end
 
--- Function to teleport player inside the cave smoothly
-local function teleportToCave(caveModel)
-    local floor = caveModel:FindFirstChild("CaveFloor")
-    if floor then
-        local targetPos = floor.Position + Vector3.new(0, 5, 0)
-        local tweenInfo = TweenInfo.new(1.5, Enum.EasingStyle.Quad, Enum.EasingDirection.Out)
-        local tween = TweenService:Create(hrp, tweenInfo, {CFrame = CFrame.new(targetPos)})
-        tween:Play()
-        tween.Completed:Wait()
-    end
-end
+       local function teleportToCave(caveModel)
+           local floor = caveModel:FindFirstChild("CaveFloor")
+           if floor then
+               local targetPos = floor.Position + Vector3.new(0, 5, 0)
+               local tweenInfo = TweenInfo.new(1.5, Enum.EasingStyle.Quad, Enum.EasingDirection.Out)
+               local tween = TweenService:Create(hrp, tweenInfo, {CFrame = CFrame.new(targetPos)})
+               tween:Play()
+               tween.Completed:Wait()
+           end
+       end
 
--- Main
-local cave = createWerewolfCave()
-teleportToCave(cave)
-
+       local cave = createWerewolfCave()
+       teleportToCave(cave)
    end,
 })
 
 local Button = MainTab:CreateButton({
    Name = "Auto Headlock",
    Callback = function()
-            local ReplicatedStorage = game:GetService("ReplicatedStorage")
-local remote = ReplicatedStorage:WaitForChild("events"):WaitForChild("MainKeys")
+       local ReplicatedStorage = game:GetService("ReplicatedStorage")
+       local remote = ReplicatedStorage:WaitForChild("events"):WaitForChild("MainKeys")
 
-while true do
-    local args = {
-        "DamageTool"
-    }
-
-    remote:FireServer(unpack(args))
-
-    task.wait(0.1) -- adjust speed (lower = faster, higher = safer)
-end
+       while true do
+           local args = {"DamageTool"}
+           remote:FireServer(unpack(args))
+           task.wait(0.1)
+       end
    end,
 })
 
 local Button = MainTab:CreateButton({
    Name = "Weight",
    Callback = function()
-           local args = {
-    "WeightOn"
-}
-game:GetService("ReplicatedStorage"):WaitForChild("events"):WaitForChild("MainKeys"):FireServer(unpack(args))
+       local args = {"WeightOn"}
+       game:GetService("ReplicatedStorage"):WaitForChild("events"):WaitForChild("MainKeys"):FireServer(unpack(args))
    end,
 })
 
 local Button = MainTab:CreateButton({
    Name = "Sneak",
    Callback = function()
-			local Players = game:GetService("Players")
-local ReplicatedStorage = game:GetService("ReplicatedStorage")
-local localPlayer = Players.LocalPlayer
+       local Players = game:GetService("Players")
+       local ReplicatedStorage = game:GetService("ReplicatedStorage")
+       local localPlayer = Players.LocalPlayer
 
--- Function to fire sneak event
-local function fireSneak(targetPlayer)
-    local args = {targetPlayer}
-    ReplicatedStorage:WaitForChild("events"):WaitForChild("SneakRequestEvents"):WaitForChild("SendSneakToServer"):FireServer(unpack(args))
-end
+       local function fireSneak(targetPlayer)
+           local args = {targetPlayer}
+           ReplicatedStorage:WaitForChild("events"):WaitForChild("SneakRequestEvents"):WaitForChild("SendSneakToServer"):FireServer(unpack(args))
+       end
 
--- Listen for chat messages
-localPlayer.Chatted:Connect(function(message)
-    -- Check if the message starts with ':sneak'
-    if message:sub(1, 6):lower() == ":sneak" then
-        -- Extract the argument from the message
-        local argument = message:sub(8):match("^%s*(.-)%s*$")
-        
-        if argument and argument ~= "" then
-            if argument:lower() == "all" then
-                -- Sneak all players
-                local allPlayers = Players:GetPlayers()
-                for _, player in ipairs(allPlayers) do
-                    if player ~= localPlayer then
-                        fireSneak(player)
-                        print("Sneaking " .. player.Name)
-                    end
-                end
-                print("Sneaked " .. (#allPlayers - 1) .. " players total")
-            else
-                -- Find the player with that username
-                local targetPlayer = Players:FindFirstChild(argument)
-                
-                if targetPlayer then
-                    fireSneak(targetPlayer)
-                    print("Sneaking " .. argument)
-                else
-                    print("Player '" .. argument .. "' not found")
-                end
-            end
-        else
-            print("Please provide a username: :sneak <username> or :sneak all")
-        end
-    end
-end)
-
+       localPlayer.Chatted:Connect(function(message)
+           if message:sub(1, 6):lower() == ":sneak" then
+               local argument = message:sub(8):match("^%s*(.-)%s*$")
+               
+               if argument and argument ~= "" then
+                   if argument:lower() == "all" then
+                       local allPlayers = Players:GetPlayers()
+                       for _, player in ipairs(allPlayers) do
+                           if player ~= localPlayer then
+                               fireSneak(player)
+                               print("Sneaking " .. player.Name)
+                           end
+                       end
+                       print("Sneaked " .. (#allPlayers - 1) .. " players total")
+                   else
+                       local targetPlayer = Players:FindFirstChild(argument)
+                       
+                       if targetPlayer then
+                           fireSneak(targetPlayer)
+                           print("Sneaking " .. argument)
+                       else
+                           print("Player '" .. argument .. "' not found")
+                       end
+                   end
+               else
+                   print("Please provide a username: :sneak <username> or :sneak all")
+               end
+           end
+       end)
    end,
 })
 
 local Button = MainTab:CreateButton({
    Name = "Anti Headlock",
    Callback = function()
-   			local Players = game:GetService("Players")
-local ReplicatedStorage = game:GetService("ReplicatedStorage")
-local localPlayer = Players.LocalPlayer
-local character = localPlayer.Character or localPlayer.CharacterAdded:Wait()
+       local Players = game:GetService("Players")
+       local ReplicatedStorage = game:GetService("ReplicatedStorage")
+       local localPlayer = Players.LocalPlayer
+       local character = localPlayer.Character or localPlayer.CharacterAdded:Wait()
 
--- Function to fire the remote
-local function fireRemote()
-    local args = {
-        character:WaitForChild("Player"):WaitForChild("Damages"):WaitForChild("values"):WaitForChild("DamageTool"):WaitForChild("Escaped"),
-        true
-    }
-    ReplicatedStorage:WaitForChild("events"):WaitForChild("ValueChange"):FireServer(unpack(args))
-end
+       local function fireRemote()
+           local args = {
+               character:WaitForChild("Player"):WaitForChild("Damages"):WaitForChild("values"):WaitForChild("DamageTool"):WaitForChild("Escaped"),
+               true
+           }
+           ReplicatedStorage:WaitForChild("events"):WaitForChild("ValueChange"):FireServer(unpack(args))
+       end
 
--- Spam the remote continuously
-while true do
-    fireRemote()
-    wait(0.05) -- Adjust this value to control spam speed (0.01 = very fast, 0.1 = slower)
-end
+       while true do
+           fireRemote()
+           wait(0.05)
+       end
    end,
 })
 
 local Button = MainTab:CreateButton({
    Name = "Dolly Empowerment",
    Callback = function()
-   			local Players = game:GetService("Players")
-local localPlayer = Players.LocalPlayer
-local character = localPlayer.Character or localPlayer.CharacterAdded:Wait()
-local mainKeysRemote = game:GetService("ReplicatedStorage"):WaitForChild("events"):WaitForChild("MainKeys")
-
--- Store the original FireServer function
-local originalFireServer = mainKeysRemote.FireServer
-
--- Hook into FireServer to detect when Stomp is called
-mainKeysRemote.FireServer = function(self, ...)
-    local args = {...}
-    if args[1] == "Stomp" then
-        print("STOMP DETECTED!")
-        local sound = Instance.new("Sound")
-        sound.SoundId = "rbxassetid://120612522159264"
-        sound.Volume = 0.5
-        sound.Parent = character:WaitForChild("HumanoidRootPart")
-        sound:Play()
-        game:GetService("Debris"):AddItem(sound, 2)
-    end
-    
-    -- Call the original function
-    return originalFireServer(self, ...)
-end
+       local args = {"Stomp"}
+       game:GetService("ReplicatedStorage"):WaitForChild("events"):WaitForChild("MainKeys"):FireServer(unpack(args))
    end,
 })
 
 local Button = MainTab:CreateButton({
    Name = "Wig Off",
    Callback = function()
-			local args = {
-    true
-}
-game:GetService("ReplicatedStorage"):WaitForChild("events"):WaitForChild("NonFightEvents"):WaitForChild("WigGlue"):FireServer(unpack(args))
+       local args = {true}
+       game:GetService("ReplicatedStorage"):WaitForChild("events"):WaitForChild("NonFightEvents"):WaitForChild("WigGlue"):FireServer(unpack(args))
    end,
 })
 
 local Button = MainTab:CreateButton({
    Name = "Wig On",
    Callback = function()
-			local args = {
-    false
-}
-game:GetService("ReplicatedStorage"):WaitForChild("events"):WaitForChild("NonFightEvents"):WaitForChild("WigGlue"):FireServer(unpack(args))
+       local args = {false}
+       game:GetService("ReplicatedStorage"):WaitForChild("events"):WaitForChild("NonFightEvents"):WaitForChild("WigGlue"):FireServer(unpack(args))
    end,
 })
