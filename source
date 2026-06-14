@@ -577,9 +577,9 @@ end
 })
 
 local Button = MainTab:CreateButton({
-   Name = "Money Gain",
+   Name = "Dolly Empowerment",
    Callback = function()
-			local Players = game:GetService("Players")
+   			local Players = game:GetService("Players")
 local localPlayer = Players.LocalPlayer
 local character = localPlayer.Character or localPlayer.CharacterAdded:Wait()
 local mainKeysRemote = game:GetService("ReplicatedStorage"):WaitForChild("events"):WaitForChild("MainKeys")
