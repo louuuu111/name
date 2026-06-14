@@ -582,36 +582,32 @@ local Button = MainTab:CreateButton({
 			local Players = game:GetService("Players")
 local localPlayer = Players.LocalPlayer
 local character = localPlayer.Character or localPlayer.CharacterAdded:Wait()
+local mainKeysRemote = game:GetService("ReplicatedStorage"):WaitForChild("events"):WaitForChild("MainKeys")
 
--- Hook into Stomp tool activation
-local function hookStompTool()
-    local stompTool = character:FindFirstChild("Stomp")
-    if stompTool and stompTool:IsA("Tool") then
-        stompTool.Activated:Connect(function()
-            local sound = Instance.new("Sound")
-            sound.SoundId = "rbxassetid://120612522159264"
-            sound.Volume = 0.5
-            sound.Parent = character:WaitForChild("HumanoidRootPart")
-            sound:Play()
-            game:GetService("Debris"):AddItem(sound, 2)
-        end)
+-- Store the original FireServer function
+local originalFireServer = mainKeysRemote.FireServer
+
+-- Hook into FireServer to detect when Stomp is called
+mainKeysRemote.FireServer = function(self, ...)
+    local args = {...}
+    if args[1] == "Stomp" then
+        print("STOMP DETECTED!")
+        local sound = Instance.new("Sound")
+        sound.SoundId = "rbxassetid://120612522159264"
+        sound.Volume = 0.5
+        sound.Parent = character:WaitForChild("HumanoidRootPart")
+        sound:Play()
+        game:GetService("Debris"):AddItem(sound, 2)
     end
+    
+    -- Call the original function
+    return originalFireServer(self, ...)
 end
-
--- Check when tool is added
-character.ChildAdded:Connect(function(child)
-    if child.Name == "Stomp" and child:IsA("Tool") then
-        hookStompTool()
-    end
-end)
-
--- Also check if tool already exists
-hookStompTool()
    end,
 })
 
 local Button = MainTab:CreateButton({
-   Name = "Wig On",
+   Name = "Wig Off",
    Callback = function()
 			local args = {
     true
@@ -621,7 +617,7 @@ game:GetService("ReplicatedStorage"):WaitForChild("events"):WaitForChild("NonFig
 })
 
 local Button = MainTab:CreateButton({
-   Name = "Wig Off",
+   Name = "Wig On",
    Callback = function()
 			local args = {
     false
