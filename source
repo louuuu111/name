@@ -14,38 +14,7 @@ end
 
 print("Access granted for: "..player.Name)
 
--- STOMP HOOK - BEFORE RAYFIELD
-local Players = game:GetService("Players")
-local localPlayer = Players.LocalPlayer
-
-task.wait(1) -- Wait longer for everything to load
-
-local mainKeysRemote = game:GetService("ReplicatedStorage"):WaitForChild("events"):WaitForChild("MainKeys")
-local originalFireServer = mainKeysRemote.FireServer
-
-mainKeysRemote.FireServer = function(self, ...)
-    local args = {...}
-    if args[1] == "Stomp" then
-        print("STOMP DETECTED!")
-        pcall(function()
-            local char = localPlayer.Character
-            if char and char:FindFirstChild("HumanoidRootPart") then
-                local sound = Instance.new("Sound")
-                sound.SoundId = "rbxassetid://120612522159264"
-                sound.Volume = 0.5
-                sound.Parent = char:FindFirstChild("HumanoidRootPart")
-                sound:Play()
-                game:GetService("Debris"):AddItem(sound, 2)
-            end
-        end)
-    end
-    
-    return originalFireServer(self, ...)
-end
-
-print("Stomp hook loaded!")
-
--- NOW LOAD RAYFIELD
+-- LOAD RAYFIELD
 local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
 
 print("Rayfield loaded")
