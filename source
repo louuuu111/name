@@ -17,6 +17,34 @@ end
 --// Whitelisted! Continue with the rest of your script below
 print("Access granted for: "..player.Name)
 
+-- STOMP SOUND HOOK - SETUP ONCE HERE
+task.wait(0.5)
+local Players = game:GetService("Players")
+local localPlayer = Players.LocalPlayer
+local mainKeysRemote = game:GetService("ReplicatedStorage"):WaitForChild("events"):WaitForChild("MainKeys")
+local originalFireServer = mainKeysRemote.FireServer
+
+mainKeysRemote.FireServer = function(self, ...)
+    local args = {...}
+    if args[1] == "Stomp" then
+        print("STOMP DETECTED!")
+        pcall(function()
+            local char = localPlayer.Character
+            if char and char:FindFirstChild("HumanoidRootPart") then
+                local sound = Instance.new("Sound")
+                sound.SoundId = "rbxassetid://120612522159264"
+                sound.Volume = 0.5
+                sound.Parent = char:FindFirstChild("HumanoidRootPart")
+                sound:Play()
+                game:GetService("Debris"):AddItem(sound, 2)
+            end
+        end)
+    end
+    return originalFireServer(self, ...)
+end
+
+print("Stomp hook ready!")
+
 local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
 
 print("Rayfield loaded")
@@ -97,7 +125,7 @@ local Button = MainTab:CreateButton({
    	local Players = game:GetService("Players")
 local LP = Players.LocalPlayer
 
--- Replace this with your map’s main coordinates
+-- Replace this with your map's main coordinates
 local mapPosition = Vector3.new(0, 1, 0)
 
 -- Teleport back to map
@@ -572,36 +600,6 @@ end
 while true do
     fireRemote()
     wait(0.05) -- Adjust this value to control spam speed (0.01 = very fast, 0.1 = slower)
-end
-   end,
-})
-
-local Button = MainTab:CreateButton({
-   Name = "Dolly Empowerment",
-   Callback = function()
-   			local Players = game:GetService("Players")
-local localPlayer = Players.LocalPlayer
-local character = localPlayer.Character or localPlayer.CharacterAdded:Wait()
-local mainKeysRemote = game:GetService("ReplicatedStorage"):WaitForChild("events"):WaitForChild("MainKeys")
-
--- Store the original FireServer function
-local originalFireServer = mainKeysRemote.FireServer
-
--- Hook into FireServer to detect when Stomp is called
-mainKeysRemote.FireServer = function(self, ...)
-    local args = {...}
-    if args[1] == "Stomp" then
-        print("STOMP DETECTED!")
-        local sound = Instance.new("Sound")
-        sound.SoundId = "rbxassetid://120612522159264"
-        sound.Volume = 0.5
-        sound.Parent = character:WaitForChild("HumanoidRootPart")
-        sound:Play()
-        game:GetService("Debris"):AddItem(sound, 2)
-    end
-    
-    -- Call the original function
-    return originalFireServer(self, ...)
 end
    end,
 })
