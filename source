@@ -577,7 +577,7 @@ end
 })
 
 local Button = MainTab:CreateButton({
-   Name = "Dolly Empowerment",
+   Name = "Money Gain",
    Callback = function()
 			local Players = game:GetService("Players")
 local localPlayer = Players.LocalPlayer
