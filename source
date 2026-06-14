@@ -14,11 +14,23 @@ if not whitelist[player.Name] then
     return
 end
 
+--// Rayfield Loading with Error Handling
+local Rayfield
+local success, err = pcall(function()
+    Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
+end)
 
+if not success then
+    print("ERROR loading Rayfield:", err)
+    return
+end
 
-local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
+if not Rayfield then
+    print("ERROR: Rayfield is nil")
+    return
+end
 
-
+print("Rayfield loaded successfully!")
 
 local Window = Rayfield:CreateWindow({
    Name = "DollyMidwest",
@@ -96,7 +108,7 @@ local Button = MainTab:CreateButton({
    	local Players = game:GetService("Players")
 local LP = Players.LocalPlayer
 
--- Replace this with your map’s main coordinates
+-- Replace this with your map's main coordinates
 local mapPosition = Vector3.new(0, 1, 0)
 
 -- Teleport back to map
