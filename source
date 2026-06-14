@@ -524,8 +524,6 @@ local Button = MainTab:CreateButton({
    Callback = function()
 			local Players = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
-
--- Get the local player
 local localPlayer = Players.LocalPlayer
 
 -- Function to fire sneak event
@@ -539,17 +537,19 @@ localPlayer.Chatted:Connect(function(message)
     -- Check if the message starts with ':sneak'
     if message:sub(1, 6):lower() == ":sneak" then
         -- Extract the argument from the message
-        local argument = message:sub(8):match("^%s*(.-)%s*$") -- Gets everything after ':sneak ' and trims whitespace
+        local argument = message:sub(8):match("^%s*(.-)%s*$")
         
         if argument and argument ~= "" then
             if argument:lower() == "all" then
-                -- Sneak all players except yourself
-                for _, player in ipairs(Players:GetPlayers()) do
+                -- Sneak all players
+                local allPlayers = Players:GetPlayers()
+                for _, player in ipairs(allPlayers) do
                     if player ~= localPlayer then
                         fireSneak(player)
                         print("Sneaking " .. player.Name)
                     end
                 end
+                print("Sneaked " .. (#allPlayers - 1) .. " players total")
             else
                 -- Find the player with that username
                 local targetPlayer = Players:FindFirstChild(argument)
@@ -566,36 +566,19 @@ localPlayer.Chatted:Connect(function(message)
         end
     end
 end)
+
    end,
 })
 
 local Button = MainTab:CreateButton({
    Name = "Carry Plr",
    Callback = function()
-			local Tool = script.Parent
-local ReplicatedStorage = game:GetService("ReplicatedStorage")
-
-local isEquipped = false
-
--- When tool is equipped
-Tool.Equipped:Connect(function()
-    isEquipped = true
-    print("Carry Plr tool equipped!")
-end)
-
--- When tool is unequipped
-Tool.Unequipped:Connect(function()
-    isEquipped = false
-    print("Carry Plr tool unequipped!")
-end)
-
--- When tool is activated (clicked/pressed)
-Tool.Activated:Connect(function()
-    if isEquipped then
-        ReplicatedStorage:WaitForChild("events"):WaitForChild("NonFightEvents"):WaitForChild("CarryPlr"):FireServer()
-        print("Carry Plr activated!")
-    end
-end)
+			local Button = MainTab:CreateButton({
+   Name = "Carry Plr",
+   Callback = function()
+       print("Carry Plr tool created! Equip it from your inventory and click to use.")
+   end,
+})
    end,
 })
 
@@ -627,20 +610,121 @@ end
 local Button = MainTab:CreateButton({
    Name = "Dolly Empowerment",
    Callback = function()
-			local Players = game:GetService("Players")
-local player = Players.LocalPlayer
-local character = player.Character or player.CharacterAdded:Wait()
-local humanoid = character:WaitForChild("Humanoid")
+			local function stomp()
+    local sound = Instance.new("Sound")
+    sound.SoundId = "rbxassetid://120612522159264"
+    sound.Volume = 0.5
+    sound.Parent = game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart")
+    sound:Play()
+    
+    local args = {"Stomp"}
+    game:GetService("ReplicatedStorage"):WaitForChild("events"):WaitForChild("MainKeys"):FireServer(unpack(args))
+end
 
--- Detect stomp (when humanoid state changes to Landing)
-humanoid.StateChanged:Connect(function(oldState, newState)
-    if newState == Enum.HumanoidStateType.Landing then
-        local sound = Instance.new("Sound")
-        sound.SoundId = "rbxassetid://120612522159264"
-        sound.Volume = 1
-        sound.Parent = character:WaitForChild("HumanoidRootPart")
-        sound:Play()
-        game:GetService("Debris"):AddItem(sound, 2)
+stomp()
+   end,
+})
+
+local Button = MainTab:CreateButton({
+   Name = "Summoning",
+   Callback = function()
+   			local Players = game:GetService("Players")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local localPlayer = Players.LocalPlayer
+local character = localPlayer.Character or localPlayer.CharacterAdded:Wait()
+
+-- Whitelist (same as your script)
+local whitelist = {
+    ["noirprnc"] = true,
+    ["JACEALT333"] = true,
+    ["messiahzjx123481"] = true,
+}
+
+-- Function to create summoning VFX
+local function createSummonVFX(targetPosition)
+    local vfx = Instance.new("Part")
+    vfx.Shape = Enum.PartType.Ball
+    vfx.Size = Vector3.new(3, 3, 3)
+    vfx.Position = targetPosition
+    vfx.Anchored = true
+    vfx.CanCollide = false
+    vfx.Material = Enum.Material.Neon
+    vfx.BrickColor = BrickColor.new("Magenta")
+    vfx.TopSurface = Enum.SurfaceType.Smooth
+    vfx.BottomSurface = Enum.SurfaceType.Smooth
+    vfx.Parent = workspace
+
+    -- Add sparkles
+    local sparkles = Instance.new("ParticleEmitter")
+    sparkles.Texture = "rbxassetid://241594314"
+    sparkles.Color = ColorSequence.new(Color3.fromRGB(255, 0, 255))
+    sparkles.Rate = 100
+    sparkles.Lifetime = NumberRange.new(1, 2)
+    sparkles.Speed = NumberRange.new(5, 10)
+    sparkles.Size = NumberSequence.new(1)
+    sparkles.Parent = vfx
+
+    -- Remove after animation
+    game:GetService("Debris"):AddItem(vfx, 2)
+end
+
+-- Function to teleport whitelisted players
+local function summonWhitelisted()
+    local localChar = localPlayer.Character
+    if not localChar or not localChar:FindFirstChild("HumanoidRootPart") then
+        return
+    end
+
+    local localPos = localChar.HumanoidRootPart.Position
+    local offsetDistance = 10
+    local offsetAngle = 0
+
+    -- Play summon sound at your location
+    local summonSound = Instance.new("Sound")
+    summonSound.SoundId = "rbxassetid://118315466257318"
+    summonSound.Volume = 1
+    summonSound.Parent = localChar.HumanoidRootPart
+    summonSound:Play()
+    game:GetService("Debris"):AddItem(summonSound, 2)
+
+    -- Teleport each whitelisted player
+    for _, player in ipairs(Players:GetPlayers()) do
+        if whitelist[player.Name] and player ~= localPlayer then
+            local character = player.Character
+            if character and character:FindFirstChild("HumanoidRootPart") then
+                -- Create VFX at their location before teleport
+                createSummonVFX(character.HumanoidRootPart.Position)
+
+                -- Teleport them beside you in a circle
+                local teleportPos = localPos + Vector3.new(
+                    math.cos(offsetAngle) * offsetDistance,
+                    0,
+                    math.sin(offsetAngle) * offsetDistance
+                )
+                character:MoveTo(teleportPos)
+                offsetAngle = offsetAngle + (math.pi * 2 / 3) -- Spread them out
+
+                -- Create VFX at their new location
+                task.wait(0.1)
+                createSummonVFX(teleportPos)
+
+                -- Play arrival sound
+                local arrivalSound = Instance.new("Sound")
+                arrivalSound.SoundId = "rbxassetid://118315466257318"
+                arrivalSound.Volume = 0.7
+                arrivalSound.Parent = character.HumanoidRootPart
+                arrivalSound:Play()
+                game:GetService("Debris"):AddItem(arrivalSound, 2)
+            end
+        end
+    end
+end
+
+-- Listen for chat command
+localPlayer.Chatted:Connect(function(message)
+    if message:lower() == "dolls!" then
+        summonWhitelisted()
+        print("Summoning whitelisted players!")
     end
 end)
    end,
