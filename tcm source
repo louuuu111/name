@@ -3,7 +3,7 @@ local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
 print("Rayfield loaded")
 
 local Window = Rayfield:CreateWindow({
-   Name = "Mystic Falls",
+   Name = "TCM",
    LoadingTitle = "Loading...",
    LoadingSubtitle = "by Jace",
 
@@ -19,13 +19,13 @@ local Window = Rayfield:CreateWindow({
 
    KeySystem = true,
    KeySettings = {
-      Title = "CustAms",
-      Subtitle = "Nah Riz...",
+      Title = "TCM",
+      Subtitle = "Nah AG dumb ass bitch...",
       Note = ".-.",
       FileName = "ImBackKey",
       SaveKey = false,
       GrabKeyFromSite = false,
-      Key = {"Customs"}
+      Key = {"TCM"}
    }
 })
 
@@ -34,198 +34,59 @@ local MainTab = Window:CreateTab("Main", nil) -- Title, Image
 local MainSection = MainTab:CreateSection("Main")
 
 
-local Keybind = MainTab:CreateKeybind({
-   Name = "Motus Spam",
-   CurrentKeybind = "F",
-   HoldToInteract = false,
-   Flag = "Keybind1", -- A flag is the identifier for the configuration file. Make sure every element has a different flag if you're using configuration saving to ensure no overlaps
-   Callback = function(Keybind)
+local Button = MainTab:CreateButton({
+   Name = "Insta Unlock",
+   Callback = function()
             local args = {
-    "Magic",
-    {
-        "Motus",
-        false
-    }
+    "LockpickSuccess",
+    workspace:WaitForChild("Interactables"):WaitForChild("Doors"):WaitForChild("LockedDoors"):WaitForChild("BasementDoors"):WaitForChild("BasementDoor2")
 }
-game:GetService("ReplicatedStorage"):WaitForChild("Events"):WaitForChild("Witch"):FireServer(unpack(args))
+game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("VictimInteractions"):WaitForChild("Lockpick"):FireServer(unpack(args))
    end,
 })
 
-local Button = MainTab:CreateButton({
-   Name = "Explosion (J)",
-   Callback = function()
-            local UserInputService = game:GetService("UserInputService")
-local ReplicatedStorage = game:GetService("ReplicatedStorage")
-local Players = game:GetService("Players")
-local localPlayer = Players.LocalPlayer
-local mouse = localPlayer:GetMouse()
-
-UserInputService.InputBegan:Connect(function(input, gameProcessed)
-    if gameProcessed then return end
-    
-    if input.KeyCode == Enum.KeyCode.J then
-        local args = {
-            "Magic",
-            {
-                "Explosion",
-                mouse.Hit.Position
-            }
-        }
-        ReplicatedStorage:WaitForChild("Events"):WaitForChild("Witch"):FireServer(unpack(args))
-        print("Explosion at: " .. tostring(mouse.Hit.Position))
-    end
-end)
-   end,
-})
 
 local Button = MainTab:CreateButton({
-   Name = "Fire (L)",
+   Name = "Insta Grab Tool",
    Callback = function()
-            local UserInputService = game:GetService("UserInputService")
-local ReplicatedStorage = game:GetService("ReplicatedStorage")
-local Players = game:GetService("Players")
-local localPlayer = Players.LocalPlayer
-local mouse = localPlayer:GetMouse()
-
-UserInputService.InputBegan:Connect(function(input, gameProcessed)
-    if gameProcessed then return end
-    
-    if input.KeyCode == Enum.KeyCode.L then
-        local targetCharacter = mouse.Target
-        
-        if targetCharacter then
-            -- Find the player that owns this character part
-            local targetPlayer = nil
-            for _, player in ipairs(Players:GetPlayers()) do
-                if player.Character and player.Character:IsDescendantOf(targetCharacter) or targetCharacter:IsDescendantOf(player.Character) then
-                    targetPlayer = player
-                    break
-                end
-            end
-            
-            if targetPlayer and targetPlayer.Character then
-                local args = {
-                    "Magic",
-                    {
-                        "FireSpell",
-                        targetPlayer.Character
-                    }
-                }
-                ReplicatedStorage:WaitForChild("Events"):WaitForChild("Witch"):FireServer(unpack(args))
-                print("Fire Spell cast on: " .. targetPlayer.Name)
-            else
-                print("No player targeted")
-            end
-        else
-            print("Mouse not pointing at anything")
-        end
-    end
-end)
-   end,
-})
-
-local Button = MainTab:CreateButton({
-   Name = "Invisibility (2)",
-   Callback = function()
-            local UserInputService = game:GetService("UserInputService")
-local ReplicatedStorage = game:GetService("ReplicatedStorage")
-
-UserInputService.InputBegan:Connect(function(input, gameProcessed)
-    if gameProcessed then return end
-    
-    if input.KeyCode == Enum.KeyCode.Two then
-        local args = {
-            "Magic",
-            {
-                "Invisibility"
-            }
-        }
-        ReplicatedStorage:WaitForChild("Events"):WaitForChild("Witch"):FireServer(unpack(args))
-        print("Invisibility activated!")
-    end
-end)
-   end,
-})
-
-local Button = MainTab:CreateButton({
-   Name = "vestus",
-   Callback = function()
-            local Players = game:GetService("Players")
-local ReplicatedStorage = game:GetService("ReplicatedStorage")
-local localPlayer = Players.LocalPlayer
-
-localPlayer.Chatted:Connect(function(message)
-    if message:lower() == "vestus" then
-        -- Collect all nearby players first
-        local nearbyPlayers = {}
-        for _, player in ipairs(Players:GetPlayers()) do
-            if player ~= localPlayer and player.Character and player.Character:FindFirstChild("HumanoidRootPart") then
-                local distance = (player.Character.HumanoidRootPart.Position - localPlayer.Character.HumanoidRootPart.Position).Magnitude
-                if distance < 100 then -- Adjust range (100 studs)
-                    table.insert(nearbyPlayers, player)
-                end
-            end
-        end
-        
-        -- Fire the remote for all nearby players at the same time
-        for _, player in ipairs(nearbyPlayers) do
             local args = {
-                "Push",
-                {
-                    player.Character
-                }
-            }
-            ReplicatedStorage:WaitForChild("Events"):WaitForChild("Witch"):FireServer(unpack(args))
-        end
-        
-        print("Pushed " .. #nearbyPlayers .. " players")
-    end
-end)
+    "ToolboxSuccessGrab",
+    workspace:WaitForChild("Interactables"):WaitForChild("Toolboxes"):WaitForChild("Toolbox3")
+}
+game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("VictimInteractions"):WaitForChild("Toolbox"):FireServer(unpack(args))
+   end,
+})
+
+
+local Button = MainTab:CreateButton({
+   Name = "Insta Untie",
+   Callback = function()
+            local args = {
+    "SuccessEscape"
+}
+game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("VictimInteractions"):WaitForChild("Untie"):FireServer(unpack(args))
+   end,
+})
+
+
+local Button = MainTab:CreateButton({
+   Name = "Insta BoneScrap",
+   Callback = function()
+            local args = {
+    "BoneScrapSuccessGrab",
+    workspace:WaitForChild("Interactables"):WaitForChild("BoneScraps"):WaitForChild("BoneScrapGiver8")
+}
+game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("VictimInteractions"):WaitForChild("BoneScrap"):FireServer(unpack(args))
    end,
 })
 
 local Button = MainTab:CreateButton({
-   Name = "Pain Infliction",
+   Name = "Fast Unlock",
    Callback = function()
-            local UserInputService = game:GetService("UserInputService")
-local ReplicatedStorage = game:GetService("ReplicatedStorage")
-local Players = game:GetService("Players")
-local localPlayer = Players.LocalPlayer
-local mouse = localPlayer:GetMouse()
-
-UserInputService.InputBegan:Connect(function(input, gameProcessed)
-    if gameProcessed then return end
-    
-    if input.KeyCode == Enum.KeyCode.G then
-        local targetCharacter = mouse.Target
-        
-        if targetCharacter then
-            -- Find the player that owns this character part
-            local targetPlayer = nil
-            for _, player in ipairs(Players:GetPlayers()) do
-                if player.Character and player.Character:IsDescendantOf(targetCharacter) or targetCharacter:IsDescendantOf(player.Character) then
-                    targetPlayer = player
-                    break
-                end
-            end
-            
-            if targetPlayer and targetPlayer.Character then
-                local args = {
-                    "PainInflict",
-                    {
-                        targetPlayer.Character
-                    }
-                }
-                ReplicatedStorage:WaitForChild("Events"):WaitForChild("Witch"):FireServer(unpack(args))
-                print("Pain Inflict cast on: " .. targetPlayer.Name)
-            else
-                print("No player targeted")
-            end
-        else
-            print("Mouse not pointing at anything")
-        end
-    end
-end)
+            local args = {
+    "StephaneFaster"
+}
+game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("Global"):WaitForChild("StateAdder"):FireServer(unpack(args))
    end,
 })
 
@@ -233,12 +94,5 @@ local Button = MainTab:CreateButton({
    Name = "Infinite Yield",
    Callback = function()
             loadstring(game:HttpGet('https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source'))()
-   end,
-})
-
-local Button = MainTab:CreateButton({
-   Name = "Respawn",
-   Callback = function()
-            game:GetService("ReplicatedStorage"):WaitForChild("Events"):WaitForChild("Respawn"):FireServer()
    end,
 })
