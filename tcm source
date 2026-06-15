@@ -22,8 +22,8 @@ local Window = Rayfield:CreateWindow({
       Title = "TCM",
       Subtitle = "Nah AG dumb ass bitch...",
       Note = ".-.",
-      FileName = "ImBackKey",
-      SaveKey = false,
+      FileName = "agdumbhoeKey",
+      SaveKey = true,
       GrabKeyFromSite = false,
       Key = {"TCM"}
    }
