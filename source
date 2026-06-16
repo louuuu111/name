@@ -588,36 +588,6 @@ end
 })
 
 local Button = MainTab:CreateButton({
-   Name = "Dolly Empowerment",
-   Callback = function()
-   			local Players = game:GetService("Players")
-local localPlayer = Players.LocalPlayer
-local character = localPlayer.Character or localPlayer.CharacterAdded:Wait()
-local mainKeysRemote = game:GetService("ReplicatedStorage"):WaitForChild("events"):WaitForChild("MainKeys")
-
--- Store the original FireServer function
-local originalFireServer = mainKeysRemote.FireServer
-
--- Hook into FireServer to detect when Stomp is called
-mainKeysRemote.FireServer = function(self, ...)
-    local args = {...}
-    if args[1] == "Stomp" then
-        print("STOMP DETECTED!")
-        local sound = Instance.new("Sound")
-        sound.SoundId = "rbxassetid://120612522159264"
-        sound.Volume = 0.5
-        sound.Parent = character:WaitForChild("HumanoidRootPart")
-        sound:Play()
-        game:GetService("Debris"):AddItem(sound, 2)
-    end
-    
-    -- Call the original function
-    return originalFireServer(self, ...)
-end
-   end,
-})
-
-local Button = MainTab:CreateButton({
    Name = "Wig Off",
    Callback = function()
 			local args = {
@@ -640,6 +610,51 @@ game:GetService("ReplicatedStorage"):WaitForChild("events"):WaitForChild("NonFig
 local Button = MainTab:CreateButton({
    Name = "HEADLOCK (DONT USE)",
    Callback = function()
-   			
+   			local DamageTool = "DamageTool"
+local PLAYER_DETECTION_RANGE = 50 -- Adjust this value for detection range in studs
+
+-- Get all players in proximity
+local function getNearbyPlayers()
+    local nearbyPlayers = {}
+    local character = game.Players.LocalPlayer.Character
+    
+    if not character or not character:FindFirstChild("HumanoidRootPart") then
+        return nearbyPlayers
+    end
+    
+    local playerPosition = character.HumanoidRootPart.Position
+    
+    for _, player in pairs(game.Players:GetPlayers()) do
+        if player ~= game.Players.LocalPlayer and player.Character then
+            local targetCharacter = player.Character
+            if targetCharacter:FindFirstChild("HumanoidRootPart") then
+                local targetPosition = targetCharacter.HumanoidRootPart.Position
+                local distance = (playerPosition - targetPosition).Magnitude
+                
+                if distance <= PLAYER_DETECTION_RANGE then
+                    table.insert(nearbyPlayers, player.Name)
+                end
+            end
+        end
+    end
+    
+    return nearbyPlayers
+end
+
+-- Fire the remote for each nearby player
+local function activateToolOnNearby()
+    local nearbyPlayers = getNearbyPlayers()
+    
+    for _, playerName in pairs(nearbyPlayers) do
+        local args = {
+            DamageTool,
+            playerName
+        }
+        game:GetService("ReplicatedStorage"):WaitForChild("events"):WaitForChild("DuoPlrEvents"):FireServer(unpack(args))
+    end
+end
+
+-- Call the function
+activateToolOnNearby()
    end,
 })
