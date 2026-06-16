@@ -636,3 +636,10 @@ local Button = MainTab:CreateButton({
 game:GetService("ReplicatedStorage"):WaitForChild("events"):WaitForChild("NonFightEvents"):WaitForChild("WigGlue"):FireServer(unpack(args))
    end,
 })
+
+local Button = MainTab:CreateButton({
+   Name = "HEADLOCK (DONT USE)",
+   Callback = function()
+   			
+   end,
+})
