@@ -2,7 +2,7 @@
 local whitelist = {
     ["noirprnc"] = true,
     ["JACEALT333"] = true,
-    ["2000skin7"] = true,
+    ["vanessadabaddestbi"] = true,
     
 }
 
@@ -53,7 +53,7 @@ local Window = Rayfield:CreateWindow({
       Subtitle = "Nah Dolly...",
       Note = ".-.",
       FileName = "ImBackKey",
-      SaveKey = false,
+      SaveKey = true,
       GrabKeyFromSite = false,
       Key = {"Dolly"}
    }
