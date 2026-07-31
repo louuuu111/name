@@ -1,9 +1,8 @@
 --// Whitelisted Users
 local whitelist = {
     ["noirprnc"] = true,
-    ["JACEALT333"] = true,
-    ["2000skin7"] = true,
     ["vanessadabaddestbi"] = true,
+    ["2000skin7"] = true,
     
 }
 
