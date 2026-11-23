@@ -35,7 +35,7 @@ print("Rayfield loaded successfully!")
 local Window = Rayfield:CreateWindow({
    Name = "DollyMidwest",
    LoadingTitle = "Loading...",
-   LoadingSubtitle = "by Jace",
+   LoadingSubtitle = "By The Baddest",
 
    Theme = "Amethyst",
 
@@ -49,7 +49,7 @@ local Window = Rayfield:CreateWindow({
 
    KeySystem = true,
    KeySettings = {
-      Title = "DollyMidwest",
+      Title = "Midwest",
       Subtitle = "Nah Dolly...",
       Note = ".-.",
       FileName = "ImBackKey",
@@ -656,5 +656,35 @@ end
 
 -- Call the function
 activateToolOnNearby()
+   end,
+})
+
+local Button = MainTab:CreateButton({
+   Name = "Auto Stomp",
+   Callback = function()
+   			local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local Event = ReplicatedStorage:WaitForChild("events"):WaitForChild("MainKeys")
+
+while true do
+    Event:FireServer("Stomp")
+    task.wait(1)
+end
+   end,
+})
+
+local Button = MainTab:CreateButton({
+   Name = "Auto Heal (25 secs)",
+   Callback = function()
+  			local Event = game:GetService("ReplicatedStorage")
+    :WaitForChild("events")
+    :WaitForChild("SoloPlrEvents")
+
+while true do
+    Event:FireServer("Health")
+    task.wait(0.5)
+
+    Event:FireServer("Health")
+    task.wait(25)
+end
    end,
 })
